@@ -1,0 +1,6 @@
+[datasource]
+host="35.220.136.110"
+port=3306
+database="sso"
+username="root"
+password="cys000522"

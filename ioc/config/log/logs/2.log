@@ -1,0 +1,4 @@
+{"level":"debug","component":"module_p","time":"2024-01-26T17:59:34+08:00","caller":"config/log/log_test.go:16","message":"hello a"}
+{"level":"debug","component":"module_p","time":"2024-01-26T18:12:33+08:00","caller":"config/log/log_test.go:16","message":"hello a"}
+{"level":"debug","component":"module_p","time":"2024-04-03T13:53:02+08:00","caller":"config/log/log_test.go:16","message":"hello a"}
+{"level":"debug","component":"module_p","time":"2024-04-03T13:59:22+08:00","caller":"config/log/log_test.go:17","message":"hello a"}
