@@ -3,7 +3,7 @@
 - [Title](https://pkg.go.dev/gitee.com/go-kade/library/tree/v2.0.0)
 - [Title](https://pkg.go.dev/gitee.com/go-kade/library@v2.0.0)
 
-1
+2
 
 # 之前的ioc
 map形式，注册name：“interface"
