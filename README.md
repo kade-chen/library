@@ -1,9 +1,8 @@
 #### Links
-- [Title](https://pkg.go.dev/gitee.com/go-kade/library)
-- [Title](https://pkg.go.dev/gitee.com/go-kade/library/tree/v2.0.0)
-- [Title](https://pkg.go.dev/gitee.com/go-kade/library@v2.0.0)
-
-3
+- [Setup one](https://pkg.go.dev/gitee.com/go-kade/library/v1/tree/v1.0.0)
+- [Setup two](https://pkg.go.dev/gitee.com/go-kade/library/tree/v1/v1.0.0)
+- [Setup three](https://pkg.go.dev/gitee.com/go-kade/library/v1@v1.0.0)
+- [Github Versions](https://pkg.go.dev/github.com/kade-chen/library?tab=versions)
 
 # 之前的ioc
 map形式，注册name：“interface"
@@ -31,6 +30,26 @@ map形式，注册name：“interface"
 
 
 # 更快到官网
+```go
+ git tag v1.0.0
+
+ git push -f https://gitee.com/go-kade/library.git v1.0.0  cobra command successful
+
+ https://pkg.go.dev/gitee.com/go-kade/library/v1/tree/v1.0.0
+
+//  https://pkg.go.dev/gitee.com/go-kade/library/tree/v1/v1.0.0
+
+ https://pkg.go.dev/gitee.com/go-kade/library/v1@v1.0.0 目前来说，v2版本只需要这个就行了，前面两个不需要
+
+备注：https://deps.dev/go/gitee.com%2Fgo-kade%2Flibrary/v1.0.1-0.20240201092113-6e4b7db5c891/versions
+如果不知道版本可以从这里看
+
+
+最新 13分钟同步完成  21分钟前 https://pkg.go.dev/github.com/kade-chen/library?tab=versions 这个出来
+
+ 
+```
+
 ```go
  git tag v2.1.3
 
