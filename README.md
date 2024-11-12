@@ -31,16 +31,17 @@ map形式，注册name：“interface"
 
 # 更快到官网
 ```go
- git tag v1.0.5
+ git tag v1.0.6
 
- git push -f https://github.com/kade-chen/library.git v1.0.2  cobra command successful
+ git push -f https://github.com/kade-chen/library.git v1.0.6 cobra command successful
 
- https://pkg.go.dev/github.com/kade-chen/library@v1.0.5
- https://pkg.go.dev/github.com/kade-chen/library/v1/tree/v1.0.5
+https://pkg.go.dev/github.com/kade-chen/library/tree/v1.0.6
 
- https://pkg.go.dev/github.com/kade-chen/library/tree/v1/v1.0.5
+https://pkg.go.dev/github.com/kade-chen/library@v1.0.6
 
-//  https://pkg.go.dev/github.com/kade-chen/library/v1@v1.0.5 目前来说，v2版本只需要这个就行了，前面两个不需要
+ #https://pkg.go.dev/github.com/kade-chen/library/v1/tree/v1.0.6
+
+ #https://pkg.go.dev/github.com/kade-chen/library/tree/v1/v1.0.6
 
 备注：https://deps.dev/search?q=github.com%2Fkade-chen&system=go
 如果不知道版本可以从这里看
