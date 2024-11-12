@@ -1,7 +1,7 @@
 #### Links
-- [Setup one](https://pkg.go.dev/gitee.com/go-kade/library/v1/tree/v1.0.0)
-- [Setup two](https://pkg.go.dev/gitee.com/go-kade/library/tree/v1/v1.0.0)
-- [Setup three](https://pkg.go.dev/gitee.com/go-kade/library/v1@v1.0.0)
+- [Setup one](https://pkg.go.dev/github.com/kade-chen/library/v1/tree/v1.0.2)
+- [Setup two](https://pkg.go.dev/github.com/kade-chen/library/tree/v1/v1.0.2)
+- [Setup three](https://pkg.go.dev/github.com/kade-chen/library/v1@v1.0.2)
 - [Github Versions](https://pkg.go.dev/github.com/kade-chen/library?tab=versions)
 
 # 之前的ioc
@@ -33,15 +33,15 @@ map形式，注册name：“interface"
 ```go
  git tag v1.0.0
 
- git push -f https://gitee.com/go-kade/library.git v1.0.0  cobra command successful
+ git push -f https://github.com/kade-chen/library.git v1.0.0  cobra command successful
 
- https://pkg.go.dev/gitee.com/go-kade/library/v1/tree/v1.0.0
+ https://pkg.go.dev/github.com/kade-chen/library/v1/tree/v1.0.0
 
-//  https://pkg.go.dev/gitee.com/go-kade/library/tree/v1/v1.0.0
+//  https://pkg.go.dev/github.com/kade-chen/library/tree/v1/v1.0.0
 
- https://pkg.go.dev/gitee.com/go-kade/library/v1@v1.0.0 目前来说，v2版本只需要这个就行了，前面两个不需要
+ https://pkg.go.dev/github.com/kade-chen/library/v1@v1.0.0 目前来说，v2版本只需要这个就行了，前面两个不需要
 
-备注：https://deps.dev/go/gitee.com%2Fgo-kade%2Flibrary/v1.0.1-0.20240201092113-6e4b7db5c891/versions
+备注：https://deps.dev/search?q=github.com%2Fkade-chen&system=go
 如果不知道版本可以从这里看
 
 
@@ -53,13 +53,13 @@ map形式，注册name：“interface"
 ```go
  git tag v2.1.3
 
- git push -f https://gitee.com/go-kade/library.git v2.1.3  cobra command successful
+ git push -f https://github.com/kade-chen/library.git v2.1.3  cobra command successful
 
- https://pkg.go.dev/gitee.com/go-kade/library/v2/tree/v2.1.3
+ https://pkg.go.dev/github.com/kade-chen/library/v2/tree/v2.1.3
 
-//  https://pkg.go.dev/gitee.com/go-kade/library/tree/v2/v2.1.3
+//  https://pkg.go.dev/github.com/kade-chen/library/tree/v2/v2.1.3
 
- https://pkg.go.dev/gitee.com/go-kade/library/v2@v2.1.3 目前来说，v2版本只需要这个就行了，前面两个不需要
+ https://pkg.go.dev/github.com/kade-chen/library/v2@v2.1.3 目前来说，v2版本只需要这个就行了，前面两个不需要
 
 备注：https://deps.dev/go/gitee.com%2Fgo-kade%2Flibrary/v1.0.1-0.20240201092113-6e4b7db5c891/versions
 如果不知道版本可以从这里看
@@ -77,67 +77,67 @@ v1 before
 
 git tag v1.0.0
 
-git push -f https://gitee.com/go-kade/library.git v1.0.0
+git push -f https://github.com/kade-chen/library.git v1.0.0
 
-https://pkg.go.dev/gitee.com/go-kade/library/tree/v1.0.0
+https://pkg.go.dev/github.com/kade-chen/library/tree/v1.0.0
 
-https://pkg.go.dev/gitee.com/go-kade/library@v1.0.0
+https://pkg.go.dev/github.com/kade-chen/library@v1.0.0
 
 更新大版本，例如 v1.0.0 -> v2.0.0
 
 
- go mod edit -module  gitee.com/go-kade/library/v2
+ go mod edit -module  github.com/kade-chen/library/v2
 
 find . -type f -name '*.go' \
-    -exec sed -i '' -e 's,gitee.com/go-kade/library,gitee.com/go-kade/library/v2,g' {} \;
+    -exec sed -i '' -e 's,github.com/kade-chen/library,github.com/kade-chen/library/v2,g' {} \;
 
 
  现在我们有了一个v2模块，但我们想在发布版本之前进行试验和更改。在我们发布v2.0.0（或任何没有预发布后缀的版本）之前，我们可以在决定新 API 时开发和进行重大更改。如果我们希望用户能够在我们正式稳定之前试用新 API，我们可以发布v2预发布版本：
  git tag v2.0.0-alpha.1
- git push https://gitee.com/go-kade/library.git v2.0.0-alpha.1
+ git push https://github.com/kade-chen/library.git v2.0.0-alpha.1
 
 一旦我们对我们的 API 感到满意v2，并且确定我们不需要任何其他重大更改，我们就可以标记v2.0.0：
  git tag v2.0.0
 
- git push -f https://gitee.com/go-kade/library.git v2.0.0
+ git push -f https://github.com/kade-chen/library.git v2.0.0
 
- https://pkg.go.dev/gitee.com/go-kade/library/v2/tree/v2.0.0
+ https://pkg.go.dev/github.com/kade-chen/library/v2/tree/v2.0.0
 
- https://pkg.go.dev/gitee.com/go-kade/library/v2@v2.0.0
+ https://pkg.go.dev/github.com/kade-chen/library/v2@v2.0.0
  
 ```
 
 
 # 
-_ "gitee.com/go-kade/library/ioc/config/cors" 
+_ "github.com/kade-chen/library/ioc/config/cors" 
 
-_ "gitee.com/go-kade/library/ioc/apps/apidoc/restful"
+_ "github.com/kade-chen/library/ioc/apps/apidoc/restful"
 
     想用apidoc得闲注入cors
 
-	_ "gitee.com/go-kade/library/ioc/apps/apidoc/restful" //依赖cors，不然访问会失败，里面只有apidoc
-	_ "gitee.com/go-kade/library/ioc/apps/health/restful"  
-    _ "gitee.com/go-kade/library/ioc/apps/metric/restful"  //promethus的指标暴露
-	_ "gitee.com/go-kade/library/ioc/config/cors"  //如果不加这个，跨域可能会有问题，另外apidoc也用不了
+	_ "github.com/kade-chen/library/ioc/apps/apidoc/restful" //依赖cors，不然访问会失败，里面只有apidoc
+	_ "github.com/kade-chen/library/ioc/apps/health/restful"  
+    _ "github.com/kade-chen/library/ioc/apps/metric/restful"  //promethus的指标暴露
+	_ "github.com/kade-chen/library/ioc/config/cors"  //如果不加这个，跨域可能会有问题，另外apidoc也用不了
 
-    _ "gitee.com/go-kade/library/ioc/apps/apidoc/swaggo" gin
+    _ "github.com/kade-chen/library/ioc/apps/apidoc/swaggo" gin
 
 ```go
 
 go-restful
 
 	// 开启apidoc 必须开启cors
-	_ "gitee.com/go-kade/library/ioc/apps/apidoc/restful"
+	_ "github.com/kade-chen/library/ioc/apps/apidoc/restful"
 
 	// 开启Health健康检查
-	_ "gitee.com/go-kade/library/ioc/apps/health/restful"
+	_ "github.com/kade-chen/library/ioc/apps/health/restful"
 
 	// 开启Metric
 	// promethus的指标暴露
-	_ "gitee.com/go-kade/library/ioc/apps/metric/restful"
+	_ "github.com/kade-chen/library/ioc/apps/metric/restful"
 
 	// 开启CORS, 允许资源跨域共享
-	_ "gitee.com/go-kade/library/ioc/config/cors/gorestful"
+	_ "github.com/kade-chen/library/ioc/config/cors/gorestful"
 
 ```
 
@@ -147,20 +147,20 @@ go-restful
 go-gin
 
 	// 引入生成好的API Doc代码 必须开启cors
-	_ "gitee.com/go-kade/library/examples/http_gin/docs"
+	_ "github.com/kade-chen/library/examples/http_gin/docs"
 
 	// 引入集成工程
-	_ "gitee.com/go-kade/library/ioc/apps/apidoc/gin"
+	_ "github.com/kade-chen/library/ioc/apps/apidoc/gin"
 
 	// 开启Health健康检查
-	_ "gitee.com/go-kade/library/ioc/apps/health/gin"
+	_ "github.com/kade-chen/library/ioc/apps/health/gin"
 
 	// 开启Metric
 	// promethus的指标暴露
-	_ "gitee.com/go-kade/library/ioc/apps/metric/gin"
+	_ "github.com/kade-chen/library/ioc/apps/metric/gin"
 
 	// 开启CORS, 允许资源跨域共享
-	_ "gitee.com/go-kade/library/ioc/config/cors/gin"
+	_ "github.com/kade-chen/library/ioc/config/cors/gin"
 
 ```
 
@@ -172,23 +172,23 @@ package main
 import (
 	"context"
 
-	"gitee.com/go-kade/library/ioc"
-	"gitee.com/go-kade/library/ioc/server"
+	"github.com/kade-chen/library/ioc"
+	"github.com/kade-chen/library/ioc/server"
 	"github.com/emicklei/go-restful/v3"
 
 	// 开启apidoc
-	_ "gitee.com/go-kade/library/ioc/apps/apidoc/restful"
+	_ "github.com/kade-chen/library/ioc/apps/apidoc/restful"
 
 	// 开启Health健康检查
-	_ "gitee.com/go-kade/library/ioc/apps/health/restful"
+	_ "github.com/kade-chen/library/ioc/apps/health/restful"
 	// 开启Metric
-	_ "gitee.com/go-kade/library/ioc/apps/metric/restful"
+	_ "github.com/kade-chen/library/ioc/apps/metric/restful"
 	// 开启CORS, 允许资源跨域共享
-	_ "gitee.com/go-kade/library/ioc/config/cors/gorestful"
+	_ "github.com/kade-chen/library/ioc/config/cors/gorestful"
 
-	// _ "gitee.com/go-kade/library/ioc/apps/apidoc/swaggo" gin
-	_ "gitee.com/go-kade/library/ioc/config/cors/gorestful"
-	"gitee.com/go-kade/library/ioc/config/gorestful"
+	// _ "github.com/kade-chen/library/ioc/apps/apidoc/swaggo" gin
+	_ "github.com/kade-chen/library/ioc/config/cors/gorestful"
+	"github.com/kade-chen/library/ioc/config/gorestful"
 )
 
 func main() {
@@ -273,21 +273,21 @@ import (
 	"context"
 	"net/http"
 
-	"gitee.com/go-kade/library/ioc"
-	"gitee.com/go-kade/library/ioc/server"
+	"github.com/kade-chen/library/ioc"
+	"github.com/kade-chen/library/ioc/server"
 	"github.com/gin-gonic/gin"
 
 	// 引入生成好的API Doc代码
-	_ "gitee.com/go-kade/library/examples/http_gin/docs"
+	_ "github.com/kade-chen/library/examples/http_gin/docs"
 	// 引入集成工程
-	_ "gitee.com/go-kade/library/ioc/apps/apidoc/gin"
+	_ "github.com/kade-chen/library/ioc/apps/apidoc/gin"
 	// 开启Health健康检查
-	_ "gitee.com/go-kade/library/ioc/apps/health/gin"
+	_ "github.com/kade-chen/library/ioc/apps/health/gin"
 	// 开启Metric
-	_ "gitee.com/go-kade/library/ioc/apps/metric/gin"
+	_ "github.com/kade-chen/library/ioc/apps/metric/gin"
 	// 开启CORS, 允许资源跨域共享
-	_ "gitee.com/go-kade/library/ioc/config/cors/gin"
-	"gitee.com/go-kade/library/ioc/config/gogin"
+	_ "github.com/kade-chen/library/ioc/config/cors/gin"
+	"github.com/kade-chen/library/ioc/config/gogin"
 )
 
 // @title           Swagger Example API
