@@ -33,6 +33,8 @@ func NewObjectWrapper(obj Object) *ObjectWrapper {
 }
 
 var _ StoreUser = (*NamespaceStore)(nil)
+var _ Stroe = (*NamespaceStore)(nil)
+// var _ Object = (*NamespaceStore)(nil)
 
 // 这个初始化，在store的时候，也就是在namespace.go中
 type NamespaceStore struct {
