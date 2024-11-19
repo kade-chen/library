@@ -29,7 +29,10 @@ type mongoDB struct {
 	AuthDB      string   `toml:"auth_db" json:"auth_db" yaml:"auth_db"  env:"MONGO_AUTH_DB"`
 	EnableTrace bool     `toml:"enable_trace" json:"enable_trace" yaml:"enable_trace"  env:"MONGO_ENABLE_TRACE"`
 
-	client *mongo.Client
+	//enable alts link to mongo's official website,default is false
+	EnableMongo bool   `toml:"enable_mongo" json:"enable_mongo" yaml:"enable_mongo"  env:"MONGO_ENABLE"`
+	MongoUrl    string `toml:"mongo_url" json:"mongo_url" yaml:"mongo_url"  env:"MONGO_URL"`
+	client      *mongo.Client
 	ioc.ObjectImpl
 }
 
@@ -58,20 +61,25 @@ func (m *mongoDB) Close(ctx context.Context) error {
 // ------------------------init-----------------------------
 func (m *mongoDB) getClient() (*mongo.Client, error) {
 	opts := options.Client()
+	if !m.EnableMongo {
+		if m.UserName != "" && m.Password != "" {
+			cred := options.Credential{
+				AuthSource: m.GetAuthDB(),
+			}
 
-	if m.UserName != "" && m.Password != "" {
-		cred := options.Credential{
-			AuthSource: m.GetAuthDB(),
+			cred.Username = m.UserName
+			cred.Password = m.Password
+			cred.PasswordSet = true
+			//opts.SetAuth(cred) 的意思是将给定的身份验证凭据（credential，通常包含用户名和密码）应用于 MongoDB 连接选项中。
+			opts.SetAuth(cred)
 		}
-
-		cred.Username = m.UserName
-		cred.Password = m.Password
-		cred.PasswordSet = true
-		//opts.SetAuth(cred) 的意思是将给定的身份验证凭据（credential，通常包含用户名和密码）应用于 MongoDB 连接选项中。
-		opts.SetAuth(cred)
+		opts.SetHosts(m.Endpoints)
 	}
-	opts.SetHosts(m.Endpoints)
 	opts.SetConnectTimeout(5 * time.Second)
+	if m.EnableMongo {
+		serverAPI := options.ServerAPI(options.ServerAPIVersion1)
+		opts.ApplyURI(m.MongoUrl).SetServerAPIOptions(serverAPI)
+	}
 	if trace.Get().Enable && m.EnableTrace {
 		opts.Monitor = otelmongo.NewMonitor(
 			otelmongo.WithCommandAttributeDisabled(true),
@@ -86,9 +94,10 @@ func (m *mongoDB) getClient() (*mongo.Client, error) {
 	if err != nil {
 		return nil, fmt.Errorf("new mongodb client error, %s", err)
 	}
-
-	if err = client.Ping(ctx, nil); err != nil {
-		return nil, fmt.Errorf("ping mongodb server(%s) error, %s", m.Endpoints, err)
+	if !m.EnableMongo {
+		if err = client.Ping(ctx, nil); err != nil {
+			return nil, fmt.Errorf("ping mongodb server(%s) error, %s", m.Endpoints, err)
+		}
 	}
 
 	return client, nil

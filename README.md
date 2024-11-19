@@ -1,7 +1,7 @@
 #### Links
-- [Setup one](https://pkg.go.dev/github.com/kade-chen/library/v1/tree/v1.0.8)
-- [Setup two](https://pkg.go.dev/github.com/kade-chen/library/tree/v1/v1.0.8)
-- [Setup three](https://pkg.go.dev/github.com/kade-chen/library/v1@v1.0.8)
+- [Setup one](https://pkg.go.dev/github.com/kade-chen/library/v1/tree/v1.0.9)
+- [Setup two](https://pkg.go.dev/github.com/kade-chen/library/tree/v1/v1.0.9)
+- [Setup three](https://pkg.go.dev/github.com/kade-chen/library/v1@v1.0.9)
 - [Github Versions](https://pkg.go.dev/github.com/kade-chen/library?tab=versions)
 
 # 之前的ioc
@@ -31,21 +31,17 @@ map形式，注册name：“interface"
 
 # 更快到官网
 ```go
- git tag v1.0.8
+ git tag v1.0.9
 
- git push -f https://github.com/kade-chen/library.git v1.0.8 cobra command successful
+ git push -f https://github.com/kade-chen/library.git v1.0.9 cobra command successful
 
-https://pkg.go.dev/github.com/kade-chen/library/tree/v1.0.8 这个没啥用
+https://pkg.go.dev/github.com/kade-chen/library/tree/v1.0.9 这个没啥用
 
-https://pkg.go.dev/github.com/kade-chen/library@v1.0.8
+https://pkg.go.dev/github.com/kade-chen/library@v1.0.9
 
-https://pkg.go.dev/github.com/kade-chen/library/v1@v1.0.8?tab=versions
+https://pkg.go.dev/github.com/kade-chen/library/v1@v1.0.9  目前只需要apply这个就行了
 
- #https://pkg.go.dev/github.com/kade-chen/library/v1/tree/v1.0.8
-
- #https://pkg.go.dev/github.com/kade-chen/library/tree/v1/v1.0.8
-
-备注：https://deps.dev/go/github.com%2Fkade-chen%2Flibrary/v1.0.6/versions
+备注：https://deps.dev/go/github.com%2Fkade-chen%2Flibrary/v1.0.9/versions
 如果不知道版本可以从这里看
 
 

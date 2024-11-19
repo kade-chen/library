@@ -1,4 +1,5 @@
-PKG := "gitee.com/go-kade/library/v2"
+#PKG := "gitee.com/go-kade/library/v2"
+PKG := "github.com/kade-chen/library"
 
 main: ## Run Server
 	@ go run main.go
