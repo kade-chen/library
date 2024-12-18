@@ -53,7 +53,7 @@ type Http struct {
 	// 开启Trace
 	EnableTrace bool `toml:"enable_trace" json:"enable_trace" yaml:"enable_trace" env:"ENABLE_TRACE"`
 	// 开启Trace
-	Debug bool `toml:"debug" json:"debug" yaml:"debug" env:"DEBUG"`
+	EnableDebug bool `toml:"enable_debug" json:"enable_debug" yaml:"enable_debug" env:"ENABLE_DEBUG"`
 
 	// 解析后的数据
 	maxHeaderBytes uint64

@@ -30,7 +30,7 @@ func (g *Grpc) Start(ctx context.Context) {
 		}
 	}
 
-	g.log.Info().Msgf("GRPC 服务监听地址: http:/%s", g.Addr())
+	g.log.Info().Msgf("GRPC 服务监听地址: http://%s", g.Addr())
 
 	if err := g.svr.Serve(lis); err != nil {
 		g.log.Error().Msg(err.Error())
