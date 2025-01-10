@@ -31,6 +31,15 @@ const (
 	//permission authentication failed
 	PermissionAuthenticationFailed = 50041
 
+	//IocRegisterFailed
+	IocRegisterFailed = 50050
+	//IocImplRegisterFailed
+	IocImplRegisterFailed = 50051
+	//IocApiRegisterFailed
+	IocApiRegisterFailed = 50052
+	//IocGetFailed
+	IocGetFailed = 50053
+
 	// BadRequest 请求不合法
 	BadRequest = http.StatusBadRequest
 	// Unauthorized 未认证
@@ -70,6 +79,10 @@ var (
 		WebCookisNotFound:              "浏览器未发现cookis所带的access_tokens",
 		ApiUrlNotFound:                 "api 不合法",
 		PermissionAuthenticationFailed: "权限认证失败",
+		IocRegisterFailed:              "ioc 注册失败",
+		IocImplRegisterFailed:          "ioc 实现类注册失败",
+		IocApiRegisterFailed:           "ioc api 注册失败",
+		IocGetFailed:                   "ioc 获取失败",
 	}
 )
 

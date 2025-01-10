@@ -102,6 +102,26 @@ func NewPermissionAuthenticationFailed(format string, a ...interface{}) *APIExce
 	return NewAPIException("", PermissionAuthenticationFailed, codeReason(PermissionAuthenticationFailed), format, a...)
 }
 
+// IocRegisterFailed 50050 ioc register failed
+func NewIocRegisterFailed(format string, a ...interface{}) *APIException {
+	return NewAPIException("", IocRegisterFailed, codeReason(IocRegisterFailed), format, a...)
+}
+
+// IocImplRegisterFailed 50051 ioc impl register failed
+func NewIocImplRegisterFailed(format string, a ...interface{}) *APIException {
+	return NewAPIException("", IocImplRegisterFailed, codeReason(IocImplRegisterFailed), format, a...)
+}
+
+// IocApiRegisterFailed 50052 ioc get bean failed
+func NewIocApiRegisterFailed(format string, a ...interface{}) *APIException {
+	return NewAPIException("", IocApiRegisterFailed, codeReason(IocApiRegisterFailed), format, a...)
+}
+
+// IocGetFailed 50053 ioc get bean failed
+func NewIocGetFailed(format string, a ...interface{}) *APIException {
+	return NewAPIException("", IocGetFailed, codeReason(IocGetFailed), format, a...)
+}
+
 // UnKnownException 99999 未知异常
 func NewUnKnownException(format string, a ...interface{}) *APIException {
 	return NewAPIException("", UnKnownException, codeReason(UnKnownException), format, a...)
