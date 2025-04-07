@@ -122,6 +122,41 @@ func NewIocGetFailed(format string, a ...interface{}) *APIException {
 	return NewAPIException("", IocGetFailed, codeReason(IocGetFailed), format, a...)
 }
 
+// ProviderNotFound 50054 provider not found
+func NewProviderNotFound(format string, a ...interface{}) *APIException {
+	return NewAPIException("", ProviderNotFound, codeReason(ProviderNotFound), format, a...)
+}
+
+// ProviderRegistryNil 50055 provider registry nil
+func NewProviderRegistryNil(format string, a ...interface{}) *APIException {
+	return NewAPIException("", ProviderRegistryNil, codeReason(ProviderRegistryNil), format, a...)
+}
+
+// ProviderRegistryFailed 50056 provider registry failed
+func NewProviderRegistryFailed(format string, a ...interface{}) *APIException {
+	return NewAPIException("", ProviderRegistryFailed, codeReason(ProviderRegistryFailed), format, a...)
+}
+
+// ProviderTokenRegistryNil 50057 token provider registry nil
+func NewProviderTokenRegistryNil(format string, a ...interface{}) *APIException {
+	return NewAPIException("", ProviderTokenRegistryNil, codeReason(ProviderTokenRegistryNil), format, a...)
+}
+
+// ProviderTokenRegistryFailed 50058 token provider registry failed
+func NewProviderTokenRegistryFailed(format string, a ...interface{}) *APIException {
+	return NewAPIException("", ProviderTokenRegistryFailed, codeReason(ProviderTokenRegistryFailed), format, a...)
+}
+
+// ProviderVertexRegistryNil 50059 vertex provider registry nil
+func NewProviderTokenNotFound(format string, a ...interface{}) *APIException {
+	return NewAPIException("", ProviderVertexRegistryNil, codeReason(ProviderVertexRegistryNil), format, a...)
+}
+
+// ProviderVertexRegistryFailed 50060 vertex provider registry failed
+func NewProviderVertexRegistryFailed(format string, a ...interface{}) *APIException {
+	return NewAPIException("", ProviderVertexRegistryFailed, codeReason(ProviderVertexRegistryFailed), format, a...)
+}
+
 // UnKnownException 99999 未知异常
 func NewUnKnownException(format string, a ...interface{}) *APIException {
 	return NewAPIException("", UnKnownException, codeReason(UnKnownException), format, a...)

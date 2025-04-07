@@ -39,6 +39,20 @@ const (
 	IocApiRegisterFailed = 50052
 	//IocGetFailed
 	IocGetFailed = 50053
+	//ProviderNotFound
+	ProviderNotFound = 50054
+	//ProviderRegistryNil
+	ProviderRegistryNil = 50055
+	//ProviderRegistryFailed
+	ProviderRegistryFailed = 50056
+	//ProviderTokenRegistryNil
+	ProviderTokenRegistryNil = 50057
+	//ProviderTokenRegistryFailed
+	ProviderTokenRegistryFailed = 50058
+	//ProviderVertexRegistryNil
+	ProviderVertexRegistryNil = 50059
+	//ProviderVertexRegistryFailed
+	ProviderVertexRegistryFailed = 50060
 
 	// BadRequest 请求不合法
 	BadRequest = http.StatusBadRequest
@@ -83,6 +97,13 @@ var (
 		IocImplRegisterFailed:          "ioc 实现类注册失败",
 		IocApiRegisterFailed:           "ioc api 注册失败",
 		IocGetFailed:                   "ioc 获取失败",
+		ProviderNotFound:               "provider 未找到",
+		ProviderRegistryNil:            "provider 注册为空",
+		ProviderRegistryFailed:         "provider 注册失败",
+		ProviderTokenRegistryNil:       "token provider 注册为空",
+		ProviderTokenRegistryFailed:    "token provider 注册失败",
+		ProviderVertexRegistryNil:      "vertex provider 注册为空",
+		ProviderVertexRegistryFailed:   "vertex provider 注册失败",
 	}
 )
 
