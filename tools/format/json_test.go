@@ -39,8 +39,8 @@ func TestFormatJSON(t *testing.T) {
 	data.PtrVal = &str
 	data.TimeVal = time.Date(2025, 10, 16, 10, 30, 0, 0, time.UTC)
 
-	fmt.Println("=== ToJSONV2 ===")
-	fmt.Println(format.ToJSONV2(&data))
+	// fmt.Println("=== ToJSONV2 ===")
+	// fmt.Println(format.ToJSONV2(&data))
 
 	fmt.Println("\n=== ToJSON (v1) ===")
 	fmt.Println(format.ToJSON(&data))
