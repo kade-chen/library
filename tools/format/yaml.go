@@ -2,7 +2,7 @@ package format
 
 import (
 	"encoding/json"
-	jsonv2 "encoding/json/v2"
+	// jsonv2 "encoding/json/v2"
 
 	"sigs.k8s.io/yaml"
 )
@@ -21,8 +21,8 @@ func Unmarshal(data []byte, v any) error {
 	return json.Unmarshal(data, v)
 }
 
-// This function takes in a byte slice and an empty interface and returns an error
-func UnmarshalV2(data []byte, v any) error {
-	// Unmarshal the byte slice into the empty interface
-	return jsonv2.Unmarshal(data, v)
-}
+// // This function takes in a byte slice and an empty interface and returns an error
+// func UnmarshalV2(data []byte, v any) error {
+// 	// Unmarshal the byte slice into the empty interface
+// 	return jsonv2.Unmarshal(data, v)
+// }
