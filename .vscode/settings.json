@@ -2,5 +2,8 @@
     "cSpell.words": [
         "texttospeech"
     ],
-    "Codegeex.Comment.LanguagePreference": "English"
+    "Codegeex.Comment.LanguagePreference": "English",
+    "go.toolsEnvVars": {
+    "GOEXPERIMENT": "jsonv2"
+    },
 }
