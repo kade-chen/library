@@ -1,7 +1,7 @@
 #### Links
-- [Setup one](https://pkg.go.dev/github.com/kade-chen/library/v1/tree/v1.1.5)
-- [Setup two](https://pkg.go.dev/github.com/kade-chen/library/tree/v1/v1.1.5)
-- [Setup three](https://pkg.go.dev/github.com/kade-chen/library/v1@v1.1.5)
+- [Setup one](https://pkg.go.dev/github.com/kade-chen/library/v1/tree/v1.1.6)
+- [Setup two](https://pkg.go.dev/github.com/kade-chen/library/tree/v1/v1.1.6)
+- [Setup three](https://pkg.go.dev/github.com/kade-chen/library/v1@v1.1.6)
 - [Github Versions](https://pkg.go.dev/github.com/kade-chen/library?tab=versions)
 
 # 之前的ioc
@@ -31,19 +31,34 @@ map形式，注册name：“interface"
 
 # 更快到官网
 ```go
- git tag v1.1.5
+ git tag v1.1.6
 
- git push -f https://github.com/kade-chen/library.git v1.1.5 cobra command successful
+ git push -f https://github.com/kade-chen/library.git v1.1.6 cobra command successful
 
-https://pkg.go.dev/github.com/kade-chen/library/tree/v1.1.5 这个没啥用
+https://pkg.go.dev/github.com/kade-chen/library/tree/v1.1.6 这个没啥用
 
-https://pkg.go.dev/github.com/kade-chen/library@v1.1.5
+https://pkg.go.dev/github.com/kade-chen/library@v1.1.6
 
-https://pkg.go.dev/github.com/kade-chen/library/v1@v1.1.5  目前只需要apply这个就行了
+https://pkg.go.dev/github.com/kade-chen/library/v1@v1.1.6  目前只需要apply这个就行了
 
-备注：https://deps.dev/go/github.com%2Fkade-chen%2Flibrary/v1.1.5/versions
+备注：https://deps.dev/go/github.com%2Fkade-chen%2Flibrary/v1.1.6/versions
 如果不知道版本可以从这里看
 
+1. https://proxy.golang.org/github.com/kade-chen/library/@v/v1.1.6.info
+
+```go
+{
+  "Version": "v1.1.6",
+  "Time": "2025-10-16T03:34:00Z",
+  "Origin": {
+    "VCS": "git",
+    "URL": "https://github.com/kade-chen/library",
+    "Hash": "16e17b898aba2cbb083e9a5847e636fc6c1b73c7",
+    "Ref": "refs/tags/v1.1.6"
+  }
+}
+```
+2. https://proxy.golang.org/github.com/kade-chen/library/@v/v1.1.6.mod
 
 最新 13分钟同步完成  21分钟前 https://pkg.go.dev/github.com/kade-chen/library?tab=versions 这个出来
 
