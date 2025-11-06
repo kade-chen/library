@@ -1,0 +1,18 @@
+[app]
+name = "billing"
+key  = "this is your app key"
+
+[http]
+host = "0.0.0.0"
+port = 80
+
+[grpc]
+host = "0.0.0.0"
+port = 18010
+
+[trace]
+enable = false
+
+[configs]
+default_project_id = "vandorcloud-billing-check"
+default_service_account_name = "xxxxxx.json"

@@ -9,12 +9,12 @@ import (
 	"google.golang.org/api/option"
 
 	"cloud.google.com/go/bigquery"
-	"github.com/kade-chen/google-billing-console/apps/billing"
+	"github.com/kade-chen/google-billing-console/apps/services"
 	"github.com/kade-chen/library/ioc"
 	"github.com/kade-chen/library/ioc/config/log"
 )
 
-var _ billing.Service = (*service)(nil)
+var _ services.Service = (*service)(nil)
 
 func init() {
 	ioc.Controller().Registry(&service{})
@@ -58,7 +58,7 @@ func (s *service) Init() error {
 }
 
 func (service) Name() string {
-	return billing.AppName
+	return services.AppName
 }
 
 func (s *service) Close(ctx context.Context) error {
