@@ -34,7 +34,7 @@ type ProjectDataConfig struct {
 	//
 	NegotiatedSavingsEnabled                               bool `json:"negotiated_savings"`
 	SavingsProgramsCommittedUsageDiscountEnabled           bool `json:"savings_programs_committed_usage_discount_enable"`
-	SavingsProgramsCommittedUsageDiscountDollarBaseEnabled bool `json:"committed_usage_discount_dollar_base_enable"`
+	SavingsProgramsCommittedUsageDiscountDollarBaseEnabled bool `json:"savings_programs_committed_usage_discount_dollar_base_enable"`
 	OtherSavingsFreeTierEnabled                            bool `json:"other_savings_free_tier_enable"`
 	OtherSavingsPromotionEnabled                           bool `json:"other_savings_promotion_enable"`
 	OtherSavingsSustainedUsageDiscountEnabled              bool `json:"other_savings_sustained_usage_discount_enable"`
