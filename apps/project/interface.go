@@ -59,4 +59,5 @@ type ProjectCost struct {
 	NegotiatedSavings    bigquery.NullFloat64 `bigquery:"negotiated_savings" json:"negotiated_savings"` // FLOAT 可为 NULL
 	SavingsPrograms      bigquery.NullFloat64 `bigquery:"savings_programs" json:"savings_programs"`     // STRING 可为 NULL
 	OtherSavings         bigquery.NullFloat64 `bigquery:"other_savings" json:"other_savings"`           // FLOAT 可为 NULL
+	SubTotal             bigquery.NullFloat64 `bigquery:"sub_total" json:"sub_total"`                   // FLOAT 可为 NULL
 }

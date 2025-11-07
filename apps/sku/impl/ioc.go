@@ -9,6 +9,8 @@ import (
 	"google.golang.org/api/option"
 
 	"cloud.google.com/go/bigquery"
+	"github.com/kade-chen/google-billing-console/apps/configs"
+	"github.com/kade-chen/google-billing-console/apps/configs/impl"
 	"github.com/kade-chen/google-billing-console/apps/sku"
 	"github.com/kade-chen/library/ioc"
 	"github.com/kade-chen/library/ioc/config/log"
@@ -36,7 +38,7 @@ type service struct {
 
 func (s *service) Init() error {
 
-	client, err := bigquery.NewClient(context.Background(), "vandorcloud-billing-check", option.WithCredentialsFile("/Users/kade.chen/Downloads/kade-poc.json"))
+	client, err := bigquery.NewClient(context.Background(), ioc.Config().Get(configs.AppName).(*impl.Service).Default_Project_ID, option.WithCredentialsFile(ioc.Config().Get(configs.AppName).(*impl.Service).Default_Service_Account_Name))
 	if err != nil {
 		fmt.Printf("Failed to create BigQuery client: %v", err)
 		return err

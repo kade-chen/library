@@ -22,14 +22,6 @@ func (h *ApiHandler) streamHandler(r *restful.Request, w *restful.Response) {
 		return
 	}
 
-	// var config project.ProjectDataConfig
-	// config.StartDate = "2025-10-01"
-	// config.EndDate = "2025-10-02"
-	// config.ProjectIDs = []string{"yz-bx3-prod", "kade-poc", "zzshushu", "bw-uat-424708"} // 指定项目
-	// config.CustomProjectData = true
-	// // config.SkusIDs = []string{"4111-7FF1-D50A"}
-	// config.ServiceIDs = []string{"6F81-5844-456A"}
-	// config.SkusIDs = []string{"6CB7-B05F-97AD"}
 	// 1.默认查询所有的service and skus for project
 	if !config.CustomProjectData {
 		h.log.Info().Msg("默认查询所有的service and skus for project")
@@ -88,7 +80,6 @@ func (h *ApiHandler) streamHandler(r *restful.Request, w *restful.Response) {
 		h.log.Info().Msgf("request_id=%s time=%s 接口已完成✅", reqID, time.Now().Format(time.RFC3339))
 		response.Success(w, a)
 		return
-
 	}
 	h.log.Info().Msgf("request_id=%s time=%s 接口已完成✅", reqID, time.Now().Format(time.RFC3339))
 }

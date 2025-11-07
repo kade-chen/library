@@ -24,7 +24,7 @@ func TestQueryByDateProjectAll(t *testing.T) {
 	config.EndDate = "2025-10-02"
 	config.ProjectIDs = []string{"tools-orion", "chat-prod-404613", "sw-pro-01", "ffalcon-hw-01"} // 指定项目
 	config.NegotiatedSavingsEnabled = true
-	config.SavingsProgramsCommittedUsageDiscountEnabled = false
+	config.SavingsProgramsCommittedUsageDiscountEnabled = true
 	config.SavingsProgramsCommittedUsageDiscountDollarBaseEnabled = true
 	config.OtherSavingsFreeTierEnabled = true
 	config.OtherSavingsPromotionEnabled = true
@@ -45,8 +45,16 @@ func TestQueryByDateProjectServicesCustomSku(t *testing.T) {
 	var config project.ProjectDataConfig
 	config.StartDate = "2025-10-01"
 	config.EndDate = "2025-10-02"
-	config.ProjectIDs = []string{"tools-orion", "chat-prod-404613", "sw-pro-01"} // 指定项目
-	config.NegotiatedSavingsEnabled = false
+	config.ProjectIDs = []string{"tools-orion", "chat-prod-404613", "sw-pro-01", "ffalcon-hw-01"} // 指定项目
+	config.NegotiatedSavingsEnabled = true
+	config.SavingsProgramsCommittedUsageDiscountEnabled = true
+	config.SavingsProgramsCommittedUsageDiscountDollarBaseEnabled = true
+	config.OtherSavingsFreeTierEnabled = true
+	config.OtherSavingsPromotionEnabled = true
+	config.OtherSavingsSustainedUsageDiscountEnabled = true
+	config.OtherSavingsResellerMarginEnabled = true
+	config.OtherSavingsDiscountEnabled = true
+	config.OtherSavingsSubscriptionBenefitEnabled = true
 	config.SkusIDs = []string{"4111-7FF1-D50A"}
 	a, err := impl.QueryByDateProjectServicesCustomSku(ctx, &config)
 	if err != nil {
@@ -60,8 +68,16 @@ func TestQueryByDateProjectCustomServicesAllSku(t *testing.T) {
 	var config project.ProjectDataConfig
 	config.StartDate = "2025-10-01"
 	config.EndDate = "2025-10-02"
+	config.ProjectIDs = []string{"tools-orion", "chat-prod-404613", "sw-pro-01", "ffalcon-hw-01"} // 指定项目
 	config.NegotiatedSavingsEnabled = true
-	config.ProjectIDs = []string{"tools-orion", "chat-prod-404613", "sw-pro-01"}
+	config.SavingsProgramsCommittedUsageDiscountEnabled = true
+	config.SavingsProgramsCommittedUsageDiscountDollarBaseEnabled = true
+	config.OtherSavingsFreeTierEnabled = true
+	config.OtherSavingsPromotionEnabled = true
+	config.OtherSavingsSustainedUsageDiscountEnabled = true
+	config.OtherSavingsResellerMarginEnabled = true
+	config.OtherSavingsDiscountEnabled = true
+	config.OtherSavingsSubscriptionBenefitEnabled = true
 	config.ServiceIDs = []string{"6F81-5844-456A"}
 	a, err := impl.QueryByDateProjectCustomServicesAllSkus(ctx, &config)
 	if err != nil {
@@ -75,7 +91,16 @@ func TestQueryByDateProjectCustomServicesCustomSku(t *testing.T) {
 	var config project.ProjectDataConfig
 	config.StartDate = "2025-10-01"
 	config.EndDate = "2025-10-02"
-	config.ProjectIDs = []string{"tools-orion", "chat-prod-404613", "sw-pro-01"}
+	config.ProjectIDs = []string{"tools-orion", "chat-prod-404613", "sw-pro-01", "ffalcon-hw-01"} // 指定项目
+	config.NegotiatedSavingsEnabled = true
+	config.SavingsProgramsCommittedUsageDiscountEnabled = true
+	config.SavingsProgramsCommittedUsageDiscountDollarBaseEnabled = true
+	config.OtherSavingsFreeTierEnabled = true
+	config.OtherSavingsPromotionEnabled = true
+	config.OtherSavingsSustainedUsageDiscountEnabled = true
+	config.OtherSavingsResellerMarginEnabled = true
+	config.OtherSavingsDiscountEnabled = true
+	config.OtherSavingsSubscriptionBenefitEnabled = true
 	config.ServiceIDs = []string{"6F81-5844-456A"}
 	config.SkusIDs = []string{"6CB7-B05F-97AD", "DE9E-AFBC-A15A"}
 	a, err := impl.QueryByDateProjectCustomServicesCustomSkus(ctx, &config)

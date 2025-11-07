@@ -156,6 +156,46 @@ func (s *service) QueryByDateProjectServicesCustomSku(ctx context.Context, confi
 		params = append(params, bigquery.QueryParameter{Name: "skus_ids", Value: []string{}})
 	}
 
+	var SavingsProgramsList []string
+
+	if config.SavingsProgramsCommittedUsageDiscountEnabled {
+		SavingsProgramsList = append(SavingsProgramsList, "COMMITTED_USAGE_DISCOUNT")
+	}
+	if config.SavingsProgramsCommittedUsageDiscountDollarBaseEnabled {
+		SavingsProgramsList = append(SavingsProgramsList, "COMMITTED_USAGE_DISCOUNT_DOLLAR_BASE")
+	}
+
+	params = append(params, bigquery.QueryParameter{Name: "savings_programs_types", Value: SavingsProgramsList})
+
+	var OtherSavingsList []string
+	//https://cloud.google.com/billing/docs/how-to/cost-table#columns_in_the_cost_table
+	if config.OtherSavingsFreeTierEnabled {
+		OtherSavingsList = append(OtherSavingsList, "FREE_TIER")
+	}
+	if config.OtherSavingsPromotionEnabled {
+		OtherSavingsList = append(OtherSavingsList, "PROMOTION")
+	}
+	if config.OtherSavingsSustainedUsageDiscountEnabled {
+		OtherSavingsList = append(OtherSavingsList, "SUSTAINED_USAGE_DISCOUNT")
+	}
+	if config.OtherSavingsResellerMarginEnabled {
+		OtherSavingsList = append(OtherSavingsList, "RESELLER_MARGIN")
+	}
+	if config.OtherSavingsDiscountEnabled {
+		OtherSavingsList = append(OtherSavingsList, "DISCOUNT")
+	}
+	if config.OtherSavingsSubscriptionBenefitEnabled {
+		OtherSavingsList = append(OtherSavingsList, "SUBSCRIPTION_BENEFIT")
+	}
+
+	params = append(params, bigquery.QueryParameter{Name: "other_savings_types", Value: OtherSavingsList})
+	// 	if (!config.SavingsProgramsCommittedUsageDiscountEnabled && !config.SavingsProgramsCommittedUsageDiscountDollarBaseEnabled) && (!config.SavingsProgramsCommittedUsageDiscountEnabled || !config.SavingsProgramsCommittedUsageDiscountDollarBaseEnabled) {
+	// 		params = append(params, bigquery.QueryParameter{Name: "savings_programs_types", Value: []string{"COMMITTED_USAGE_DISCOUNT", "COMMITTED_USAGE_DISCOUNT_DOLLAR_BASE"}})
+	// 	} else {
+	// 		params = append(params, bigquery.QueryParameter{Name: "savings_programs_types", Value: []string{}})
+	// 	}
+	// }
+
 	q.Parameters = params
 
 	// 执行查询
@@ -230,6 +270,46 @@ func (s *service) QueryByDateProjectCustomServicesAllSkus(ctx context.Context, c
 		//查询全部
 		params = append(params, bigquery.QueryParameter{Name: "services_ids", Value: []string{}})
 	}
+
+	var SavingsProgramsList []string
+
+	if config.SavingsProgramsCommittedUsageDiscountEnabled {
+		SavingsProgramsList = append(SavingsProgramsList, "COMMITTED_USAGE_DISCOUNT")
+	}
+	if config.SavingsProgramsCommittedUsageDiscountDollarBaseEnabled {
+		SavingsProgramsList = append(SavingsProgramsList, "COMMITTED_USAGE_DISCOUNT_DOLLAR_BASE")
+	}
+
+	params = append(params, bigquery.QueryParameter{Name: "savings_programs_types", Value: SavingsProgramsList})
+
+	var OtherSavingsList []string
+	//https://cloud.google.com/billing/docs/how-to/cost-table#columns_in_the_cost_table
+	if config.OtherSavingsFreeTierEnabled {
+		OtherSavingsList = append(OtherSavingsList, "FREE_TIER")
+	}
+	if config.OtherSavingsPromotionEnabled {
+		OtherSavingsList = append(OtherSavingsList, "PROMOTION")
+	}
+	if config.OtherSavingsSustainedUsageDiscountEnabled {
+		OtherSavingsList = append(OtherSavingsList, "SUSTAINED_USAGE_DISCOUNT")
+	}
+	if config.OtherSavingsResellerMarginEnabled {
+		OtherSavingsList = append(OtherSavingsList, "RESELLER_MARGIN")
+	}
+	if config.OtherSavingsDiscountEnabled {
+		OtherSavingsList = append(OtherSavingsList, "DISCOUNT")
+	}
+	if config.OtherSavingsSubscriptionBenefitEnabled {
+		OtherSavingsList = append(OtherSavingsList, "SUBSCRIPTION_BENEFIT")
+	}
+
+	params = append(params, bigquery.QueryParameter{Name: "other_savings_types", Value: OtherSavingsList})
+	// 	if (!config.SavingsProgramsCommittedUsageDiscountEnabled && !config.SavingsProgramsCommittedUsageDiscountDollarBaseEnabled) && (!config.SavingsProgramsCommittedUsageDiscountEnabled || !config.SavingsProgramsCommittedUsageDiscountDollarBaseEnabled) {
+	// 		params = append(params, bigquery.QueryParameter{Name: "savings_programs_types", Value: []string{"COMMITTED_USAGE_DISCOUNT", "COMMITTED_USAGE_DISCOUNT_DOLLAR_BASE"}})
+	// 	} else {
+	// 		params = append(params, bigquery.QueryParameter{Name: "savings_programs_types", Value: []string{}})
+	// 	}
+	// }
 
 	q.Parameters = params
 
@@ -313,6 +393,46 @@ func (s *service) QueryByDateProjectCustomServicesCustomSkus(ctx context.Context
 		//查询全部
 		params = append(params, bigquery.QueryParameter{Name: "skus_ids", Value: []string{}})
 	}
+
+	var SavingsProgramsList []string
+
+	if config.SavingsProgramsCommittedUsageDiscountEnabled {
+		SavingsProgramsList = append(SavingsProgramsList, "COMMITTED_USAGE_DISCOUNT")
+	}
+	if config.SavingsProgramsCommittedUsageDiscountDollarBaseEnabled {
+		SavingsProgramsList = append(SavingsProgramsList, "COMMITTED_USAGE_DISCOUNT_DOLLAR_BASE")
+	}
+
+	params = append(params, bigquery.QueryParameter{Name: "savings_programs_types", Value: SavingsProgramsList})
+
+	var OtherSavingsList []string
+	//https://cloud.google.com/billing/docs/how-to/cost-table#columns_in_the_cost_table
+	if config.OtherSavingsFreeTierEnabled {
+		OtherSavingsList = append(OtherSavingsList, "FREE_TIER")
+	}
+	if config.OtherSavingsPromotionEnabled {
+		OtherSavingsList = append(OtherSavingsList, "PROMOTION")
+	}
+	if config.OtherSavingsSustainedUsageDiscountEnabled {
+		OtherSavingsList = append(OtherSavingsList, "SUSTAINED_USAGE_DISCOUNT")
+	}
+	if config.OtherSavingsResellerMarginEnabled {
+		OtherSavingsList = append(OtherSavingsList, "RESELLER_MARGIN")
+	}
+	if config.OtherSavingsDiscountEnabled {
+		OtherSavingsList = append(OtherSavingsList, "DISCOUNT")
+	}
+	if config.OtherSavingsSubscriptionBenefitEnabled {
+		OtherSavingsList = append(OtherSavingsList, "SUBSCRIPTION_BENEFIT")
+	}
+
+	params = append(params, bigquery.QueryParameter{Name: "other_savings_types", Value: OtherSavingsList})
+	// 	if (!config.SavingsProgramsCommittedUsageDiscountEnabled && !config.SavingsProgramsCommittedUsageDiscountDollarBaseEnabled) && (!config.SavingsProgramsCommittedUsageDiscountEnabled || !config.SavingsProgramsCommittedUsageDiscountDollarBaseEnabled) {
+	// 		params = append(params, bigquery.QueryParameter{Name: "savings_programs_types", Value: []string{"COMMITTED_USAGE_DISCOUNT", "COMMITTED_USAGE_DISCOUNT_DOLLAR_BASE"}})
+	// 	} else {
+	// 		params = append(params, bigquery.QueryParameter{Name: "savings_programs_types", Value: []string{}})
+	// 	}
+	// }
 
 	q.Parameters = params
 
