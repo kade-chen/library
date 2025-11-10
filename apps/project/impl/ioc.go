@@ -13,6 +13,7 @@ import (
 	"github.com/kade-chen/google-billing-console/apps/configs"
 	"github.com/kade-chen/google-billing-console/apps/configs/impl"
 	"github.com/kade-chen/google-billing-console/apps/project"
+	"github.com/kade-chen/google-billing-console/apps/services"
 	"github.com/kade-chen/library/ioc"
 	"github.com/kade-chen/library/ioc/config/log"
 )
@@ -27,9 +28,9 @@ type service struct {
 	// col *mongo.Collection
 	// token.UnimplementedRPCServer
 	ioc.ObjectImpl
-	log *zerolog.Logger
-	bq  *bigquery.Client
-
+	log  *zerolog.Logger
+	bq   *bigquery.Client
+	kade services.Service
 	// policy  policy.Service
 	// ns      namespace.Service
 	// checker security.Checker
@@ -84,5 +85,5 @@ func (s *service) Close(ctx context.Context) error {
 }
 
 func (i *service) Priority() int {
-	return 0
+	return 1
 }

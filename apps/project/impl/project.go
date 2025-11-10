@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"cloud.google.com/go/bigquery"
+	"github.com/kade-chen/google-billing-console/apps/common/model"
 	"github.com/kade-chen/google-billing-console/apps/project"
 	"github.com/kade-chen/google-billing-console/apps/tools"
 	"github.com/kade-chen/library/exception"
@@ -471,4 +472,11 @@ func (s *service) QueryByDateProjectCustomServicesCustomSkus(ctx context.Context
 		results = append(results, row)
 	}
 	return results, nil
+}
+
+func (s *service) QueryByDateProjectAllServicesAllSkus(context.Context, *project.ProjectDataConfig) (model.ByDateProjectAllServicesSkusList, error) {
+	a, _ := s.kade.QueryByDateProjectServicesAll(context.TODO(), nil)
+	return model.ByDateProjectAllServicesSkusList{
+		Services: a,
+	}, nil
 }

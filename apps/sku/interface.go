@@ -1,20 +1,16 @@
 package sku
 
-import "context"
+import (
+	"context"
+
+	"github.com/kade-chen/google-billing-console/apps/common/model"
+	"github.com/kade-chen/google-billing-console/apps/project"
+)
 
 const (
 	AppName = "skus"
 )
 
 type Service interface {
-	
-	QueryByDateProjectSKUsAll(ctx context.Context, query string) ([]SkusList, error)
-}
-
-type SkusList struct {
-	ServiceID      string `json:"service_id"`
-	SKUId          string `json:"sku_id"`
-	SKUDesc        string `json:"sku_describe"`
-	ServicePath    string `json:"service_path"`
-	ServiceSKUPath string `json:"service_sku_path"`
+	QueryByDateProjectSKUsAll(ctx context.Context, config *project.ProjectDataConfig) ([]model.SkusList, error)
 }

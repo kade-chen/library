@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"cloud.google.com/go/bigquery"
+	"github.com/kade-chen/google-billing-console/apps/common/model"
 )
 
 const (
@@ -16,6 +17,7 @@ type Service interface {
 	QueryByDateProjectServicesCustomSku(context.Context, *ProjectDataConfig) ([]ProjectCost, error)
 	QueryByDateProjectCustomServicesAllSkus(context.Context, *ProjectDataConfig) ([]ProjectCost, error)
 	QueryByDateProjectCustomServicesCustomSkus(context.Context, *ProjectDataConfig) ([]ProjectCost, error)
+	QueryByDateProjectAllServicesAllSkus(context.Context, *ProjectDataConfig) (model.ByDateProjectAllServicesSkusList, error)
 	// QueryBySku(ctx context.Context, query string) error
 	// QueryByDateSku(ctx context.Context, query string) error
 	// QueryByService(ctx context.Context, query string) error
