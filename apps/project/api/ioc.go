@@ -54,19 +54,19 @@ func (i *ApiHandler) Meta() ioc.ObjectMeta {
 
 // ws://localhost:8010/mcenter/api/v1/SpeechToTextV2/ws
 func (u *ApiHandler) Registry() {
-	tags := []string{"Speech To Text V1 Client"}
+	tags := []string{"billing console"}
 	ws := gorestful.InitRouter(u)
 	ws.Route(ws.POST("/").To(u.streamHandler).
-		Doc("Websocket Streaming Recognize").
+		Doc("").
 		Reads(project.ProjectDataConfig{}).
 		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
-		Notes("Websocket Streaming Recognize"))
+		Notes(""))
 
-	ws.Route(ws.GET("/").To(u.streamHandler1).
-		Doc("Websocket Streaming Recognize").
+	ws.Route(ws.GET("/all-services-skus").To(u.streamHandler1).
+		Doc("基于project和指定日期，取所有服务sku").
 		Reads(project.ProjectDataConfig{}).
 		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
-		Notes("Websocket Streaming Recognize"))
+		Notes("基于project和指定日期，取所有服务sku"))
 	// ws.Route(ws.GET("/ws").To(u.streamingRecognize).
 	// 	Doc("Websocket Streaming Recognize").
 	// 	Metadata(restfulspec.KeyOpenAPITags, tags). //标签
