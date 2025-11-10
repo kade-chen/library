@@ -5,14 +5,13 @@ import (
 
 	"cloud.google.com/go/bigquery"
 	"github.com/kade-chen/google-billing-console/apps/common/model"
-	"github.com/kade-chen/google-billing-console/apps/project"
 	"github.com/kade-chen/google-billing-console/apps/tools"
 	"github.com/kade-chen/library/exception"
 	"google.golang.org/api/iterator"
 )
 
 // 1.默认查询所有的service and skus for project
-func (s *service) QueryByDateProjectAll(ctx context.Context, config *project.ProjectDataConfig) ([]project.ProjectCost, error) {
+func (s *service) QueryByDateProjectAll(ctx context.Context, config *model.ProjectDataConfig) ([]model.ProjectCost, error) {
 	// startDate := "2025-10-01"
 	// endDate := "2025-10-02"
 	// projectIDs := []string{} // 空数组表示查询全部项目
@@ -86,9 +85,9 @@ func (s *service) QueryByDateProjectAll(ctx context.Context, config *project.Pro
 		return nil, exception.NewInternalServerError("Failed to execute query: %v", err)
 	}
 
-	var results []project.ProjectCost
+	var results []model.ProjectCost
 	for {
-		var row project.ProjectCost
+		var row model.ProjectCost
 		err := it.Next(&row)
 		if err == iterator.Done {
 			s.log.Info().Msg("Query completed")
@@ -124,7 +123,7 @@ func (s *service) QueryByDateProjectAll(ctx context.Context, config *project.Pro
 
 // 2.自定义查询
 // 2.1 全部service，指定sku
-func (s *service) QueryByDateProjectServicesCustomSku(ctx context.Context, config *project.ProjectDataConfig) ([]project.ProjectCost, error) {
+func (s *service) QueryByDateProjectServicesCustomSku(ctx context.Context, config *model.ProjectDataConfig) ([]model.ProjectCost, error) {
 	// startDate := "2025-10-01"
 	// endDate := "2025-10-02"
 	// projectIDs := []string{} // 空数组表示查询全部项目
@@ -207,9 +206,9 @@ func (s *service) QueryByDateProjectServicesCustomSku(ctx context.Context, confi
 		return nil, exception.NewInternalServerError("Failed to execute query: %v", err)
 	}
 
-	var results []project.ProjectCost
+	var results []model.ProjectCost
 	for {
-		var row project.ProjectCost
+		var row model.ProjectCost
 		err := it.Next(&row)
 		if err == iterator.Done {
 			s.log.Info().Msg("Query finished")
@@ -241,7 +240,7 @@ func (s *service) QueryByDateProjectServicesCustomSku(ctx context.Context, confi
 
 // 2.自定义查询
 // 2.2 指定service，全sku
-func (s *service) QueryByDateProjectCustomServicesAllSkus(ctx context.Context, config *project.ProjectDataConfig) ([]project.ProjectCost, error) {
+func (s *service) QueryByDateProjectCustomServicesAllSkus(ctx context.Context, config *model.ProjectDataConfig) ([]model.ProjectCost, error) {
 	// startDate := "2025-10-01"
 	// endDate := "2025-10-02"
 	// projectIDs := []string{} // 空数组表示查询全部项目
@@ -324,9 +323,9 @@ func (s *service) QueryByDateProjectCustomServicesAllSkus(ctx context.Context, c
 		return nil, exception.NewInternalServerError("Failed to execute query")
 	}
 
-	var results []project.ProjectCost
+	var results []model.ProjectCost
 	for {
-		var row project.ProjectCost
+		var row model.ProjectCost
 		err := it.Next(&row)
 		if err == iterator.Done {
 			s.log.Info().Msg("Query completed successfully")
@@ -358,7 +357,7 @@ func (s *service) QueryByDateProjectCustomServicesAllSkus(ctx context.Context, c
 
 // 2.自定义查询
 // 2.2 指定service，指定sku
-func (s *service) QueryByDateProjectCustomServicesCustomSkus(ctx context.Context, config *project.ProjectDataConfig) ([]project.ProjectCost, error) {
+func (s *service) QueryByDateProjectCustomServicesCustomSkus(ctx context.Context, config *model.ProjectDataConfig) ([]model.ProjectCost, error) {
 	// startDate := "2025-10-01"
 	// endDate := "2025-10-02"
 	// projectIDs := []string{} // 空数组表示查询全部项目
@@ -449,9 +448,9 @@ func (s *service) QueryByDateProjectCustomServicesCustomSkus(ctx context.Context
 		return nil, exception.NewInternalServerError("Failed to execute query: %v", err)
 	}
 
-	var results []project.ProjectCost
+	var results []model.ProjectCost
 	for {
-		var row project.ProjectCost
+		var row model.ProjectCost
 		err := it.Next(&row)
 		if err == iterator.Done {
 			s.log.Info().Msg("Query completed")

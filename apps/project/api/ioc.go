@@ -75,10 +75,10 @@ func (u *ApiHandler) Registry() {
 		Param(ws.QueryParameter("other_savings_reseller_margin_enable", "启用 Reseller Margin 优惠计算").DataType("boolean")).
 		Param(ws.QueryParameter("other_savings_discount_enable", "启用一般折扣优惠计算").DataType("boolean")).
 		Param(ws.QueryParameter("other_savings_subscription_benefit_enable", "启用 Subscription Benefit 优惠计算").DataType("boolean")).
-		Reads(project.ProjectDataConfig{}).
-		Writes(project.ProjectCost{}).
+		Reads(model.ProjectDataConfig{}).
+		Writes(model.ProjectCost{}).
 		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
-		Returns(200, "OK", project.ProjectCost{}).
+		Returns(200, "OK", model.ProjectCost{}).
 		Notes("里面包括指定service/sku等"))
 
 	ws.Route(ws.GET("/all-services-skus").To(u.streamHandler1).
