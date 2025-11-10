@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/kade-chen/google-billing-console/apps/common/model"
-	"github.com/kade-chen/google-billing-console/apps/project"
 )
 
 const (
@@ -12,7 +11,7 @@ const (
 )
 
 type Service interface {
-	QueryByDateProjectServicesAll(ctx context.Context, config *project.ProjectDataConfig) ([]model.ServicesList, error)
+	QueryByDateProjectServicesAll(ctx context.Context, config *model.ProjectDataRequest) ([]model.ServicesList, error)
 }
 
 // type ServicesList struct {

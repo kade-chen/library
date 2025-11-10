@@ -15,6 +15,7 @@ import (
 	"github.com/kade-chen/google-billing-console/apps/project"
 	"github.com/kade-chen/google-billing-console/apps/services"
 	"github.com/kade-chen/google-billing-console/apps/sku"
+	"github.com/kade-chen/library/exception"
 	"github.com/kade-chen/library/ioc"
 	"github.com/kade-chen/library/ioc/config/log"
 )
@@ -42,27 +43,27 @@ type service struct {
 }
 
 func (s *service) Init() error {
+	s.log = log.Sub(s.Name())
 	client, err := bigquery.NewClient(context.Background(), ioc.Config().Get(configs.AppName).(*impl.Service).Default_Project_ID, option.WithCredentialsFile(ioc.Config().Get(configs.AppName).(*impl.Service).Default_Service_Account_Name))
 	if err != nil {
-		fmt.Printf("Failed to create BigQuery client: %v", err)
-		return err
-		// log.("Failed to create BigQuery client: %v", err)
+		s.log.Error().Msgf("Failed to create BigQuery client: %v", err)
+		return exception.NewIocRegisterFailed("Failed to create BigQuery client: %v", err)
 	}
 	s.bq = client
 	// 验证能否列出 dataset
 	it := client.Datasets(context.Background())
 	dataset, err := it.Next()
 	if err == iterator.Done {
-		fmt.Println("⚠️ No datasets found, but client works fine.")
+		s.log.Info().Msgf("No datasets found, but client works fine.")
 	} else if err != nil {
-		fmt.Printf("❌ Failed to verify connection: %v\n", err)
+		s.log.Error().Msgf("❌ Failed to verify connection: %v", err)
+		return exception.NewIocRegisterFailed("❌ Failed to verify connection: %v", err)
 	} else {
-		fmt.Printf("✅ Verified connection! Example dataset: %s\n", dataset.DatasetID)
+		s.log.Info().Msgf("✅ Verified connection! Example dataset: %s\n", dataset.DatasetID)
 	}
 
 	s.svcs = ioc.Controller().Get(services.AppName).(services.Service)
 	s.skus = ioc.Controller().Get(sku.AppName).(sku.Service)
-	s.log = log.Sub(s.Name())
 	return nil
 }
 
@@ -73,7 +74,7 @@ func (service) Name() string {
 func (s *service) Close(ctx context.Context) error {
 	defer func() {
 		if err := s.bq.Close(); err != nil {
-			fmt.Printf("❌ Failed to close BigQuery client: %v\n", err)
+			s.log.Error().Msgf("❌ Failed to close BigQuery client: %v", err)
 		} else {
 			fmt.Println("✅ BigQuery client closed successfully")
 		}

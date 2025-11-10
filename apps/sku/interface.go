@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/kade-chen/google-billing-console/apps/common/model"
-	"github.com/kade-chen/google-billing-console/apps/project"
 )
 
 const (
@@ -12,5 +11,5 @@ const (
 )
 
 type Service interface {
-	QueryByDateProjectSKUsAll(ctx context.Context, config *project.ProjectDataConfig) ([]model.SkusList, error)
+	QueryByDateProjectSKUsAll(ctx context.Context, config *model.ProjectDataRequest) ([]model.SkusList, error)
 }

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/kade-chen/google-billing-console/apps/project"
+	"github.com/kade-chen/google-billing-console/apps/common/model"
 	"github.com/kade-chen/google-billing-console/apps/services"
 	"github.com/kade-chen/library/ioc"
 	"github.com/kade-chen/library/tools/format"
@@ -20,7 +20,7 @@ var (
 
 func TestMain(t *testing.T) {
 	fmt.Println(ioc.Controller().List())
-	a, _ := impl.QueryByDateProjectServicesAll(ctx, &project.ProjectDataConfig{})
+	a, _ := impl.QueryByDateProjectServicesAll(ctx, &model.ProjectDataRequest{})
 	fmt.Println(format.ToJSON(a))
 }
 

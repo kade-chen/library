@@ -12,6 +12,7 @@ import (
 	"github.com/kade-chen/google-billing-console/apps/configs"
 	"github.com/kade-chen/google-billing-console/apps/configs/impl"
 	"github.com/kade-chen/google-billing-console/apps/services"
+	"github.com/kade-chen/library/exception"
 	"github.com/kade-chen/library/ioc"
 	"github.com/kade-chen/library/ioc/config/log"
 )
@@ -37,25 +38,24 @@ type service struct {
 }
 
 func (s *service) Init() error {
-
+	s.log = log.Sub(s.Name())
 	client, err := bigquery.NewClient(context.Background(), ioc.Config().Get(configs.AppName).(*impl.Service).Default_Project_ID, option.WithCredentialsFile(ioc.Config().Get(configs.AppName).(*impl.Service).Default_Service_Account_Name))
 	if err != nil {
-		fmt.Printf("Failed to create BigQuery client: %v", err)
-		return err
-		// log.("Failed to create BigQuery client: %v", err)
+		s.log.Error().Err(err).Msgf("Failed to create BigQuery client, EEROR: %v", err)
+		return exception.NewIocRegisterFailed("Failed to create BigQuery client: %v", err)
 	}
 	s.bq = client
 	// 验证能否列出 dataset
 	it := client.Datasets(context.Background())
 	dataset, err := it.Next()
 	if err == iterator.Done {
-		fmt.Println("⚠️ No datasets found, but client works fine.")
+		s.log.Debug().Msg("⚠️ No datasets found, but client works fine.")
 	} else if err != nil {
-		fmt.Printf("❌ Failed to verify connection: %v\n", err)
+		s.log.Error().Err(err).Msgf("❌ Failed to verify connection: %v", err)
+		return exception.NewIocRegisterFailed("Failed to verify connection: %v", err)
 	} else {
-		fmt.Printf("✅ Verified connection! Example dataset: %s\n", dataset.DatasetID)
+		s.log.Info().Msgf("✅ Verified connection! Example dataset: %s", dataset.DatasetID)
 	}
-	s.log = log.Sub(s.Name())
 	return nil
 }
 

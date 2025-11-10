@@ -2,7 +2,6 @@ package impl
 
 import (
 	"context"
-	"log"
 
 	"cloud.google.com/go/bigquery"
 	"github.com/kade-chen/google-billing-console/apps/common/model"
@@ -83,7 +82,8 @@ func (s *service) QueryByDateProjectAll(ctx context.Context, config *project.Pro
 	// 执行查询
 	it, err := q.Read(ctx)
 	if err != nil {
-		log.Fatalf("Failed to execute query: %v", err)
+		s.log.Error().Msgf("Failed to execute query: %v", err)
+		return nil, exception.NewInternalServerError("Failed to execute query: %v", err)
 	}
 
 	var results []project.ProjectCost
@@ -91,6 +91,7 @@ func (s *service) QueryByDateProjectAll(ctx context.Context, config *project.Pro
 		var row project.ProjectCost
 		err := it.Next(&row)
 		if err == iterator.Done {
+			s.log.Info().Msg("Query completed")
 			break
 		}
 		if err != nil {
@@ -202,7 +203,8 @@ func (s *service) QueryByDateProjectServicesCustomSku(ctx context.Context, confi
 	// 执行查询
 	it, err := q.Read(ctx)
 	if err != nil {
-		log.Fatalf("Failed to execute query: %v", err)
+		s.log.Error().Msgf("Failed to execute query: %v", err)
+		return nil, exception.NewInternalServerError("Failed to execute query: %v", err)
 	}
 
 	var results []project.ProjectCost
@@ -210,6 +212,7 @@ func (s *service) QueryByDateProjectServicesCustomSku(ctx context.Context, confi
 		var row project.ProjectCost
 		err := it.Next(&row)
 		if err == iterator.Done {
+			s.log.Info().Msg("Query finished")
 			break
 		}
 		if err != nil {
@@ -317,7 +320,8 @@ func (s *service) QueryByDateProjectCustomServicesAllSkus(ctx context.Context, c
 	// 执行查询
 	it, err := q.Read(ctx)
 	if err != nil {
-		log.Fatalf("Failed to execute query: %v", err)
+		s.log.Error().Msgf("Failed to execute query: %v", err)
+		return nil, exception.NewInternalServerError("Failed to execute query")
 	}
 
 	var results []project.ProjectCost
@@ -325,6 +329,7 @@ func (s *service) QueryByDateProjectCustomServicesAllSkus(ctx context.Context, c
 		var row project.ProjectCost
 		err := it.Next(&row)
 		if err == iterator.Done {
+			s.log.Info().Msg("Query completed successfully")
 			break
 		}
 		if err != nil {
@@ -440,7 +445,8 @@ func (s *service) QueryByDateProjectCustomServicesCustomSkus(ctx context.Context
 	// 执行查询
 	it, err := q.Read(ctx)
 	if err != nil {
-		log.Fatalf("Failed to execute query: %v", err)
+		s.log.Error().Msgf("Failed to execute query: %v", err)
+		return nil, exception.NewInternalServerError("Failed to execute query: %v", err)
 	}
 
 	var results []project.ProjectCost
@@ -448,6 +454,7 @@ func (s *service) QueryByDateProjectCustomServicesCustomSkus(ctx context.Context
 		var row project.ProjectCost
 		err := it.Next(&row)
 		if err == iterator.Done {
+			s.log.Info().Msg("Query completed")
 			break
 		}
 		if err != nil {
@@ -474,7 +481,7 @@ func (s *service) QueryByDateProjectCustomServicesCustomSkus(ctx context.Context
 	return results, nil
 }
 
-func (s *service) QueryByDateProjectAllServicesAllSkus(ctx context.Context, config *project.ProjectDataConfig) (model.ByDateProjectAllServicesSkusList, error) {
+func (s *service) QueryByDateProjectAllServicesAllSkus(ctx context.Context, config *model.ProjectDataRequest) (model.ByDateProjectAllServicesSkusList, error) {
 	a, err := s.svcs.QueryByDateProjectServicesAll(ctx, config)
 	if err != nil {
 		return model.ByDateProjectAllServicesSkusList{}, err

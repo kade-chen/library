@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/kade-chen/google-billing-console/apps/common/model"
 	"github.com/kade-chen/google-billing-console/apps/project"
 	"github.com/kade-chen/library/ioc"
 	"github.com/kade-chen/library/tools/format"
@@ -110,10 +111,9 @@ func TestQueryByDateProjectCustomServicesCustomSku(t *testing.T) {
 	fmt.Println(format.ToJSON(a))
 }
 
-
 func TestQueryByDateProjectAllServicesAllSkus(t *testing.T) {
 	fmt.Println(ioc.Controller().List())
-	var config project.ProjectDataConfig
+	var config model.ProjectDataRequest
 	config.StartDate = "2025-10-01"
 	config.EndDate = "2025-10-02"
 	config.ProjectIDs = []string{"tools-orion", "chat-prod-404613", "sw-pro-01", "ffalcon-hw-01"} // 指定项目
