@@ -84,5 +84,5 @@ func (s *service) Close(ctx context.Context) error {
 }
 
 func (i *service) Priority() int {
-	return 0
+	return 1
 }

@@ -83,3 +83,20 @@ func (h *ApiHandler) streamHandler(r *restful.Request, w *restful.Response) {
 	}
 	h.log.Info().Msgf("request_id=%s time=%s 接口已完成✅", reqID, time.Now().Format(time.RFC3339))
 }
+
+func (h *ApiHandler) streamHandler1(r *restful.Request, w *restful.Response) {
+	//2.read the request body parametars
+	config := project.NewProjectDataConfig()
+	if err := r.ReadEntity(config); err != nil {
+		response.Failed(w, exception.NewInternalServerError("read request struct: %v; error: %v", config, err))
+		return
+	}
+
+	a, err := h.project.QueryByDateProjectAllServicesAllSkus(r.Request.Context(), config)
+	if err != nil {
+		response.Failed(w, err)
+		return
+	}
+
+	response.Success(w, a)
+}

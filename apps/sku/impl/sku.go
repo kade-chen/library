@@ -2,22 +2,22 @@ package impl
 
 import (
 	"context"
-	"log"
 
 	"cloud.google.com/go/bigquery"
 	"github.com/kade-chen/google-billing-console/apps/common/model"
 	"github.com/kade-chen/google-billing-console/apps/project"
 	"github.com/kade-chen/google-billing-console/apps/tools"
+	"github.com/kade-chen/library/exception"
 	"google.golang.org/api/iterator"
 )
 
 func (s *service) QueryByDateProjectSKUsAll(ctx context.Context, config *project.ProjectDataConfig) ([]model.SkusList, error) {
-	config.StartDate = "2025-10-01"
-	config.EndDate = "2025-10-02"
-	// projectIDs := []string{} // 空数组表示查询全部项目
-	projectIDs := []string{"yz-bx3-prod", "kade-poc", "zzshushu"} // 指定项目
+	// config.StartDate = "2025-10-01"
+	// config.EndDate = "2025-10-02"
+	// // projectIDs := []string{} // 空数组表示查询全部项目
+	// projectIDs := []string{"yz-bx3-prod", "kade-poc", "zzshushu"} // 指定项目
 	// 构造查询
-	sql := s.queryByDateProjectSKUsSQL(projectIDs)
+	sql := s.queryByDateProjectSKUsSQL()
 	q := s.bq.Query(sql)
 	partitionStartTime, partitionEndTime := tools.PartitionTime(config.StartDate, config.EndDate)
 
@@ -40,7 +40,7 @@ func (s *service) QueryByDateProjectSKUsAll(ctx context.Context, config *project
 	// 执行查询
 	it, err := q.Read(ctx)
 	if err != nil {
-		log.Fatalf("Failed to execute query: %v", err)
+		return nil, exception.NewInternalServerError("Failed to execute query, ERROR: %v", err)
 	}
 
 	var results []model.SkusList
@@ -50,10 +50,11 @@ func (s *service) QueryByDateProjectSKUsAll(ctx context.Context, config *project
 		var row model.SkusList
 		err := it.Next(&row)
 		if err == iterator.Done {
+			s.log.Info().Msg("Query finished")
 			break
 		}
 		if err != nil {
-			log.Fatalf("Error reading result: %v", err)
+			return nil, exception.NewInternalServerError("Failed to iterate over query results: %v", err)
 		}
 		results = append(results, row)
 	}

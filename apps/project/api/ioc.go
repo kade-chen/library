@@ -61,6 +61,12 @@ func (u *ApiHandler) Registry() {
 		Reads(project.ProjectDataConfig{}).
 		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
 		Notes("Websocket Streaming Recognize"))
+
+	ws.Route(ws.GET("/").To(u.streamHandler1).
+		Doc("Websocket Streaming Recognize").
+		Reads(project.ProjectDataConfig{}).
+		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
+		Notes("Websocket Streaming Recognize"))
 	// ws.Route(ws.GET("/ws").To(u.streamingRecognize).
 	// 	Doc("Websocket Streaming Recognize").
 	// 	Metadata(restfulspec.KeyOpenAPITags, tags). //标签

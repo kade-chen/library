@@ -14,6 +14,7 @@ import (
 	"github.com/kade-chen/google-billing-console/apps/configs/impl"
 	"github.com/kade-chen/google-billing-console/apps/project"
 	"github.com/kade-chen/google-billing-console/apps/services"
+	"github.com/kade-chen/google-billing-console/apps/sku"
 	"github.com/kade-chen/library/ioc"
 	"github.com/kade-chen/library/ioc/config/log"
 )
@@ -30,7 +31,9 @@ type service struct {
 	ioc.ObjectImpl
 	log  *zerolog.Logger
 	bq   *bigquery.Client
-	kade services.Service
+	svcs services.Service
+	skus sku.Service
+
 	// policy  policy.Service
 	// ns      namespace.Service
 	// checker security.Checker
@@ -56,6 +59,9 @@ func (s *service) Init() error {
 	} else {
 		fmt.Printf("✅ Verified connection! Example dataset: %s\n", dataset.DatasetID)
 	}
+
+	s.svcs = ioc.Controller().Get(services.AppName).(services.Service)
+	s.skus = ioc.Controller().Get(sku.AppName).(sku.Service)
 	s.log = log.Sub(s.Name())
 	return nil
 }
@@ -85,5 +91,5 @@ func (s *service) Close(ctx context.Context) error {
 }
 
 func (i *service) Priority() int {
-	return 1
+	return 0
 }

@@ -20,9 +20,9 @@ var (
 func TestQueryByDateProjectAll(t *testing.T) {
 	fmt.Println(ioc.Controller().List())
 	var config project.ProjectDataConfig
-	config.StartDate = "2025-10-01"
-	config.EndDate = "2025-10-02"
-	config.ProjectIDs = []string{"tools-orion", "chat-prod-404613", "sw-pro-01", "ffalcon-hw-01"} // 指定项目
+	config.StartDate = "2025-11-07"
+	config.EndDate = "2025-11-09"
+	config.ProjectIDs = []string{"gcloud-mediacdn"} // 指定项目
 	config.NegotiatedSavingsEnabled = true
 	config.SavingsProgramsCommittedUsageDiscountEnabled = true
 	config.SavingsProgramsCommittedUsageDiscountDollarBaseEnabled = true
@@ -104,6 +104,20 @@ func TestQueryByDateProjectCustomServicesCustomSku(t *testing.T) {
 	config.ServiceIDs = []string{"6F81-5844-456A"}
 	config.SkusIDs = []string{"6CB7-B05F-97AD", "DE9E-AFBC-A15A"}
 	a, err := impl.QueryByDateProjectCustomServicesCustomSkus(ctx, &config)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(format.ToJSON(a))
+}
+
+
+func TestQueryByDateProjectAllServicesAllSkus(t *testing.T) {
+	fmt.Println(ioc.Controller().List())
+	var config project.ProjectDataConfig
+	config.StartDate = "2025-10-01"
+	config.EndDate = "2025-10-02"
+	config.ProjectIDs = []string{"tools-orion", "chat-prod-404613", "sw-pro-01", "ffalcon-hw-01"} // 指定项目
+	a, err := impl.QueryByDateProjectAllServicesAllSkus(ctx, &config)
 	if err != nil {
 		fmt.Println(err)
 	}

@@ -474,9 +474,17 @@ func (s *service) QueryByDateProjectCustomServicesCustomSkus(ctx context.Context
 	return results, nil
 }
 
-func (s *service) QueryByDateProjectAllServicesAllSkus(context.Context, *project.ProjectDataConfig) (model.ByDateProjectAllServicesSkusList, error) {
-	a, _ := s.kade.QueryByDateProjectServicesAll(context.TODO(), nil)
+func (s *service) QueryByDateProjectAllServicesAllSkus(ctx context.Context, config *project.ProjectDataConfig) (model.ByDateProjectAllServicesSkusList, error) {
+	a, err := s.svcs.QueryByDateProjectServicesAll(ctx, config)
+	if err != nil {
+		return model.ByDateProjectAllServicesSkusList{}, err
+	}
+	b, err := s.skus.QueryByDateProjectSKUsAll(ctx, config)
+	if err != nil {
+		return model.ByDateProjectAllServicesSkusList{}, err
+	}
 	return model.ByDateProjectAllServicesSkusList{
 		Services: a,
+		Skus:     b,
 	}, nil
 }

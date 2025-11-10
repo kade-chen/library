@@ -1,11 +1,12 @@
 package impl
 
+//3.51 GB/0 sec
 func (s *service) queryByDateProjectSUSQL() (sql string) {
 	sql = `
 		SELECT
 		  service.id AS service_id,
 		  sku.id AS sku_id,
-		  ANY_VALUE(sku.description) AS sku_describe,
+		  ANY_VALUE(service.description) AS service_description,
 		  CONCAT('services/', service.id) AS service_path,
 		  CONCAT('services/', service.id, '/skus/', sku.id) AS service_sku_path
 		FROM
