@@ -57,7 +57,7 @@ func (i *ApiHandler) Meta() ioc.ObjectMeta {
 func (u *ApiHandler) Registry() {
 	tags := []string{"billing console"}
 	ws := gorestful.InitRouter(u)
-	ws.Route(ws.POST("/by/data/project").To(u.streamHandler).
+	ws.Route(ws.POST("/by/data/projects").To(u.streamHandler).
 		Doc("基于日期的项目费用统计").
 		Param(ws.QueryParameter("custom_project_data", "是否启用自定义项目: true/false 默认是查询全部").DataType("boolean")).
 		Param(ws.QueryParameter("start_date", "开始日期: 2025-11-01").DataType("string")).
