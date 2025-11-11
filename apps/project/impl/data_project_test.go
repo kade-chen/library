@@ -21,9 +21,9 @@ var (
 func TestQueryByDateProjectAll(t *testing.T) {
 	fmt.Println(ioc.Controller().List())
 	var config model.ProjectDataConfig
-	config.StartDate = "2025-11-07"
-	config.EndDate = "2025-11-09"
-	config.ProjectIDs = []string{"gcloud-mediacdn"} // 指定项目
+	config.StartDate = "2025-10-01"
+	config.EndDate = "2025-10-02"
+	config.ProjectIDs = []string{"tools-orion", "chat-prod-404613", "sw-pro-01", "ffalcon-hw-01"} // 指定项目
 	config.NegotiatedSavingsEnabled = true
 	config.SavingsProgramsCommittedUsageDiscountEnabled = true
 	config.SavingsProgramsCommittedUsageDiscountDollarBaseEnabled = true
