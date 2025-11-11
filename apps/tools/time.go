@@ -10,5 +10,5 @@ func PartitionTime(StartDate, EndDate string) (PartitionStartTime, PartitionEndT
 	start, _ := time.Parse(layout, StartDate)
 	end, _ := time.Parse(layout, EndDate)
 
-	return start.AddDate(0, 0, -3).Format(layout), end.AddDate(0, 0, 3).Format(layout)
+	return start.AddDate(0, 0, -1).Format(layout), end.AddDate(0, 0, 1).Format(layout)
 }

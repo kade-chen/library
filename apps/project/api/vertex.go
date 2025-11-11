@@ -25,7 +25,7 @@ func (h *ApiHandler) streamHandler(r *restful.Request, w *restful.Response) {
 	// 1.默认查询所有的service and skus for project
 	if !config.CustomProjectData {
 		h.log.Info().Msg("默认查询所有的service and skus for project")
-		projectCost, err := h.project.QueryByDateProjectAll(r.Request.Context(), config)
+		projectCost, err := h.project.QueryByProjectAllQueryByDateProjectAll(r.Request.Context(), config)
 		if err != nil {
 			h.log.Error().Msgf("request_id=%s time=%s 接口调用失败✅", reqID, time.Now().Format(time.RFC3339))
 			response.Failed(w, err)

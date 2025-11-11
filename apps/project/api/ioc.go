@@ -76,12 +76,12 @@ func (u *ApiHandler) Registry() {
 		Param(ws.QueryParameter("other_savings_discount_enable", "启用一般折扣优惠计算").DataType("boolean")).
 		Param(ws.QueryParameter("other_savings_subscription_benefit_enable", "启用 Subscription Benefit 优惠计算").DataType("boolean")).
 		Reads(model.ProjectDataConfig{}).
-		Writes(model.ProjectCost{}).
+		Writes(model.ProjectDateCost{}).
 		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
-		Returns(200, "OK", model.ProjectCost{}).
+		Returns(200, "OK", model.ProjectDateCost{}).
 		Notes("里面包括指定service/sku等"))
 
-	ws.Route(ws.GET("/all-services-skus").To(u.streamHandler1).
+	ws.Route(ws.POST("/all-services-skus").To(u.streamHandler1).
 		Doc("基于project和指定日期，取所有服务sku").
 		Param(ws.QueryParameter("project_id", "项目ID: test-id").DataType("string")).
 		Param(ws.QueryParameter("start_date", "开始日期: 2025-xx-xx").DataType("string")).

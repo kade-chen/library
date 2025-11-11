@@ -36,7 +36,7 @@ func NewProjectDataConfig() *ProjectDataConfig {
 	return &ProjectDataConfig{}
 }
 
-type ProjectCost struct {
+type ProjectDateCost struct {
 	UsageDate            bigquery.NullDate    `bigquery:"usage_date" json:"usage_date"`                 // DATE 可为 NULL
 	ProjectName          bigquery.NullString  `bigquery:"project_name" json:"project_name"`             // STRING 可为 NULL
 	ProjectID            bigquery.NullString  `bigquery:"project_id" json:"project_id"`                 // STRING 可为 NULL
@@ -44,6 +44,21 @@ type ProjectCost struct {
 	InvoiceCost          bigquery.NullFloat64 `bigquery:"invoice_cost" json:"-"`                        // FLOAT 可为 NULL
 	InvoiceCostAtListAbs bigquery.NullFloat64 `bigquery:"invoice_cost_at_list_abs" json:"-"`            // FLOAT 可为 NULL
 	CostAtList           bigquery.NullFloat64 `bigquery:"cost_at_list" json:"-"`                        // FLOAT 可为 NULL
+	UsageCost            bigquery.NullFloat64 `bigquery:"Usage_Cost" json:"Usage_Cost"`                 // FLOAT 可为 NULL
+	NegotiatedSavings    bigquery.NullFloat64 `bigquery:"negotiated_savings" json:"negotiated_savings"` // FLOAT 可为 NULL
+	SavingsPrograms      bigquery.NullFloat64 `bigquery:"savings_programs" json:"savings_programs"`     // STRING 可为 NULL
+	OtherSavings         bigquery.NullFloat64 `bigquery:"other_savings" json:"other_savings"`           // FLOAT 可为 NULL
+	SubTotal             bigquery.NullFloat64 `bigquery:"sub_total" json:"sub_total"`                   // FLOAT 可为 NULL
+}
+
+type ProjectCost struct {
+	// UsageDate            bigquery.NullDate    `bigquery:"usage_date" json:"usage_date"`                 // DATE 可为 NULL
+	ProjectName          bigquery.NullString  `bigquery:"project_name" json:"project_name"`             // STRING 可为 NULL
+	ProjectID            bigquery.NullString  `bigquery:"project_id" json:"project_id"`                 // STRING 可为 NULL
+	ProjectNumber        bigquery.NullString  `bigquery:"project_number" json:"project_number"`         // STRING 可为 NULL
+	// InvoiceCost          bigquery.NullFloat64 `bigquery:"invoice_cost" json:"-"`                        // FLOAT 可为 NULL
+	// InvoiceCostAtListAbs bigquery.NullFloat64 `bigquery:"invoice_cost_at_list_abs" json:"-"`            // FLOAT 可为 NULL
+	// CostAtList           bigquery.NullFloat64 `bigquery:"cost_at_list" json:"-"`                        // FLOAT 可为 NULL
 	UsageCost            bigquery.NullFloat64 `bigquery:"Usage_Cost" json:"Usage_Cost"`                 // FLOAT 可为 NULL
 	NegotiatedSavings    bigquery.NullFloat64 `bigquery:"negotiated_savings" json:"negotiated_savings"` // FLOAT 可为 NULL
 	SavingsPrograms      bigquery.NullFloat64 `bigquery:"savings_programs" json:"savings_programs"`     // STRING 可为 NULL

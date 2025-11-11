@@ -14,16 +14,16 @@ import (
 )
 
 var (
-	ctx1  = context.Background()
-	impl1 project.Service
+	ctx  = context.Background()
+	impl project.Service
 )
 
-func TestQueryByProjectAll(t *testing.T) {
+func TestQueryByDateProjectAll(t *testing.T) {
 	fmt.Println(ioc.Controller().List())
 	var config model.ProjectDataConfig
 	config.StartDate = "2025-11-07"
 	config.EndDate = "2025-11-09"
-	config.ProjectIDs = []string{"tools-orion", "chat-prod-404613", "sw-pro-01", "ffalcon-hw-01"} // 指定项目
+	config.ProjectIDs = []string{"gcloud-mediacdn"} // 指定项目
 	config.NegotiatedSavingsEnabled = true
 	config.SavingsProgramsCommittedUsageDiscountEnabled = true
 	config.SavingsProgramsCommittedUsageDiscountDollarBaseEnabled = true
@@ -34,14 +34,14 @@ func TestQueryByProjectAll(t *testing.T) {
 	config.OtherSavingsDiscountEnabled = true
 	config.OtherSavingsSubscriptionBenefitEnabled = true
 
-	a, err := impl1.QueryByProjectAll(ctx1, &config)
+	a, err := impl.QueryByProjectAllQueryByDateProjectAll(ctx, &config)
 	if err != nil {
 		fmt.Println(err)
 	}
 	fmt.Println(format.ToJSON(a))
 }
 
-func TestQueryByProjectServicesCustomSku(t *testing.T) {
+func TestQueryByDateProjectServicesCustomSku(t *testing.T) {
 	fmt.Println(ioc.Controller().List())
 	var config model.ProjectDataConfig
 	config.StartDate = "2025-10-01"
@@ -57,14 +57,14 @@ func TestQueryByProjectServicesCustomSku(t *testing.T) {
 	config.OtherSavingsDiscountEnabled = true
 	config.OtherSavingsSubscriptionBenefitEnabled = true
 	config.SkusIDs = []string{"4111-7FF1-D50A"}
-	a, err := impl1.QueryByDateProjectServicesCustomSku(ctx, &config)
+	a, err := impl.QueryByDateProjectServicesCustomSku(ctx, &config)
 	if err != nil {
 		fmt.Println(err)
 	}
 	fmt.Println(format.ToJSON(a))
 }
 
-func TestQueryByProjectCustomServicesAllSku(t *testing.T) {
+func TestQueryByDateProjectCustomServicesAllSku(t *testing.T) {
 	fmt.Println(ioc.Controller().List())
 	var config model.ProjectDataConfig
 	config.StartDate = "2025-10-01"
@@ -80,14 +80,14 @@ func TestQueryByProjectCustomServicesAllSku(t *testing.T) {
 	config.OtherSavingsDiscountEnabled = true
 	config.OtherSavingsSubscriptionBenefitEnabled = true
 	config.ServiceIDs = []string{"6F81-5844-456A"}
-	a, err := impl1.QueryByDateProjectCustomServicesAllSkus(ctx, &config)
+	a, err := impl.QueryByDateProjectCustomServicesAllSkus(ctx, &config)
 	if err != nil {
 		fmt.Println(err)
 	}
 	fmt.Println(format.ToJSON(a))
 }
 
-func TestQueryByProjectCustomServicesCustomSku(t *testing.T) {
+func TestQueryByDateProjectCustomServicesCustomSku(t *testing.T) {
 	fmt.Println(ioc.Controller().List())
 	var config model.ProjectDataConfig
 	config.StartDate = "2025-10-01"
@@ -104,20 +104,20 @@ func TestQueryByProjectCustomServicesCustomSku(t *testing.T) {
 	config.OtherSavingsSubscriptionBenefitEnabled = true
 	config.ServiceIDs = []string{"6F81-5844-456A"}
 	config.SkusIDs = []string{"6CB7-B05F-97AD", "DE9E-AFBC-A15A"}
-	a, err := impl1.QueryByDateProjectCustomServicesCustomSkus(ctx, &config)
+	a, err := impl.QueryByDateProjectCustomServicesCustomSkus(ctx, &config)
 	if err != nil {
 		fmt.Println(err)
 	}
 	fmt.Println(format.ToJSON(a))
 }
 
-func TestQueryByProjectAllServicesAllSkus(t *testing.T) {
+func TestQueryByDateProjectAllServicesAllSkus(t *testing.T) {
 	fmt.Println(ioc.Controller().List())
 	var config model.ProjectDataRequest
 	config.StartDate = "2025-10-01"
 	config.EndDate = "2025-10-02"
 	config.ProjectIDs = []string{"tools-orion", "chat-prod-404613", "sw-pro-01", "ffalcon-hw-01"} // 指定项目
-	a, err := impl1.QueryByDateProjectAllServicesAllSkus(ctx, &config)
+	a, err := impl.QueryByDateProjectAllServicesAllSkus(ctx, &config)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -129,5 +129,5 @@ func init() {
 	req.ConfigFile.Enabled = true
 	req.ConfigFile.Path = "/Users/kade.chen/go-kade-project/github/google-billing-console/etc/config.toml"
 	ioc.DevelopmentSetup(req)
-	impl1 = ioc.Controller().Get(project.AppName).(project.Service)
+	impl = ioc.Controller().Get(project.AppName).(project.Service)
 }

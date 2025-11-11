@@ -12,12 +12,14 @@ const (
 
 type Service interface {
 	// QueryByProject(ctx context.Context, query string) error
-	QueryByDateProjectAll(context.Context, *model.ProjectDataConfig) ([]model.ProjectCost, error)
-	QueryByDateProjectServicesCustomSku(context.Context, *model.ProjectDataConfig) ([]model.ProjectCost, error)
-	QueryByDateProjectCustomServicesAllSkus(context.Context, *model.ProjectDataConfig) ([]model.ProjectCost, error)
-	QueryByDateProjectCustomServicesCustomSkus(context.Context, *model.ProjectDataConfig) ([]model.ProjectCost, error)
+	QueryByProjectAllQueryByDateProjectAll(context.Context, *model.ProjectDataConfig) ([]model.ProjectDateCost, error)
+	QueryByDateProjectServicesCustomSku(context.Context, *model.ProjectDataConfig) ([]model.ProjectDateCost, error)
+	QueryByDateProjectCustomServicesAllSkus(context.Context, *model.ProjectDataConfig) ([]model.ProjectDateCost, error)
+	QueryByDateProjectCustomServicesCustomSkus(context.Context, *model.ProjectDataConfig) ([]model.ProjectDateCost, error)
 	QueryByDateProjectAllServicesAllSkus(context.Context, *model.ProjectDataRequest) (model.ByDateProjectAllServicesSkusList, error)
 	// QueryBySku(ctx context.Context, query string) error
+
+	QueryByProjectAll(context.Context, *model.ProjectDataConfig) ([]model.ProjectCost, error)
 	// QueryByDateSku(ctx context.Context, query string) error
 	// QueryByService(ctx context.Context, query string) error
 	// QueryByDateService(ctx context.Context, query string) error
