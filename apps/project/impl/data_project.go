@@ -5,13 +5,13 @@ import (
 
 	"cloud.google.com/go/bigquery"
 	"github.com/kade-chen/google-billing-console/apps/common/model"
-	"github.com/kade-chen/google-billing-console/apps/tools"
+	tools"github.com/kade-chen/google-billing-console/tools/time"
 	"github.com/kade-chen/library/exception"
 	"google.golang.org/api/iterator"
 )
 
 // 1.默认查询所有的service and skus for project
-func (s *service) QueryByProjectAllQueryByDateProjectAll(ctx context.Context, config *model.ProjectDataConfig) ([]model.ProjectDateCost, error) {
+func (s *service) QueryByDateProjectAll(ctx context.Context, config *model.ProjectDataConfig) ([]model.ProjectDateCost, error) {
 	// startDate := "2025-10-01"
 	// endDate := "2025-10-02"
 	// projectIDs := []string{} // 空数组表示查询全部项目

@@ -34,10 +34,11 @@ func TestQueryByDateProjectAll(t *testing.T) {
 	config.OtherSavingsDiscountEnabled = true
 	config.OtherSavingsSubscriptionBenefitEnabled = true
 
-	a, err := impl.QueryByProjectAllQueryByDateProjectAll(ctx, &config)
+	a, err := impl.QueryByDateProjectAll(ctx, &config)
 	if err != nil {
 		fmt.Println(err)
 	}
+	// _ = a
 	fmt.Println(format.ToJSON(a))
 }
 

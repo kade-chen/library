@@ -21,8 +21,8 @@ var (
 func TestQueryByProjectAll(t *testing.T) {
 	fmt.Println(ioc.Controller().List())
 	var config model.ProjectDataConfig
-	config.StartDate = "2025-11-07"
-	config.EndDate = "2025-11-09"
+	config.StartDate = "2025-10-01"
+	config.EndDate = "2025-10-02"
 	config.ProjectIDs = []string{"tools-orion", "chat-prod-404613", "sw-pro-01", "ffalcon-hw-01"} // 指定项目
 	config.NegotiatedSavingsEnabled = true
 	config.SavingsProgramsCommittedUsageDiscountEnabled = true
@@ -56,8 +56,8 @@ func TestQueryByProjectServicesCustomSku(t *testing.T) {
 	config.OtherSavingsResellerMarginEnabled = true
 	config.OtherSavingsDiscountEnabled = true
 	config.OtherSavingsSubscriptionBenefitEnabled = true
-	config.SkusIDs = []string{"4111-7FF1-D50A"}
-	a, err := impl1.QueryByDateProjectServicesCustomSku(ctx, &config)
+	config.SkusIDs = []string{"984A-1F27-2D1F"}
+	a, err := impl1.QueryByProjectServicesCustomSku(ctx, &config)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -80,7 +80,7 @@ func TestQueryByProjectCustomServicesAllSku(t *testing.T) {
 	config.OtherSavingsDiscountEnabled = true
 	config.OtherSavingsSubscriptionBenefitEnabled = true
 	config.ServiceIDs = []string{"6F81-5844-456A"}
-	a, err := impl1.QueryByDateProjectCustomServicesAllSkus(ctx, &config)
+	a, err := impl1.QueryByProjectCustomServicesAllSkus(ctx, &config)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -104,24 +104,15 @@ func TestQueryByProjectCustomServicesCustomSku(t *testing.T) {
 	config.OtherSavingsSubscriptionBenefitEnabled = true
 	config.ServiceIDs = []string{"6F81-5844-456A"}
 	config.SkusIDs = []string{"6CB7-B05F-97AD", "DE9E-AFBC-A15A"}
-	a, err := impl1.QueryByDateProjectCustomServicesCustomSkus(ctx, &config)
+	a, err := impl1.QueryByProjectCustomServicesCustomSkus(ctx, &config)
 	if err != nil {
 		fmt.Println(err)
 	}
 	fmt.Println(format.ToJSON(a))
 }
 
-func TestQueryByProjectAllServicesAllSkus(t *testing.T) {
-	fmt.Println(ioc.Controller().List())
-	var config model.ProjectDataRequest
-	config.StartDate = "2025-10-01"
-	config.EndDate = "2025-10-02"
-	config.ProjectIDs = []string{"tools-orion", "chat-prod-404613", "sw-pro-01", "ffalcon-hw-01"} // 指定项目
-	a, err := impl1.QueryByDateProjectAllServicesAllSkus(ctx, &config)
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println(format.ToJSON(a))
+
+func Test111(t *testing.T) {
 }
 
 func init() {

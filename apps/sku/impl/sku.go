@@ -5,7 +5,7 @@ import (
 
 	"cloud.google.com/go/bigquery"
 	"github.com/kade-chen/google-billing-console/apps/common/model"
-	"github.com/kade-chen/google-billing-console/apps/tools"
+	tools"github.com/kade-chen/google-billing-console/tools/time"
 	"github.com/kade-chen/library/exception"
 	"google.golang.org/api/iterator"
 )
