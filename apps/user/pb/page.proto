@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package kade_chen.google_billing_console.user;
+
+option go_package = "github.com/kade-chen/google-billing-console/apps/user";
+
+
+message PageRequest {
+    // @gotags: bson:"page_size" json:"page_size"
+    uint64 page_size = 1;
+        // @gotags: bson:"page_number" json:"page_number"
+    uint64 page_number = 2;
+        // @gotags: bson:"offset" json:"offset"
+    int64 offset = 3;
+}

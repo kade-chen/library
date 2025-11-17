@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package kade_chen.google_billing_console.domain;
+
+option go_package = "github.com/kade-chen/google-billing-console/apps/domain";
+
+import "google-billing-console/apps/domain/pb/domain.proto";
+
+// Service 用户服务
+service RPC {
+  // 查询域
+  rpc DescribeDomain(DescribeDomainRequest) returns (Domain);
+  // 查询域列表
+  rpc QueryDoamin(QueryDomainRequest) returns (DomainSet);
+}
+
+// DescribeDomainRequest 查询domain详情请求
+message DescribeDomainRequest {
+    // 查询方式
+    // @gotags: json:"describe_by"
+    DESCRIBE_BY describe_by = 1;
+    // 通过Id查询
+    // @gotags: json:"id"
+    string id = 2;
+    // 通过名称查询
+    // @gotags: json:"name"
+    string name = 3;
+}
+
+enum DESCRIBE_BY {
+    // 用户的ID
+    ID = 0;
+    // 用户的名称 oldfish
+    NAME = 1;
+}
+
+message QueryDomainRequest {
+    // 分页参数
+    PageRequest page = 1;
+    // Domain 相关Id
+    // @gotags: json:"ids" 
+    repeated string ids = 2;
+    // Domain 相关Name
+    // @gotags: json:"names" 
+    repeated string names = 3;
+}
+
+message PageRequest {
+    uint64 page_size = 1;
+    uint64 page_number = 2;
+    int64 offset = 3;
+}

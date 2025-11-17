@@ -1,0 +1,290 @@
+syntax = "proto3";
+
+package kade_chen.google_billing_console.user;
+
+option go_package = "github.com/kade-chen/google-billing-console/apps/user";
+
+import "google-billing-console/apps/user/pb/meta.proto";
+
+
+// 为了防止越权, 用户可以调整的权限范围只有10已下的权限
+enum TYPE {
+    // 子账号, 无用户中心后台管理权限
+    SUB = 0;
+    // 主账号, 具有本域的所有权限
+    PRIMARY = 10;
+    // 超级管理员, 系统管理员, 万能的人, 不受权限系统约束
+    SUPPER = 15;
+}
+
+
+// User 用户账号
+message User {
+    // 元信息
+    // @gotags: bson:",inline" json:"meta"
+    kade_chen.google_billing_console.user.Meta meta = 1;
+    // 定义信息
+    // @gotags: bson:",inline" json:"spec"
+    CreateUserRequest spec = 2;
+    // 密码相关信息
+    // @gotags: bson:"password" json:"password"
+    Password password = 4;
+    // 用户状态
+    // @gotags: bson:"status" json:"status"
+    Status status = 5;
+    // 飞书token
+    // @gotags: bson:"feishu_token" json:"feishu_token"
+    FeishuAccessToken feishu_token = 6;
+    // 钉钉token
+    // @gotags: bson:"dingding_token" json:"dingding_token"
+    DingDingAccessToken dingding_token = 7;
+}
+
+//-------------------------------------------------------------
+// CreateUserRequest 创建用户请求
+message CreateUserRequest {
+    // 账号提供方
+    // @gotags: json:"provider" bson:"provider"
+    PROVIDER provider = 1;
+    // 用户类型
+    // @gotags: json:"type" bson:"type"
+    TYPE type = 2;
+    // 是否共享账号, 默认SSO, 不允许同一个账号给多少同时使用
+    // @gotags: json:"shared" bson:"shared"
+    bool shared = 15;
+    // 创建来源
+    // @gotags: json:"create_from" bson:"create_from"
+    CREATE_FROM create_from = 3;
+    // 创建类型
+    // @gotags: json:"create_by" bson:"create_by"
+    string create_by = 13;
+    // 域信息
+    // @gotags: json:"domain" bson:"domain" validate:"required"
+    string domain = 4;
+    // 用户账号名称
+    // @gotags: json:"username" bson:"username" validate:"required,lte=60"
+    string username = 5;
+    // 密码相关信息
+    // @gotags: json:"password" bson:"-" validate:"required,lte=80"
+    string password = 6;
+    // 用户描述
+    // @gotags: json:"description" bson:"description"
+    string description = 7;
+    // 用户标签, 用于过滤用户
+    // @gotags: json:"labels" bson:"labels"
+    map<string,string> labels = 11;
+    // 用户飞书相关信息
+    // @gotags: json:"feishu" bson:"feishu"
+    Feishu feishu = 8;
+    // 用户钉钉相关信息
+    // @gotags: json:"dingding" bson:"dingding"
+    DingDing dingding = 9;
+    // 用户企业微信相关信息
+    // @gotags: json:"wechatwork" bson:"wechatwork"
+    WechatWork wechatwork = 10;
+    // 使用全名作为uid, 比如 admin@default, 默认使用uuid
+    // @gotags: json:"use_full_named_uid" bson:"use_full_named_uid"
+    bool use_full_named_uid = 12;
+    // Profile信息
+    // @gotags bson:"profile" json:"profile"
+    Profile profile = 14;
+}
+
+enum PROVIDER {
+    // 本地数据库
+    LOCAL = 0;
+    // 来源LDAP
+    LDAP = 1;
+    // 来源飞书
+    FEISHU = 2;
+    // 来源钉钉
+    DINGDING = 3;
+    // 来源企业微信
+    WECHAT_WORK = 4;
+}
+
+enum CREATE_FROM {
+    // 管理员创建
+    PRIMARY_ACCOUNT = 0;
+    // 自己注册
+    SELF = 1;
+}
+
+message Feishu {
+    // 是否启用飞书认证
+    // @gotags: bson:"enabled" json:"enabled"
+    bool enabled = 4;
+    // 用户在飞书应用内的唯一标识
+    // @gotags: bson:"open_id" json:"open_id"
+    string open_id = 1;
+    // 用户统一ID，在同一租户开发的所有应用内的唯一标识
+    // @gotags: bson:"union_id" json:"union_id"
+    string union_id = 2;
+    // 用户 user id，申请了邮箱获取权限(获取用户 user ID)的应用会返回该字段
+    // @gotags: bson:"user_id" json:"user_id"
+    string user_id = 3;
+}
+
+message DingDing {
+    // 是否启用钉钉认证
+    // @gotags: bson:"enabled" json:"enabled"
+    bool enabled = 3;
+    // 用户在飞书应用内的唯一标识
+    // @gotags: bson:"open_id" json:"open_id"
+    string open_id = 1;
+    // 用户统一ID，在同一租户开发的所有应用内的唯一标识
+    // @gotags: bson:"union_id" json:"union_id"
+    string union_id = 2;
+}
+
+message WechatWork {
+    // 是否启用企业微信认证
+    // @gotags: bson:"enabled" json:"enabled"
+    bool enabled = 3;
+    // 用户在企业微信中的Id
+    // @gotags: bson:"user_id" json:"user_id"
+    string user_id = 1;
+    // 用户在企业微信唯一标识
+    // @gotags: bson:"open_id" json:"open_id"
+    string open_id = 2;
+}
+
+
+// Profile todo
+message Profile {
+    // 用户真实姓名
+    // @gotags: bson:"real_name" json:"real_name" validate:"lte=10"
+    string real_name = 1;
+    // 用户昵称, 用于在界面进行展示
+    // @gotags: bson:"nick_name" json:"nick_name" validate:"lte=30"
+    string nick_name = 2;
+    // 手机号码, 用户可以通过手机进行注册和密码找回, 还可以通过手机号进行登录
+    // @gotags: bson:"phone" json:"phone" validate:"lte=30"
+    string phone = 3;
+    // 邮箱, 用户可以通过邮箱进行注册和照明密码
+    // @gotags: bson:"email" json:"email" validate:"lte=30"
+    string email = 4;
+    // 用户住址
+    // @gotags: bson:"address" json:"address" validate:"lte=120"
+    string address = 5;
+    // 性别
+    // @gotags: bson:"gender" json:"gender" validate:"lte=10"
+    Gender gender = 6;
+    // 头像
+    // @gotags: bson:"avatar" json:"avatar" validate:"lte=300"
+    string avatar = 7;
+    // 用户使用的语言
+    // @gotags: bson:"language" json:"language" validate:"lte=40"
+    string language = 8;
+    // 用户所在的城市
+    // @gotags: bson:"city" json:"city" validate:"lte=40"
+    string city = 9;
+    // 用户所在的省
+    // @gotags: bson:"province" json:"province" validate:"lte=40"
+    string province = 10;                
+}
+
+enum Gender {
+    // 保密
+    UNKNOWN = 0;
+    // 男
+    MALE = 1;
+    // 女
+    FEMALE = 2;
+}
+//-------------------------------------------------------------
+
+message Password {
+    // hash过后的密码
+    // @gotags: bson:"password" json:"password,omitempty"
+    string password = 1;
+    // 密码创建时间
+    // @gotags: bson:"create_at" json:"create_at"
+    int64 create_at = 2;
+    // 密码更新时间
+    // @gotags: bson:"update_at" json:"update_at"
+    int64 update_at = 3;
+    // 密码需要被重置
+    // @gotags: bson:"need_reset" json:"need_reset"
+    bool need_reset = 4;
+    // 需要重置的原因
+    // @gotags: bson:"reset_reason" json:"reset_reason"
+    string reset_reason = 5;
+    // 密码过期时间, 密码过期后要求用户重置密码
+    // @gotags: bson:"expired_days" json:"expired_days"
+    uint32 expired_days = 6;
+    // 密码过期前多少天开始提醒
+    // @gotags: bson:"expired_remind" json:"expired_remind"
+    uint32 expired_remind = 7;
+    // 历史密码
+    // @gotags: bson:"history" json:"history,omitempty"
+    repeated string history = 8;
+}
+
+// Status 用户状态
+message Status {
+    // 用户是否初始化
+    // @gotags: bson:"is_initialized" json:"is_initialized"
+    bool is_initialized = 5; 
+    // 是否冻结
+    // @gotags: bson:"locked" json:"locked"
+    bool locked = 1;
+    // 冻结时间
+    // @gotags: bson:"locked_time" json:"locked_time"
+    int64 locked_time = 2;
+    // 冻结原因
+    // @gotags: bson:"locked_reson" json:"locked_reson"
+    string locked_reson = 3;
+    // 解冻时间
+    // @gotags: bson:"unlock_time" json:"unlock_time"
+    int64 unlock_time = 4;  
+}
+
+
+message FeishuAccessToken {
+    // 飞书服务器授权的access_token，用于调用其他接口
+    // @gotags: bson:"access_token" json:"access_token"
+    string access_token = 1;
+    // token OAuth 2.0协议规定的Token类型，固定为 Bearer
+    // @gotags: bson:"token_type" json:"token_type"
+    string token_type = 2;
+    // access_token 颁发时间
+    // @gotags: bson:"issue_at" json:"issue_at"
+    int64 issue_at = 3;
+    // access_token 的有效期，三方应用服务器需要根据此返回值来控制access_token的有效时间
+    // @gotags: bson:"expires_in" json:"expires_in"
+    int64 expires_in = 4;
+    // 当 access_token 过期时，通过 refresh_token来刷新，获取新的 access_token
+    // @gotags: bson:"refresh_token" json:"refresh_token"
+    string refresh_token = 5;
+    // refresh_token 的有效期
+    // @gotags: bson:"refresh_expires_in" json:"refresh_expires_in"
+    int64 refresh_expires_in = 6;
+}
+
+message DingDingAccessToken  {
+	// 生成的accessToken
+    // @gotags: bson:"access_token" json:"accessToken"
+    string access_token = 1;
+    // 生成的refresh_token。可以使用此刷新token，定期的获取用户的accessToken
+    // @gotags: bson:"refresh_token" json:"refreshToken"
+    string refresh_token = 2;
+    // 超时时间，单位秒。
+    // @gotags: bson:"expires_in" json:"expireIn"
+    int64 expires_in = 3;
+	// 所选企业corpId。
+    // @gotags: bson:"corp_id" json:"corpId"
+    string corp_id = 4;
+    // access_token 颁发时间
+    // @gotags: bson:"issue_at" json:"issue_at"
+    int64 issue_at = 5;
+}
+
+message UserSet {
+    // 总数量
+    // @gotags: bson:"total" json:"total"
+    int64 total = 1;
+    // 数据项
+    // @gotags: bson:"items" json:"items"
+    repeated User items = 2;
+}

@@ -81,21 +81,11 @@ pb: ## Copy mcube protobuf files to common/pb
 	@sudo rm -rf common/pb/github.com/infraboard/mcube/v2/pb/*/*.go
 
 gen: ## protobuf 编译
-	@protoc -I=.. --go_out=. --go_opt=module=${PKG} --go-grpc_out=. --go-grpc_opt=module=${PKG} ../mcenter/apps/*/pb/*.proto
+	@protoc -I=.. --go_out=. --go_opt=module=${PKG} --go-grpc_out=. --go-grpc_opt=module=${PKG} ../google-billing-console/apps/*/pb/*.proto
 	@go fmt ./...
 	@protoc-go-inject-tag -input=apps/*/*.pb.go
 	@kade-library enum -p -m apps/*/*.pb.go
 
-gen-tts: ## protobuf 编译
-	@protoc -I=.. --go_out=. --go_opt=module=${PKG} --go-grpc_out=. --go-grpc_opt=module=${PKG} ../mcenter/apps/*/*/pb/*.proto
-	@go fmt ./...
-	@protoc-go-inject-tag -input=apps/*/*/*.pb.go
-	@kade-library enum -p -m apps/*/*/*.pb.go
-
-gen-stt: ## protobuf 编译
-	@protoc -I=.. --go_out=. --go_opt=module=${PKG} --go-grpc_out=. --go-grpc_opt=module=${PKG} ../mcenter/apps/*/example/*/pb/*.proto
-	@go fmt ./...
-	@protoc-go-inject-tag -input=apps/*/example/*/pb/*.pb.go
 
 help: ## Display this help screen
 	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -118,4 +108,6 @@ stt-grpc-server: ## 启动stt grpc server
 stt-grpc-client: ## 启动stt grpc client
 	@go run /Users/kade.chen/go-kade-project/github/mcenter/apps/stt/example/sttv2/grpc/client/main.go
 
+login: ## 登录
+	@go run /Users/kade.chen/go-kade-project/github/google-billing-console/test/main.go
 

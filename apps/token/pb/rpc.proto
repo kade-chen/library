@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package kade_chen.google_billing_console.token;
+
+option go_package = "github.com/kade-chen/google-billing-console/apps/token";
+
+import "google-billing-console/apps/token/pb/token.proto";
+import "google-billing-console/apps/token/pb/code.proto";
+
+// valicate token request
+service RPC {
+  rpc ValicateToken(ValicateTokenRequest) returns (Token);
+  // 校验验证码
+  rpc VerifyCode(VerifyCodeRequest) returns (Code);
+}
+
+message ValicateTokenRequest {
+  // 令牌
+  //  @gotags: json:"access_token"
+  string access_token = 1;
+  // 令牌
+  //  @gotags: json:"access_token_name"
+  string ACCESS_TOKEN_NAME = 2;
+}
+
+enum DESCRIBY_BY {
+  // 通过access token查看
+  ACCESS_TOKEN = 0;
+  // 通过刷新token查询
+  REFRESH_TOKEN = 1;
+}
+
+// VerifyCodeRequest 验证码校验请求
+message VerifyCodeRequest {
+  // 用户名
+  // @gotags: json:"username" validate:"required"
+  string username = 1;
+  // 验证码
+  // @gotags: json:"code" validate:"required"
+  string code = 2;
+}
+
+message RevolkTokenRequest {
+  // 令牌
+  // @gotags: json:"access_token"
+  string access_token = 1;
+  // 刷新令牌
+  // @gotags: json:"refresh_token"
+  string refresh_token = 5;
+  // 令牌名字
+  // @gotags: json:"access_token_name"
+  string ACCESS_TOKEN_NAME = 2;
+}

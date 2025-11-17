@@ -16,3 +16,11 @@ enable = false
 [configs]
 default_project_id = "vandorcloud-billing-check"
 default_service_account_name = "xxxxxx.json"
+
+[mongodb]
+endpoints = ["xxxxxx:55000"]
+username = "xxxxx"
+password = "xxxxx"
+database = "google-billing-console"
+enable_mongo = false
+mongo_url = "mongodb+srv://xxxxx:xxxxxx@mongo.xtqfj.mongodb.net/?retryWrites=true&w=majority&appName=mongo"

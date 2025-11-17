@@ -32,3 +32,4 @@ etc/kade-poc.json
 main
 .vscode
 .git
+test/

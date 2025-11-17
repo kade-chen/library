@@ -11,11 +11,11 @@ const (
 )
 
 type Service interface {
+	//辅助功能
 	QueryByDateProjectServicesAll(ctx context.Context, config *model.ProjectDataRequest) ([]model.ServicesList, error)
-}
+	//by date Service
+	QueryByDateService(context.Context, *model.ServiceDataConfig) ([]model.ServiceDateCost, error)
 
-// type ServicesList struct {
-// 	ServiceID   bigquery.NullString `bigquery:"service_id" json:"service_id"`
-// 	ServiceDesc bigquery.NullString `bigquery:"service_description" json:"service_description"`
-// 	ServicePath bigquery.NullString `bigquery:"service_path" json:"service_path"`
-// }
+	// //by Service
+	QueryByService(context.Context, *model.ServiceConfig) ([]model.ServiceCost, error)
+}

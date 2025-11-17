@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package kade_chen.google_billing_console.notify;
+
+option go_package = "github.com/kade-chen/google-billing-console/apps/notify";
+
+
+enum PROVIDER {
+    // 腾讯短信服务
+    TENCENT = 0;
+    // 阿里短信服务
+    ALI = 1;
+}
+
+
+enum NOTIFY_TYPE {
+    // 邮件通知
+    MAIL = 0;
+    // 短信通知
+    SMS = 1;
+    // 语音通知
+    VOICE = 2;
+    // IM个人消息
+    IM = 3;
+}

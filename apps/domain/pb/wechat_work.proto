@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package kade_chen.google_billing_console.domain;
+
+option go_package = "github.com/kade-chen/google-billing-console/apps/domain";
+
+
+message WechatWorkConfig {
+    // 开启企业微信认证
+    // @gotags: bson:"enabled" json:"enabled"
+    bool enabled = 6;
+    // 企业微信企业Id, Oauth2.0应用获取应用Token时需要
+    // @gotags: bson:"corp_id" json:"corp_id" env:"WECHAT_WORK_CORP_ID"
+    string corp_id = 1;
+    // 企业微信应用Id, Oauth2.0时 也叫client_id
+    // @gotags: bson:"agent_id" json:"agent_id" env:"WECHAT_WORK_CLIENT_ID"
+    string agent_id = 2;
+    // 企业微信应用凭证, Oauth2.0时 也叫client_secret
+    // @gotags: bson:"app_secret" json:"app_secret" env:"WECHAT_WORK_CLIENT_SECRET"
+    string app_secret = 3;
+    // Oauth2.0时, 应用服务地址页面
+    // @gotags: bson:"redirect_uri" json:"redirect_uri" env:"WECHAT_WORK_REDIRECT_URI"
+    string redirect_uri = 4;
+    // 企业微信应用凭证(缓存使用)
+    // @gotags: bson:"access_token" json:"access_token"
+    WechatWorkAccessToken access_token =5;
+}
+
+message WechatWorkAccessToken {
+    // 应用服务访问凭证
+    // @gotags: bson:"access_token" json:"access_token" env:"WECHAT_WORK_ACCESS_TOKEN"
+    string access_token = 1;
+    // 凭证过期时间
+    // @gotags: bson:"expires_in" json:"expires_in"
+    int64 expires_in = 2;
+}

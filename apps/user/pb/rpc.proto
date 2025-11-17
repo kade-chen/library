@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package kade_chen.google_billing_console.user;
+
+option go_package = "github.com/kade-chen/google-billing-console/apps/user";
+
+import "google-billing-console/apps/user/pb/user.proto";
+import "google-billing-console/apps/user/pb/page.proto";
+
+// Service 用户服务
+service RPC {
+  // 查询用户列表
+  rpc ListUser(QueryUserRequest) returns (UserSet);
+  // 查询用户详情
+  rpc DescribeUser(DescribeUserRequest) returns (User);
+  
+}
+
+// QueryUserRequest 获取子账号列表
+message QueryUserRequest {
+  // 分页参数
+  // @gotags: json:"page"
+  PageRequest page = 1;
+  // 用户所属Domain
+  // @gotags: json:"domain" validate:"required"
+  string domain = 2;
+  // 账号提供方
+  // @gotags: json:"provider"
+  optional PROVIDER provider = 3;
+  // 用户类型
+  // @gotags: json:"type" 
+  optional TYPE type = 4;
+  // 通过Id
+  // @gotags: json:"user_ids"
+  repeated string user_ids = 5;
+  // 额外需要查询出来的用户
+  // @gotags: json:"extra_user_ids"
+  repeated string extra_user_ids = 7;
+  // 根据标签过滤用户
+  // @gotags: json:"labels"
+  map<string, string> labels = 6;
+  // 是否获取数据
+  // @gotags: json:"skip_items"
+  bool skip_items = 8;
+  // 关键字查询
+  // @gotags: json:"keywords"
+  string keywords = 9;
+}
+
+// DescribeUserRequest 查询用户详情
+message DescribeUserRequest {
+  // 查询方式
+  // @gotags: json:"describe_by"
+  DESCRIBE_BY describe_by = 1;
+  // 用户账号id
+  // @gotags: json:"id"
+  string id = 2;
+  // 用户账号
+  // @gotags: json:"username"
+  string username = 3;
+}
+
+enum DESCRIBE_BY {
+  // 通过UserId查询用户
+  USER_ID = 0;
+  // 通过Username查询用户
+  USER_NAME = 1;
+  // 通过飞书UserId查询用户
+  FEISHU_USER_ID = 2;
+}
+
+
+message DeleteUserRequest {
+    // 用户账号id
+    // @gotags: json:"user_ids" validate:"required,lte=60"
+    repeated string user_ids = 2;
+}

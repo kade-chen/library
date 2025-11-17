@@ -44,22 +44,21 @@ func (u *ApiHandler) Version() string {
 	return "v1"
 }
 
-func (i *ApiHandler) Meta() ioc.ObjectMeta {
-	return ioc.ObjectMeta{
-		//		CustomPathPrefix: "/s", 必须要/号 http://127.0.0.1:8080/s
-		CustomPathPrefix: "/billing-console",
-		// CustomPathPrefix: "/s",
-		Extra: map[string]string{},
-	}
-}
+// func (i *ApiHandler) Meta() ioc.ObjectMeta {
+// 	return ioc.ObjectMeta{
+// 		//		CustomPathPrefix: "/s", 必须要/号 http://127.0.0.1:8080/s
+// 		CustomPathPrefix: "/",
+// 		// CustomPathPrefix: "/s",
+// 		Extra: map[string]string{},
+// 	}
+// }
 
 // ws://localhost:8010/mcenter/api/v1/SpeechToTextV2/ws
 func (u *ApiHandler) Registry() {
 	tags := []string{"billing console"}
 	ws := gorestful.InitRouter(u)
-	ws.Route(ws.POST("/by/data/projects").To(u.byDatePojectHandler).
+	ws.Route(ws.POST("/by/data/date-projects").To(u.byDatePojectHandler).
 		Doc("基于日期的项目费用统计").
-		Param(ws.QueryParameter("custom_project_data", "是否启用自定义项目: true/false 默认是查询全部").DataType("boolean")).
 		Param(ws.QueryParameter("start_date", "开始日期: 2025-11-01").DataType("string")).
 		Param(ws.QueryParameter("end_date", "结束日期: 2025-11-05").DataType("string")).
 		Param(ws.QueryParameter("project_ids", "项目ID数组，如: ['myproj-123', 'myproj-456']").DataType("array[string]")).
@@ -79,11 +78,11 @@ func (u *ApiHandler) Registry() {
 		Writes(model.ProjectDateCost{}).
 		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
 		Returns(200, "OK", model.ProjectDateCost{}).
+		// Filter(middlewares.NewTokenAuther().Auth_Login).
 		Notes("里面包括指定service/sku等"))
 
-	ws.Route(ws.POST("/by/projects").To(u.byPojectHandler).
+	ws.Route(ws.POST("/by/data/projects").To(u.byPojectHandler).
 		Doc("基于项目费用统计").
-		Param(ws.QueryParameter("custom_project_data", "是否启用自定义项目: true/false 默认是查询全部").DataType("boolean")).
 		Param(ws.QueryParameter("start_date", "开始日期: 2025-11-01").DataType("string")).
 		Param(ws.QueryParameter("end_date", "结束日期: 2025-11-05").DataType("string")).
 		Param(ws.QueryParameter("project_ids", "项目ID数组，如: ['myproj-123', 'myproj-456']").DataType("array[string]")).
@@ -102,6 +101,7 @@ func (u *ApiHandler) Registry() {
 		Reads(model.ProjectDataConfig{}).
 		Writes(model.ProjectCost{}).
 		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
+		// Filter(middlewares.NewTokenAuther().Auth_Login).
 		Returns(200, "OK", model.ProjectCost{}).
 		Notes("里面包括指定service/sku等"))
 
@@ -113,6 +113,7 @@ func (u *ApiHandler) Registry() {
 		Reads(model.ProjectDataRequest{}).
 		Writes(model.ByDateProjectAllServicesSkusList{}).
 		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
+		// Filter(middlewares.NewTokenAuther().Auth_Login).
 		Returns(200, "OK", model.ByDateProjectAllServicesSkusList{}).
 		Notes("基于project和指定日期，取所有服务sku"))
 }

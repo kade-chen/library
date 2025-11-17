@@ -1,6 +1,6 @@
 package impl
 
-//3.51 GB/0 sec
+// 3.51 GB/0 sec
 func (s *service) queryByDateProjectSUSQL() (sql string) {
 	sql = `
 		SELECT
