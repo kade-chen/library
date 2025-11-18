@@ -34,6 +34,7 @@ func TestSku(t *testing.T) {
 	//查询service/sku
 	// config.ServiceIDs = []string{"6F81-5844-456A"}
 	// config.SkusIDs = []string{"DE9E-AFBC-A15A", "6CB7-B05F-97AD"}
+	config.TwoDecimalEnabled = true
 	a, _ := impl.QueryBySku(ctx, &config)
 	fmt.Println(format.ToJSON(a))
 }

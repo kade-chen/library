@@ -2,6 +2,7 @@ package impl
 
 import (
 	"context"
+	"math"
 
 	"cloud.google.com/go/bigquery"
 	"github.com/kade-chen/google-billing-console/apps/common/model"
@@ -9,7 +10,6 @@ import (
 	"github.com/kade-chen/library/exception"
 	"google.golang.org/api/iterator"
 )
-
 
 func (s *service) QueryByProject(ctx context.Context, config *model.ProjectConfig) ([]model.ProjectCost, error) {
 	// startDate := "2025-10-01"
@@ -127,6 +127,18 @@ func (s *service) QueryByProject(ctx context.Context, config *model.ProjectConfi
 		if !config.NegotiatedSavingsEnabled {
 			row.NegotiatedSavings.Float64 = 0.00
 			row.NegotiatedSavings.Valid = true
+		}
+		if config.TwoDecimalEnabled {
+			row.UsageCost.Float64 = math.Round(row.UsageCost.Float64*100) / 100
+			row.UsageCost.Valid = true
+			row.NegotiatedSavings.Float64 = math.Round(row.NegotiatedSavings.Float64*100) / 100
+			row.UsageCost.Valid = true
+			row.SavingsPrograms.Float64 = math.Round(row.SavingsPrograms.Float64*100) / 100
+			row.UsageCost.Valid = true
+			row.OtherSavings.Float64 = math.Round(row.OtherSavings.Float64*100) / 100
+			row.UsageCost.Valid = true
+			row.SubTotal.Float64 = math.Round(row.SubTotal.Float64*100) / 100
+			row.UsageCost.Valid = true
 		}
 		// fmt.Printf("%s | %s | %s | %s | %s | %s\n",
 		// 	format.FormatAny(row["usage_date"]),

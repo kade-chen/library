@@ -35,6 +35,7 @@ func TestQueryByDateProject(t *testing.T) {
 	config.OtherSavingsSubscriptionBenefitEnabled = true
 	config.ServiceIDs = []string{"6F81-5844-456A"}
 	config.SkusIDs = []string{"6CB7-B05F-97AD", "DE9E-AFBC-A15A"}
+	config.TwoDecimalEnabled = false
 	a, err := impl.QueryByDateProject(ctx, &config)
 	if err != nil {
 		fmt.Println(err)

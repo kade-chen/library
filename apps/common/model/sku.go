@@ -11,6 +11,7 @@ type SkusList struct {
 }
 
 type SkuDataConfig struct {
+	TwoDecimalEnabled bool `json:"two_decimal_enabled"`
 	//判断走全部/自定义
 	StartDate  string   `json:"start_date"`
 	EndDate    string   `json:"end_date"`
@@ -51,11 +52,12 @@ type SkuDateCost struct {
 }
 
 type SkuConfig struct {
-	StartDate  string   `json:"start_date"`
-	EndDate    string   `json:"end_date"`
-	ProjectIDs []string `json:"project_ids"`
-	ServiceIDs []string `json:"service_ids"`
-	SkusIDs    []string `json:"skus"`
+	TwoDecimalEnabled bool     `json:"two_decimal_enabled"`
+	StartDate         string   `json:"start_date"`
+	EndDate           string   `json:"end_date"`
+	ProjectIDs        []string `json:"project_ids"`
+	ServiceIDs        []string `json:"service_ids"`
+	SkusIDs           []string `json:"skus"`
 	//
 	NegotiatedSavingsEnabled                               bool `json:"negotiated_savings"`
 	SavingsProgramsCommittedUsageDiscountEnabled           bool `json:"savings_programs_committed_usage_discount_enable"`

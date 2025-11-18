@@ -59,6 +59,7 @@ func (u *ApiHandler) Registry() {
 	ws := gorestful.InitRouter(u)
 	ws.Route(ws.POST("/by/data/date-skus").To(u.byDateSkuHandler).
 		Doc("基于日期的项目费用统计").
+		Param(ws.QueryParameter("two_decimal_enabled", "是否启用计算精度到两位小数").DataType("boolean")).
 		Param(ws.QueryParameter("start_date", "开始日期: 2025-11-01").DataType("string")).
 		Param(ws.QueryParameter("end_date", "结束日期: 2025-11-05").DataType("string")).
 		Param(ws.QueryParameter("project_ids", "项目ID数组，如: ['myproj-123', 'myproj-456']").DataType("array[string]")).
@@ -83,6 +84,7 @@ func (u *ApiHandler) Registry() {
 
 	ws.Route(ws.POST("/by/data/skus").To(u.bySkuHandler).
 		Doc("基于项目费用统计").
+		Param(ws.QueryParameter("two_decimal_enabled", "是否启用计算精度到两位小数").DataType("boolean")).
 		Param(ws.QueryParameter("start_date", "开始日期: 2025-11-01").DataType("string")).
 		Param(ws.QueryParameter("end_date", "结束日期: 2025-11-05").DataType("string")).
 		Param(ws.QueryParameter("project_ids", "项目ID数组，如: ['myproj-123', 'myproj-456']").DataType("array[string]")).

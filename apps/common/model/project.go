@@ -13,6 +13,7 @@ func NewProjectDataRequest() *ProjectDataRequest {
 }
 
 type ProjectDataConfig struct {
+	TwoDecimalEnabled bool `json:"two_decimal_enabled"`
 	//判断走全部/自定义
 	StartDate  string   `json:"start_date"`
 	EndDate    string   `json:"end_date"`
@@ -51,6 +52,7 @@ type ProjectDateCost struct {
 }
 
 type ProjectConfig struct {
+	TwoDecimalEnabled bool `json:"two_decimal_enabled"`
 	//判断走全部/自定义
 	StartDate  string   `json:"start_date"`
 	EndDate    string   `json:"end_date"`

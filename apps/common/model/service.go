@@ -10,11 +10,12 @@ type ServicesList struct {
 }
 
 type ServiceDataConfig struct {
-	StartDate  string   `json:"start_date"`
-	EndDate    string   `json:"end_date"`
-	ProjectIDs []string `json:"project_ids"`
-	ServiceIDs []string `json:"service_ids"`
-	SkusIDs    []string `json:"skus"`
+	TwoDecimalEnabled bool     `json:"two_decimal_enabled"`
+	StartDate         string   `json:"start_date"`
+	EndDate           string   `json:"end_date"`
+	ProjectIDs        []string `json:"project_ids"`
+	ServiceIDs        []string `json:"service_ids"`
+	SkusIDs           []string `json:"skus"`
 	//
 	NegotiatedSavingsEnabled                               bool `json:"negotiated_savings"`
 	SavingsProgramsCommittedUsageDiscountEnabled           bool `json:"savings_programs_committed_usage_discount_enable"`
@@ -45,8 +46,7 @@ type ServiceDateCost struct {
 }
 
 type ServiceConfig struct {
-	//判断走全部/自定义
-	CustomProjectData bool     `json:"custom_project_data"`
+	TwoDecimalEnabled bool     `json:"two_decimal_enabled"`
 	StartDate         string   `json:"start_date"`
 	EndDate           string   `json:"end_date"`
 	ProjectIDs        []string `json:"project_ids"`

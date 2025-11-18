@@ -2,6 +2,7 @@ package impl
 
 import (
 	"context"
+	"math"
 
 	"cloud.google.com/go/bigquery"
 	"github.com/kade-chen/google-billing-console/apps/common/model"
@@ -123,6 +124,18 @@ func (s *service) QueryBySku(ctx context.Context, config *model.SkuConfig) ([]mo
 		if !config.NegotiatedSavingsEnabled {
 			row.NegotiatedSavings.Float64 = 0.00
 			row.NegotiatedSavings.Valid = true
+		}
+		if config.TwoDecimalEnabled {
+			row.UsageCost.Float64 = math.Round(row.UsageCost.Float64*100) / 100
+			row.UsageCost.Valid = true
+			row.NegotiatedSavings.Float64 = math.Round(row.NegotiatedSavings.Float64*100) / 100
+			row.UsageCost.Valid = true
+			row.SavingsPrograms.Float64 = math.Round(row.SavingsPrograms.Float64*100) / 100
+			row.UsageCost.Valid = true
+			row.OtherSavings.Float64 = math.Round(row.OtherSavings.Float64*100) / 100
+			row.UsageCost.Valid = true
+			row.SubTotal.Float64 = math.Round(row.SubTotal.Float64*100) / 100
+			row.UsageCost.Valid = true
 		}
 		// if !config.SavingsProgramsCommittedUsageDiscountEnabled  && !config.SavingsProgramsCommittedUsageDiscountDollarBaseEnabled  {
 		// 	row.SavingsPrograms.Float64 = 0.00
