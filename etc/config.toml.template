@@ -1,10 +1,10 @@
 [app]
-name = "billing"
+name = "billing-console"
 key  = "this is your app key"
 
 [http]
 host = "0.0.0.0"
-port = 80
+port = 8010
 
 [grpc]
 host = "0.0.0.0"
