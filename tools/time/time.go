@@ -9,7 +9,7 @@ func PartitionTime(StartDate, EndDate string) (PartitionStartTime, PartitionEndT
 	layout := "2006-01-02"
 	start, _ := time.Parse(layout, StartDate)
 	end, _ := time.Parse(layout, EndDate)
-	return start.AddDate(0, 0, -2).Format(layout), end.AddDate(0, 0, 2).Format(layout)
+	return start.AddDate(0, 0, -30).Format(layout), end.AddDate(0, 0, 30).Format(layout)
 }
 
 // PartitionPrevDates 根据 startDate 和 endDate，计算 prevStart 和 prevEnd
