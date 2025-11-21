@@ -13,13 +13,11 @@ import (
 
 	//api config
 	_ "github.com/kade-chen/google-billing-console/apps/token/api"
-	_ "github.com/kade-chen/google-billing-console/apps/project/api"
-	_ "github.com/kade-chen/google-billing-console/apps/services/api"
-	_ "github.com/kade-chen/google-billing-console/apps/sku/api"
+	_ "github.com/kade-chen/google-billing-console/apps/usagedate/api"
 
 	//impl config
 	_ "github.com/kade-chen/google-billing-console/apps/token/impl"
-	_ "github.com/kade-chen/google-billing-console/apps/project/impl"
-	_ "github.com/kade-chen/google-billing-console/apps/services/impl"
-	_ "github.com/kade-chen/google-billing-console/apps/sku/impl"
+	_ "github.com/kade-chen/google-billing-console/apps/usagedate/impl/project/impl"
+	_ "github.com/kade-chen/google-billing-console/apps/usagedate/impl/services/impl"
+	_ "github.com/kade-chen/google-billing-console/apps/usagedate/impl/sku/impl"
 )

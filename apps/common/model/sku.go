@@ -77,6 +77,9 @@ func NewSkuConfig() *SkuConfig {
 type SkuCost struct {
 	SkuDescription     bigquery.NullString `bigquery:"sku_description" json:"sku_description"`         // STRING 可为 NULL
 	ServiceDescription bigquery.NullString `bigquery:"service_description" json:"service_description"` // STRING 可为 NULL
+	SkuId              bigquery.NullString `bigquery:"sku_id" json:"sku_id"`                           // STRING 可为 NULL
+	Usage              bigquery.NullString `bigquery:"usage" json:"usage"`                             // STRING 可为 NULL
+	UsageDetails       bigquery.NullString `bigquery:"usage_details" json:"usage_details"`             // STRING 可为 NULL
 	// InvoiceCost          bigquery.NullFloat64 `bigquery:"invoice_cost" json:"-"`                          // FLOAT 可为 NULL
 	// InvoiceCostAtListAbs bigquery.NullFloat64 `bigquery:"invoice_cost_at_list_abs" json:"-"`              // FLOAT 可为 NULL
 	// CostAtList           bigquery.NullFloat64 `bigquery:"cost_at_list" json:"-"`                          // FLOAT 可为 NULL

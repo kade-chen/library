@@ -6,7 +6,8 @@ import (
 	"testing"
 
 	"github.com/kade-chen/google-billing-console/apps/common/model"
-	"github.com/kade-chen/google-billing-console/apps/sku"
+	"github.com/kade-chen/google-billing-console/apps/usagedate"
+	"github.com/kade-chen/google-billing-console/apps/usagedate/impl/sku"
 	"github.com/kade-chen/library/ioc"
 	"github.com/kade-chen/library/tools/format"
 
@@ -15,7 +16,7 @@ import (
 
 var (
 	ctx  = context.Background()
-	impl sku.Service
+	impl usagedate.SkuService
 )
 
 func TestSKU(t *testing.T) {
@@ -57,5 +58,5 @@ func init() {
 	req.ConfigFile.Enabled = true
 	req.ConfigFile.Path = "/Users/kade.chen/go-kade-project/github/google-billing-console/etc/config.toml"
 	ioc.DevelopmentSetup(req)
-	impl = ioc.Controller().Get(sku.AppName).(sku.Service)
+	impl = ioc.Controller().Get(sku.AppName).(usagedate.SkuService)
 }

@@ -11,13 +11,14 @@ import (
 	"cloud.google.com/go/bigquery"
 	"github.com/kade-chen/google-billing-console/apps/configs"
 	"github.com/kade-chen/google-billing-console/apps/configs/impl"
-	"github.com/kade-chen/google-billing-console/apps/sku"
+	"github.com/kade-chen/google-billing-console/apps/usagedate/impl/services"
+	"github.com/kade-chen/google-billing-console/apps/usagedate"
 	"github.com/kade-chen/library/exception"
 	"github.com/kade-chen/library/ioc"
 	"github.com/kade-chen/library/ioc/config/log"
 )
 
-var _ sku.Service = (*service)(nil)
+var _ usagedate.Service = (*service)(nil)
 
 func init() {
 	ioc.Controller().Registry(&service{})
@@ -41,7 +42,7 @@ func (s *service) Init() error {
 	s.log = log.Sub(s.Name())
 	client, err := bigquery.NewClient(context.Background(), ioc.Config().Get(configs.AppName).(*impl.Service).Default_Project_ID, option.WithCredentialsFile(ioc.Config().Get(configs.AppName).(*impl.Service).Default_Service_Account_Name))
 	if err != nil {
-		s.log.Error().Msgf("Failed to create BigQuery client: %v", err)
+		s.log.Error().Err(err).Msgf("Failed to create BigQuery client, EEROR: %v", err)
 		return exception.NewIocRegisterFailed("Failed to create BigQuery client: %v", err)
 	}
 	s.bq = client
@@ -51,8 +52,8 @@ func (s *service) Init() error {
 	if err == iterator.Done {
 		s.log.Debug().Msg("⚠️ No datasets found, but client works fine.")
 	} else if err != nil {
-		s.log.Error().Msgf("❌ Failed to verify connection: %v", err)
-		return exception.NewIocRegisterFailed("❌ Failed to verify connection: %v", err)
+		s.log.Error().Err(err).Msgf("❌ Failed to verify connection: %v", err)
+		return exception.NewIocRegisterFailed("Failed to verify connection: %v", err)
 	} else {
 		s.log.Info().Msgf("✅ Verified connection! Example dataset: %s", dataset.DatasetID)
 	}
@@ -60,7 +61,7 @@ func (s *service) Init() error {
 }
 
 func (service) Name() string {
-	return sku.AppName
+	return services.AppName
 }
 
 func (s *service) Close(ctx context.Context) error {

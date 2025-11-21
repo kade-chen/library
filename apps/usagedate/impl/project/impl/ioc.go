@@ -12,15 +12,16 @@ import (
 
 	"github.com/kade-chen/google-billing-console/apps/configs"
 	"github.com/kade-chen/google-billing-console/apps/configs/impl"
-	"github.com/kade-chen/google-billing-console/apps/project"
-	"github.com/kade-chen/google-billing-console/apps/services"
-	"github.com/kade-chen/google-billing-console/apps/sku"
+	"github.com/kade-chen/google-billing-console/apps/usagedate"
+	"github.com/kade-chen/google-billing-console/apps/usagedate/impl/project"
+	"github.com/kade-chen/google-billing-console/apps/usagedate/impl/services"
+	"github.com/kade-chen/google-billing-console/apps/usagedate/impl/sku"
 	"github.com/kade-chen/library/exception"
 	"github.com/kade-chen/library/ioc"
 	"github.com/kade-chen/library/ioc/config/log"
 )
 
-var _ project.Service = (*service)(nil)
+var _ usagedate.ProjectService = (*service)(nil)
 
 func init() {
 	ioc.Controller().Registry(&service{})
@@ -32,8 +33,8 @@ type service struct {
 	ioc.ObjectImpl
 	log  *zerolog.Logger
 	bq   *bigquery.Client
-	svcs services.Service
-	skus sku.Service
+	svcs usagedate.Service
+	skus usagedate.SkuService
 
 	// policy  policy.Service
 	// ns      namespace.Service
@@ -62,8 +63,8 @@ func (s *service) Init() error {
 		s.log.Info().Msgf("✅ Verified connection! Example dataset: %s\n", dataset.DatasetID)
 	}
 
-	s.svcs = ioc.Controller().Get(services.AppName).(services.Service)
-	s.skus = ioc.Controller().Get(sku.AppName).(sku.Service)
+	s.svcs = ioc.Controller().Get(services.AppName).(usagedate.Service)
+	s.skus = ioc.Controller().Get(sku.AppName).(usagedate.SkuService)
 	return nil
 }
 
