@@ -33,6 +33,7 @@ func (s *service) queryByDateSkuSQL() (sql string) {
 		)
 		SELECT
 		    usage_date,
+			sku_description,
 		    service_description,
 		    sku_id,
 		    FORMAT('%s %s',CAST(usage_amount AS STRING),CAST(usage_pricing_unit AS STRING)) AS Usage,

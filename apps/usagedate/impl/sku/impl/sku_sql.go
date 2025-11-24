@@ -60,6 +60,7 @@ func (s *service) queryBySkuSQL() (sql string) {
 		)
 		SELECT
 		    a.service_description,
+		    a.sku_description,
 		    a.sku_id,
 		    FORMAT('%s %s',CAST(a.usage_amount AS STRING),CAST(a.usage_pricing_unit AS STRING)) AS Usage,
 		    FORMAT('%s %s',CAST(a.usage_amount_details AS STRING),CAST(a.usage_pricing_unit_details AS STRING)) AS Usage_details,
