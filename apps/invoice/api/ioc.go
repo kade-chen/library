@@ -67,8 +67,8 @@ func (u *ApiHandler) Registry() {
 	ws.Route(ws.POST("/by/data/date-projects").To(u.byDatePojectHandler).
 		Doc("基于日期的项目费用统计").
 		Param(ws.QueryParameter("two_decimal_enabled", "是否启用计算精度到两位小数").DataType("boolean")).
-		Param(ws.QueryParameter("start_date", "开始日期: 2025-11-01").DataType("string")).
-		Param(ws.QueryParameter("end_date", "结束日期: 2025-11-05").DataType("string")).
+		Param(ws.QueryParameter("start_date", "开始日期: 202510").DataType("string")).
+		Param(ws.QueryParameter("end_date", "结束日期: 202510").DataType("string")).
 		Param(ws.QueryParameter("project_ids", "项目ID数组，如: ['myproj-123', 'myproj-456']").DataType("array[string]")).
 		Param(ws.QueryParameter("service_ids", "服务ID数组，如: ['6F81-5844-456F']").DataType("array[string]")).
 		Param(ws.QueryParameter("skus", "SKU ID数组，如: ['A123-4567-7890']").DataType("array[string]")).
@@ -92,8 +92,8 @@ func (u *ApiHandler) Registry() {
 	ws.Route(ws.POST("/by/data/projects").To(u.byPojectHandler).
 		Doc("基于项目费用统计").
 		Param(ws.QueryParameter("two_decimal_enabled", "是否启用计算精度到两位小数").DataType("boolean")).
-		Param(ws.QueryParameter("start_date", "开始日期: 2025-11-01").DataType("string")).
-		Param(ws.QueryParameter("end_date", "结束日期: 2025-11-05").DataType("string")).
+		Param(ws.QueryParameter("start_date", "开始日期: 202510").DataType("string")).
+		Param(ws.QueryParameter("end_date", "结束日期: 202510").DataType("string")).
 		Param(ws.QueryParameter("project_ids", "项目ID数组，如: ['myproj-123', 'myproj-456']").DataType("array[string]")).
 		Param(ws.QueryParameter("service_ids", "服务ID数组，如: ['6F81-5844-456F']").DataType("array[string]")).
 		Param(ws.QueryParameter("skus", "SKU ID数组，如: ['A123-4567-7890']").DataType("array[string]")).
@@ -129,8 +129,8 @@ func (u *ApiHandler) Registry() {
 	ws.Route(ws.POST("/by/data/date-services").To(u.byDateServiceHandler).
 		Doc("基于日期的项目费用统计").
 		Param(ws.QueryParameter("two_decimal_enabled", "是否启用计算精度到两位小数").DataType("boolean")).
-		Param(ws.QueryParameter("start_date", "开始日期: 2025-11-01").DataType("string")).
-		Param(ws.QueryParameter("end_date", "结束日期: 2025-11-05").DataType("string")).
+		Param(ws.QueryParameter("start_date", "开始日期: 202510").DataType("string")).
+		Param(ws.QueryParameter("end_date", "结束日期: 202510").DataType("string")).
 		Param(ws.QueryParameter("project_ids", "项目ID数组，如: ['myproj-123', 'myproj-456']").DataType("array[string]")).
 		Param(ws.QueryParameter("service_ids", "服务ID数组，如: ['6F81-5844-456F']").DataType("array[string]")).
 		Param(ws.QueryParameter("skus", "SKU ID数组，如: ['A123-4567-7890']").DataType("array[string]")).
@@ -154,8 +154,8 @@ func (u *ApiHandler) Registry() {
 	ws.Route(ws.POST("/by/data/services").To(u.byServiceHandler).
 		Doc("基于项目费用统计").
 		Param(ws.QueryParameter("two_decimal_enabled", "是否启用计算精度到两位小数").DataType("boolean")).
-		Param(ws.QueryParameter("start_date", "开始日期: 2025-11-01").DataType("string")).
-		Param(ws.QueryParameter("end_date", "结束日期: 2025-11-05").DataType("string")).
+		Param(ws.QueryParameter("start_date", "开始日期: 202510").DataType("string")).
+		Param(ws.QueryParameter("end_date", "结束日期: 202510").DataType("string")).
 		Param(ws.QueryParameter("project_ids", "项目ID数组，如: ['myproj-123', 'myproj-456']").DataType("array[string]")).
 		Param(ws.QueryParameter("service_ids", "服务ID数组，如: ['6F81-5844-456F']").DataType("array[string]")).
 		Param(ws.QueryParameter("skus", "SKU ID数组，如: ['A123-4567-7890']").DataType("array[string]")).
@@ -179,8 +179,8 @@ func (u *ApiHandler) Registry() {
 	ws.Route(ws.POST("/by/data/date-skus").To(u.byDateSkuHandler).
 		Doc("基于日期的项目费用统计").
 		Param(ws.QueryParameter("two_decimal_enabled", "是否启用计算精度到两位小数").DataType("boolean")).
-		Param(ws.QueryParameter("start_date", "开始日期: 2025-11-01").DataType("string")).
-		Param(ws.QueryParameter("end_date", "结束日期: 2025-11-05").DataType("string")).
+		Param(ws.QueryParameter("start_date", "开始日期: 202510").DataType("string")).
+		Param(ws.QueryParameter("end_date", "结束日期: 202510").DataType("string")).
 		Param(ws.QueryParameter("project_ids", "项目ID数组，如: ['myproj-123', 'myproj-456']").DataType("array[string]")).
 		Param(ws.QueryParameter("service_ids", "服务ID数组，如: ['6F81-5844-456F']").DataType("array[string]")).
 		Param(ws.QueryParameter("skus", "SKU ID数组，如: ['A123-4567-7890']").DataType("array[string]")).
@@ -204,8 +204,8 @@ func (u *ApiHandler) Registry() {
 	ws.Route(ws.POST("/by/data/skus").To(u.bySkuHandler).
 		Doc("基于项目费用统计").
 		Param(ws.QueryParameter("two_decimal_enabled", "是否启用计算精度到两位小数").DataType("boolean")).
-		Param(ws.QueryParameter("start_date", "开始日期: 2025-11-01").DataType("string")).
-		Param(ws.QueryParameter("end_date", "结束日期: 2025-11-05").DataType("string")).
+		Param(ws.QueryParameter("start_date", "开始日期: 202510").DataType("string")).
+		Param(ws.QueryParameter("end_date", "结束日期: 202510").DataType("string")).
 		Param(ws.QueryParameter("project_ids", "项目ID数组，如: ['myproj-123', 'myproj-456']").DataType("array[string]")).
 		Param(ws.QueryParameter("service_ids", "服务ID数组，如: ['6F81-5844-456F']").DataType("array[string]")).
 		Param(ws.QueryParameter("skus", "SKU ID数组，如: ['A123-4567-7890']").DataType("array[string]")).
@@ -229,8 +229,8 @@ func (u *ApiHandler) Registry() {
 	ws.Route(ws.POST("/heru").To(u.byDateSkuHeRuHandler).
 		Doc("基于日期的项目费用统计").
 		Param(ws.QueryParameter("two_decimal_enabled", "是否启用计算精度到两位小数").DataType("boolean")).
-		Param(ws.QueryParameter("start_date", "开始日期: 2025-11-01").DataType("string")).
-		Param(ws.QueryParameter("end_date", "结束日期: 2025-11-05").DataType("string")).
+		Param(ws.QueryParameter("start_date", "开始日期: 202510").DataType("string")).
+		Param(ws.QueryParameter("end_date", "结束日期: 202510").DataType("string")).
 		Param(ws.QueryParameter("project_ids", "项目ID数组，如: ['myproj-123', 'myproj-456']").DataType("array[string]")).
 		Param(ws.QueryParameter("service_ids", "服务ID数组，如: ['6F81-5844-456F']").DataType("array[string]")).
 		Param(ws.QueryParameter("skus", "SKU ID数组，如: ['A123-4567-7890']").DataType("array[string]")).
