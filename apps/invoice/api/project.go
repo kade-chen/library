@@ -41,14 +41,14 @@ func (h *ApiHandler) byDatePojectHandler(r *restful.Request, w *restful.Response
 		response.Failed(w, err)
 		return
 	}
-	err = csv.WriteStructToCSV("output.csv", projectCost)
-	if err != nil {
-		h.log.Error().Msgf("shengchengcsv fiald %v", err)
-		response.Failed(w, err)
-		return
-	}
+	// err = csv.WriteStructToCSV("output.csv", projectCost)
+	// if err != nil {
+	// 	h.log.Error().Msgf("shengchengcsv fiald %v", err)
+	// 	response.Failed(w, err)
+	// 	return
+	// }
 
-	fmt.Println("写入完成")
+	// fmt.Println("写入完成")
 	h.log.Info().Msgf("request_id=%s time=%s 接口已完成✅", reqID, time.Now().Format(time.RFC3339))
 	response.Success(w, projectCost)
 	// return
