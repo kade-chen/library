@@ -1,5 +1,5 @@
 package services
 
 const (
-	AppName = "services"
+	AppName = "usagedate_services"
 )

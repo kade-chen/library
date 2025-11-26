@@ -2,9 +2,9 @@ package api
 
 import (
 	restfulspec "github.com/emicklei/go-restful-openapi"
-	"github.com/kade-chen/google-billing-console/apps/common/model"
-	"github.com/kade-chen/google-billing-console/apps/usagedate/impl/project"
+	model "github.com/kade-chen/google-billing-console/apps/common/model/usagedate"
 	"github.com/kade-chen/google-billing-console/apps/usagedate"
+	"github.com/kade-chen/google-billing-console/apps/usagedate/impl/project"
 	"github.com/kade-chen/google-billing-console/apps/usagedate/impl/services"
 	"github.com/kade-chen/google-billing-console/apps/usagedate/impl/sku"
 	"github.com/kade-chen/library/ioc"
@@ -62,7 +62,7 @@ func (u *ApiHandler) Version() string {
 
 // ws://localhost:8010/mcenter/api/v1/SpeechToTextV2/ws
 func (u *ApiHandler) Registry() {
-	tags := []string{"billing console"}
+	tags := []string{"billing usage date console"}
 	ws := gorestful.InitRouter(u)
 	ws.Route(ws.POST("/by/data/date-projects").To(u.byDatePojectHandler).
 		Doc("基于日期的项目费用统计").
@@ -82,7 +82,7 @@ func (u *ApiHandler) Registry() {
 		Param(ws.QueryParameter("other_savings_reseller_margin_enable", "启用 Reseller Margin 优惠计算").DataType("boolean")).
 		Param(ws.QueryParameter("other_savings_discount_enable", "启用一般折扣优惠计算").DataType("boolean")).
 		Param(ws.QueryParameter("other_savings_subscription_benefit_enable", "启用 Subscription Benefit 优惠计算").DataType("boolean")).
-		Reads(model.ProjectDataConfig{}).
+		Reads(model.ProjectDataRequest{}).
 		Writes(model.ProjectDateCost{}).
 		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
 		Returns(200, "OK", model.ProjectDateCost{}).
@@ -107,7 +107,7 @@ func (u *ApiHandler) Registry() {
 		Param(ws.QueryParameter("other_savings_reseller_margin_enable", "启用 Reseller Margin 优惠计算").DataType("boolean")).
 		Param(ws.QueryParameter("other_savings_discount_enable", "启用一般折扣优惠计算").DataType("boolean")).
 		Param(ws.QueryParameter("other_savings_subscription_benefit_enable", "启用 Subscription Benefit 优惠计算").DataType("boolean")).
-		Reads(model.ProjectDataConfig{}).
+		Reads(model.ProjectDataRequest{}).
 		Writes(model.ProjectCost{}).
 		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
 		// Filter(middlewares.NewTokenAuther().Auth_Login).
@@ -119,7 +119,7 @@ func (u *ApiHandler) Registry() {
 		Param(ws.QueryParameter("project_id", "项目ID: test-id").DataType("string")).
 		Param(ws.QueryParameter("start_date", "开始日期: 2025-xx-xx").DataType("string")).
 		Param(ws.QueryParameter("end_date", "结束日期: 2025-xx-xx").DataType("string")).
-		Reads(model.ProjectDataRequest{}).
+		Reads(model.ProjectDataServiceSkusRequest{}).
 		Writes(model.ByDateProjectAllServicesSkusList{}).
 		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
 		// Filter(middlewares.NewTokenAuther().Auth_Login).
@@ -144,7 +144,7 @@ func (u *ApiHandler) Registry() {
 		Param(ws.QueryParameter("other_savings_reseller_margin_enable", "启用 Reseller Margin 优惠计算").DataType("boolean")).
 		Param(ws.QueryParameter("other_savings_discount_enable", "启用一般折扣优惠计算").DataType("boolean")).
 		Param(ws.QueryParameter("other_savings_subscription_benefit_enable", "启用 Subscription Benefit 优惠计算").DataType("boolean")).
-		Reads(model.ServiceDataConfig{}).
+		Reads(model.ServiceDataRequest{}).
 		Writes(model.ServiceDateCost{}).
 		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
 		Returns(200, "OK", model.ServiceDateCost{}).
@@ -169,7 +169,7 @@ func (u *ApiHandler) Registry() {
 		Param(ws.QueryParameter("other_savings_reseller_margin_enable", "启用 Reseller Margin 优惠计算").DataType("boolean")).
 		Param(ws.QueryParameter("other_savings_discount_enable", "启用一般折扣优惠计算").DataType("boolean")).
 		Param(ws.QueryParameter("other_savings_subscription_benefit_enable", "启用 Subscription Benefit 优惠计算").DataType("boolean")).
-		Reads(model.ServiceDataConfig{}).
+		Reads(model.ServiceDataRequest{}).
 		Writes(model.ServiceCost{}).
 		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
 		// Filter(middlewares.NewTokenAuther().Auth_Login).
@@ -194,7 +194,7 @@ func (u *ApiHandler) Registry() {
 		Param(ws.QueryParameter("other_savings_reseller_margin_enable", "启用 Reseller Margin 优惠计算").DataType("boolean")).
 		Param(ws.QueryParameter("other_savings_discount_enable", "启用一般折扣优惠计算").DataType("boolean")).
 		Param(ws.QueryParameter("other_savings_subscription_benefit_enable", "启用 Subscription Benefit 优惠计算").DataType("boolean")).
-		Reads(model.SkuDataConfig{}).
+		Reads(model.SkuDataRequest{}).
 		Writes(model.SkuDateCost{}).
 		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
 		Returns(200, "OK", model.SkuDateCost{}).
@@ -219,7 +219,7 @@ func (u *ApiHandler) Registry() {
 		Param(ws.QueryParameter("other_savings_reseller_margin_enable", "启用 Reseller Margin 优惠计算").DataType("boolean")).
 		Param(ws.QueryParameter("other_savings_discount_enable", "启用一般折扣优惠计算").DataType("boolean")).
 		Param(ws.QueryParameter("other_savings_subscription_benefit_enable", "启用 Subscription Benefit 优惠计算").DataType("boolean")).
-		Reads(model.SkuDataConfig{}).
+		Reads(model.SkuDataRequest{}).
 		Writes(model.SkuCost{}).
 		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
 		// Filter(middlewares.NewTokenAuther().Auth_Login).

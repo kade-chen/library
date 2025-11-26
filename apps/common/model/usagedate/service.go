@@ -1,4 +1,4 @@
-package model
+package usagedate
 
 import "cloud.google.com/go/bigquery"
 
@@ -9,7 +9,7 @@ type ServicesList struct {
 	ServicePath bigquery.NullString `bigquery:"service_path" json:"service_path"`
 }
 
-type ServiceDataConfig struct {
+type ServiceDataRequest struct {
 	TwoDecimalEnabled bool     `json:"two_decimal_enabled"`
 	StartDate         string   `json:"start_date"`
 	EndDate           string   `json:"end_date"`
@@ -28,8 +28,8 @@ type ServiceDataConfig struct {
 	OtherSavingsSubscriptionBenefitEnabled                 bool `json:"other_savings_subscription_benefit_enable"`
 }
 
-func NewServiceDataConfig() *ServiceDataConfig {
-	return &ServiceDataConfig{}
+func NewServiceDataRequest() *ServiceDataRequest {
+	return &ServiceDataRequest{}
 }
 
 type ServiceDateCost struct {
@@ -45,7 +45,7 @@ type ServiceDateCost struct {
 	SubTotal          bigquery.NullFloat64 `bigquery:"sub_total" json:"sub_total"`                   // FLOAT 可为 NULL
 }
 
-type ServiceConfig struct {
+type ServiceRequest struct {
 	TwoDecimalEnabled bool     `json:"two_decimal_enabled"`
 	StartDate         string   `json:"start_date"`
 	EndDate           string   `json:"end_date"`
@@ -64,8 +64,8 @@ type ServiceConfig struct {
 	OtherSavingsSubscriptionBenefitEnabled                 bool `json:"other_savings_subscription_benefit_enable"`
 }
 
-func NewServiceConfig() *ServiceConfig {
-	return &ServiceConfig{}
+func NewServiceRequest() *ServiceRequest {
+	return &ServiceRequest{}
 }
 
 type ServiceCost struct {

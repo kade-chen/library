@@ -5,13 +5,13 @@ import (
 	"math"
 
 	"cloud.google.com/go/bigquery"
-	"github.com/kade-chen/google-billing-console/apps/common/model"
+	model "github.com/kade-chen/google-billing-console/apps/common/model/usagedate"
 	tools "github.com/kade-chen/google-billing-console/tools/time"
 	"github.com/kade-chen/library/exception"
 	"google.golang.org/api/iterator"
 )
 
-func (s *service) QueryBySku(ctx context.Context, config *model.SkuConfig) ([]model.SkuCost, error) {
+func (s *service) QueryBySku(ctx context.Context, config *model.SkuRequest) ([]model.SkuCost, error) {
 	// config.StartDate = "2025-10-01"
 	// config.EndDate = "2025-10-02"
 	// // projectIDs := []string{} // 空数组表示查询全部项目

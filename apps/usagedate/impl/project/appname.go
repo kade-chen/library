@@ -1,5 +1,5 @@
 package project
 
 const (
-	AppName = "project"
+	AppName = "usagedate_projects"
 )

@@ -5,13 +5,13 @@ import (
 	"math"
 
 	"cloud.google.com/go/bigquery"
-	"github.com/kade-chen/google-billing-console/apps/common/model"
+	model "github.com/kade-chen/google-billing-console/apps/common/model/usagedate"
 	tools "github.com/kade-chen/google-billing-console/tools/time"
 	"github.com/kade-chen/library/exception"
 	"google.golang.org/api/iterator"
 )
 
-func (s *service) QueryByDateProject(ctx context.Context, config *model.ProjectDataConfig) ([]model.ProjectDateCost, error) {
+func (s *service) QueryByDateProject(ctx context.Context, config *model.ProjectDataRequest) ([]model.ProjectDateCost, error) {
 	// startDate := "2025-10-01"
 	// endDate := "2025-10-02"
 	// projectIDs := []string{} // 空数组表示查询全部项目
@@ -149,7 +149,7 @@ func (s *service) QueryByDateProject(ctx context.Context, config *model.ProjectD
 }
 
 // 辅助方法
-func (s *service) QueryByDateProjectAllServicesAllSkus(ctx context.Context, config *model.ProjectDataRequest) (model.ByDateProjectAllServicesSkusList, error) {
+func (s *service) QueryByDateProjectAllServicesAllSkus(ctx context.Context, config *model.ProjectDataServiceSkusRequest) (model.ByDateProjectAllServicesSkusList, error) {
 	a, err := s.svcs.QueryByDateProjectServicesAll(ctx, config)
 	if err != nil {
 		return model.ByDateProjectAllServicesSkusList{}, err

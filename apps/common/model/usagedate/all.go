@@ -1,4 +1,4 @@
-package model
+package usagedate
 
 // ✅ 聚合结构体
 type ByDateProjectAllServicesSkusList struct {

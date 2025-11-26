@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/kade-chen/google-billing-console/apps/common/model"
+	model "github.com/kade-chen/google-billing-console/apps/common/model/usagedate"
 	"github.com/kade-chen/google-billing-console/apps/usagedate"
 	"github.com/kade-chen/google-billing-console/apps/usagedate/impl/sku"
 	"github.com/kade-chen/library/ioc"
@@ -21,13 +21,13 @@ var (
 
 func TestSKU(t *testing.T) {
 	fmt.Println(ioc.Controller().List())
-	a, _ := impl.QueryByDateProjectSKUsAll(ctx, &model.ProjectDataRequest{})
+	a, _ := impl.QueryByDateProjectSKUsAll(ctx, &model.ProjectDataServiceSkusRequest{})
 	fmt.Println(format.ToJSON(a))
 }
 
 func TestDateSku(t *testing.T) {
 	fmt.Println(ioc.Controller().List())
-	var config model.SkuDataConfig
+	var config model.SkuDataRequest
 	config.StartDate = "2025-10-01"
 	config.EndDate = "2025-10-02"
 	config.ProjectIDs = []string{"tools-orion", "chat-prod-404613", "sw-pro-01", "ffalcon-hw-01", "kade-poc"} // 指定项目

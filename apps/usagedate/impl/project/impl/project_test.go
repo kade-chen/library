@@ -8,12 +8,12 @@ import (
 	"github.com/kade-chen/library/tools/format"
 
 	_ "github.com/kade-chen/google-billing-console/apps"
-	"github.com/kade-chen/google-billing-console/apps/common/model"
+	model "github.com/kade-chen/google-billing-console/apps/common/model/usagedate"
 )
 
 func TestQueryByProjectCustomServicesCustomSku(t *testing.T) {
 	fmt.Println(ioc.Controller().List())
-	var config model.ProjectConfig
+	var config model.ProjectRequest
 	config.StartDate = "2025-10-01"
 	config.EndDate = "2025-10-02"
 	config.ProjectIDs = []string{"tools-orion", "chat-prod-404613", "sw-pro-01", "ffalcon-hw-01", "kade-poc"} // 指定项目

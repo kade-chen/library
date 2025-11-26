@@ -1,5 +1,5 @@
 package sku
 
 const (
-	AppName = "sku"
+	AppName = "usagedate_skus"
 )

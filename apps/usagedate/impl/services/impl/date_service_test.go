@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/kade-chen/google-billing-console/apps/common/model"
+	model "github.com/kade-chen/google-billing-console/apps/common/model/usagedate"
 	"github.com/kade-chen/google-billing-console/apps/usagedate/impl/services"
 	"github.com/kade-chen/google-billing-console/apps/usagedate"
 
@@ -22,13 +22,13 @@ var (
 
 func TestMain1(t *testing.T) {
 	fmt.Println(ioc.Controller().List())
-	a, _ := impl.QueryByDateProjectServicesAll(ctx, &model.ProjectDataRequest{})
+	a, _ := impl.QueryByDateProjectServicesAll(ctx, &model.ProjectDataServiceSkusRequest{})
 	fmt.Println(format.ToJSON(a))
 }
 
 func TestByDateService1(t *testing.T) {
 	fmt.Println(ioc.Controller().List())
-	var config model.ServiceDataConfig
+	var config model.ServiceDataRequest
 	config.StartDate = "2025-10-01"
 	config.EndDate = "2025-10-02"
 	config.ProjectIDs = []string{"tools-orion", "chat-prod-404613", "sw-pro-01", "ffalcon-hw-01", "kade-poc"} // 指定项目

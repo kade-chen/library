@@ -1,18 +1,18 @@
-package model
+package usagedate
 
 import "cloud.google.com/go/bigquery"
 
-type ProjectDataRequest struct {
+type ProjectDataServiceSkusRequest struct {
 	StartDate  string   `json:"start_date"`
 	EndDate    string   `json:"end_date"`
 	ProjectIDs []string `json:"project_ids"`
 }
 
-func NewProjectDataRequest() *ProjectDataRequest {
-	return &ProjectDataRequest{}
+func NewProjectDataServiceSkusRequest() *ProjectDataServiceSkusRequest {
+	return &ProjectDataServiceSkusRequest{}
 }
 
-type ProjectDataConfig struct {
+type ProjectDataRequest struct {
 	TwoDecimalEnabled bool `json:"two_decimal_enabled"`
 	//判断走全部/自定义
 	StartDate  string   `json:"start_date"`
@@ -32,8 +32,8 @@ type ProjectDataConfig struct {
 	OtherSavingsSubscriptionBenefitEnabled                 bool `json:"other_savings_subscription_benefit_enable"`
 }
 
-func NewProjectDataConfig() *ProjectDataConfig {
-	return &ProjectDataConfig{}
+func NewProjectDataRequest() *ProjectDataRequest {
+	return &ProjectDataRequest{}
 }
 
 type ProjectDateCost struct {
@@ -51,7 +51,7 @@ type ProjectDateCost struct {
 	SubTotal             bigquery.NullFloat64 `bigquery:"sub_total" json:"sub_total"`                   // FLOAT 可为 NULL
 }
 
-type ProjectConfig struct {
+type ProjectRequest struct {
 	TwoDecimalEnabled bool `json:"two_decimal_enabled"`
 	//判断走全部/自定义
 	StartDate  string   `json:"start_date"`
@@ -71,8 +71,8 @@ type ProjectConfig struct {
 	OtherSavingsSubscriptionBenefitEnabled                 bool `json:"other_savings_subscription_benefit_enable"`
 }
 
-func NewProjectConfig() *ProjectConfig {
-	return &ProjectConfig{}
+func NewProjectRequest() *ProjectRequest {
+	return &ProjectRequest{}
 }
 
 type ProjectCost struct {
@@ -88,5 +88,5 @@ type ProjectCost struct {
 	SavingsPrograms   bigquery.NullFloat64 `bigquery:"savings_programs" json:"savings_programs"`     // STRING 可为 NULL
 	OtherSavings      bigquery.NullFloat64 `bigquery:"other_savings" json:"other_savings"`           // FLOAT 可为 NULL
 	SubTotal          bigquery.NullFloat64 `bigquery:"sub_total" json:"sub_total"`                   // FLOAT 可为 NULL
-	ChangeRate        bigquery.NullString `bigquery:"change_rate" json:"change_rate"`               // FLOAT 可为 NULL
+	ChangeRate        bigquery.NullString  `bigquery:"change_rate" json:"change_rate"`               // FLOAT 可为 NULL
 }

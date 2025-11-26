@@ -5,13 +5,13 @@ import (
 	"math"
 
 	"cloud.google.com/go/bigquery"
-	"github.com/kade-chen/google-billing-console/apps/common/model"
+	model "github.com/kade-chen/google-billing-console/apps/common/model/usagedate"
 	tools "github.com/kade-chen/google-billing-console/tools/time"
 	"github.com/kade-chen/library/exception"
 	"google.golang.org/api/iterator"
 )
 
-func (s *service) QueryByService(ctx context.Context, config *model.ServiceConfig) ([]model.ServiceCost, error) {
+func (s *service) QueryByService(ctx context.Context, config *model.ServiceRequest) ([]model.ServiceCost, error) {
 	// endDate := "2025-10-02"
 	// projectIDs := []string{} // 空数组表示查询全部项目
 	// projectIDs := []string{"yz-bx3-prod", "kade-poc", "zzshushu"} // 指定项目

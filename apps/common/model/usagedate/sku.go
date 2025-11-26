@@ -1,4 +1,4 @@
-package model
+package usagedate
 
 import "cloud.google.com/go/bigquery"
 
@@ -10,7 +10,7 @@ type SkusList struct {
 	ServiceSKUPath bigquery.NullString `bigquery:"service_sku_path" json:"service_sku_path"`
 }
 
-type SkuDataConfig struct {
+type SkuDataRequest struct {
 	TwoDecimalEnabled bool `json:"two_decimal_enabled"`
 	//判断走全部/自定义
 	StartDate  string   `json:"start_date"`
@@ -30,8 +30,8 @@ type SkuDataConfig struct {
 	OtherSavingsSubscriptionBenefitEnabled                 bool `json:"other_savings_subscription_benefit_enable"`
 }
 
-func NewSkuDataConfig() *SkuDataConfig {
-	return &SkuDataConfig{}
+func NewSkuDataRequest() *SkuDataRequest {
+	return &SkuDataRequest{}
 }
 
 type SkuDateCost struct {
@@ -51,7 +51,7 @@ type SkuDateCost struct {
 	SubTotal          bigquery.NullFloat64 `bigquery:"sub_total" json:"sub_total"`                   // FLOAT 可为 NULL
 }
 
-type SkuConfig struct {
+type SkuRequest struct {
 	TwoDecimalEnabled bool     `json:"two_decimal_enabled"`
 	StartDate         string   `json:"start_date"`
 	EndDate           string   `json:"end_date"`
@@ -70,8 +70,8 @@ type SkuConfig struct {
 	OtherSavingsSubscriptionBenefitEnabled                 bool `json:"other_savings_subscription_benefit_enable"`
 }
 
-func NewSkuConfig() *SkuConfig {
-	return &SkuConfig{}
+func NewSkuRequest() *SkuRequest {
+	return &SkuRequest{}
 }
 
 type SkuCost struct {
