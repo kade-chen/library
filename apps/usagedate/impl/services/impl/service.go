@@ -58,6 +58,29 @@ func (s *service) QueryByService(ctx context.Context, config *model.ServiceReque
 		//查询全部
 		params = append(params, bigquery.QueryParameter{Name: "skus_ids", Value: []string{}})
 	}
+		if len(config.LabelKeys) > 0 {
+		// 指定LabelKeys
+		params = append(params, bigquery.QueryParameter{Name: "keys", Value: config.LabelKeys})
+	} else {
+		//查询全部
+		params = append(params, bigquery.QueryParameter{Name: "keys", Value: []string{}})
+	}
+
+	if len(config.LabelValues) > 0 {
+		// 指定LabelValues
+		params = append(params, bigquery.QueryParameter{Name: "value", Value: config.LabelValues})
+	} else {
+		//查询全部
+		params = append(params, bigquery.QueryParameter{Name: "value", Value: []string{}})
+	}
+
+	if len(config.Region) > 0 {
+		// 指定LabelValues
+		params = append(params, bigquery.QueryParameter{Name: "region", Value: config.Region})
+	} else {
+		//查询全部
+		params = append(params, bigquery.QueryParameter{Name: "region", Value: []string{}})
+	}
 	var SavingsProgramsList []string
 
 	if config.SavingsProgramsCommittedUsageDiscountEnabled {
@@ -138,14 +161,6 @@ func (s *service) QueryByService(ctx context.Context, config *model.ServiceReque
 			row.SubTotal.Float64 = math.Round(row.SubTotal.Float64*100) / 100
 			row.UsageCost.Valid = true
 		}
-		// fmt.Printf("%s | %s | %s | %s | %s | %s\n",
-		// 	format.FormatAny(row["usage_date"]),
-		// 	format.FormatAny(row["project_id"]),
-		// 	format.FormatAny(row["invoice_cost"]),
-		// 	format.FormatAny(row["invoice_cost_at_list_abs"]),
-		// 	format.FormatAny(row["cost_at_list"]),
-		// 	format.FormatAny(row["Usage_Cost"]),
-		// )
 		results = append(results, row)
 	}
 	return results, nil

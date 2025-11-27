@@ -102,6 +102,30 @@ func (s *service) QueryByDateService(ctx context.Context, config *model.ServiceD
 		params = append(params, bigquery.QueryParameter{Name: "skus_ids", Value: []string{}})
 	}
 
+		if len(config.LabelKeys) > 0 {
+		// 指定LabelKeys
+		params = append(params, bigquery.QueryParameter{Name: "keys", Value: config.LabelKeys})
+	} else {
+		//查询全部
+		params = append(params, bigquery.QueryParameter{Name: "keys", Value: []string{}})
+	}
+
+	if len(config.LabelValues) > 0 {
+		// 指定LabelValues
+		params = append(params, bigquery.QueryParameter{Name: "value", Value: config.LabelValues})
+	} else {
+		//查询全部
+		params = append(params, bigquery.QueryParameter{Name: "value", Value: []string{}})
+	}
+
+	if len(config.Region) > 0 {
+		// 指定LabelValues
+		params = append(params, bigquery.QueryParameter{Name: "region", Value: config.Region})
+	} else {
+		//查询全部
+		params = append(params, bigquery.QueryParameter{Name: "region", Value: []string{}})
+	}
+
 	var SavingsProgramsList []string
 
 	if config.SavingsProgramsCommittedUsageDiscountEnabled {

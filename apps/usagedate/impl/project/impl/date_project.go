@@ -53,6 +53,30 @@ func (s *service) QueryByDateProject(ctx context.Context, config *model.ProjectD
 		params = append(params, bigquery.QueryParameter{Name: "skus_ids", Value: []string{}})
 	}
 
+	if len(config.LabelKeys) > 0 {
+		// 指定LabelKeys
+		params = append(params, bigquery.QueryParameter{Name: "keys", Value: config.LabelKeys})
+	} else {
+		//查询全部
+		params = append(params, bigquery.QueryParameter{Name: "keys", Value: []string{}})
+	}
+
+	if len(config.LabelValues) > 0 {
+		// 指定LabelValues
+		params = append(params, bigquery.QueryParameter{Name: "value", Value: config.LabelValues})
+	} else {
+		//查询全部
+		params = append(params, bigquery.QueryParameter{Name: "value", Value: []string{}})
+	}
+
+	if len(config.Region) > 0 {
+		// 指定LabelValues
+		params = append(params, bigquery.QueryParameter{Name: "region", Value: config.Region})
+	} else {
+		//查询全部
+		params = append(params, bigquery.QueryParameter{Name: "region", Value: []string{}})
+	}
+
 	var SavingsProgramsList []string
 
 	if config.SavingsProgramsCommittedUsageDiscountEnabled {
@@ -121,7 +145,7 @@ func (s *service) QueryByDateProject(ctx context.Context, config *model.ProjectD
 			row.NegotiatedSavings.Float64 = 0.00
 			row.NegotiatedSavings.Valid = true
 		}
-		
+
 		if config.TwoDecimalEnabled {
 			row.UsageCost.Float64 = math.Round(row.UsageCost.Float64*100) / 100
 			row.UsageCost.Valid = true

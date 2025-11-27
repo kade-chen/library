@@ -15,11 +15,14 @@ func NewProjectDataServiceSkuRequest() *ProjectDataServiceSkuRequest {
 type ProjectDataRequest struct {
 	TwoDecimalEnabled bool `json:"two_decimal_enabled"`
 	//判断走全部/自定义
-	StartDate  string   `json:"start_date"`
-	EndDate    string   `json:"end_date"`
-	ProjectIDs []string `json:"project_ids"`
-	ServiceIDs []string `json:"service_ids"`
-	SkusIDs    []string `json:"skus"`
+	StartDate   string   `json:"start_date"`
+	EndDate     string   `json:"end_date"`
+	ProjectIDs  []string `json:"project_ids"`
+	ServiceIDs  []string `json:"service_ids"`
+	SkusIDs     []string `json:"skus"`
+	LabelKeys   []string `json:"label_keys"`
+	LabelValues []string `json:"label_value"`
+	Region      []string `json:"region"`
 	//
 	NegotiatedSavingsEnabled                               bool `json:"negotiated_savings"`
 	SavingsProgramsCommittedUsageDiscountEnabled           bool `json:"savings_programs_committed_usage_discount_enable"`
@@ -54,11 +57,14 @@ type ProjectDateCost struct {
 type ProjectRequest struct {
 	TwoDecimalEnabled bool `json:"two_decimal_enabled"`
 	//判断走全部/自定义
-	StartDate  string   `json:"start_date"`
-	EndDate    string   `json:"end_date"`
-	ProjectIDs []string `json:"project_ids"`
-	ServiceIDs []string `json:"service_ids"`
-	SkusIDs    []string `json:"skus"`
+	StartDate   string   `json:"start_date"`
+	EndDate     string   `json:"end_date"`
+	ProjectIDs  []string `json:"project_ids"`
+	ServiceIDs  []string `json:"service_ids"`
+	SkusIDs     []string `json:"skus"`
+	LabelKeys   []string `json:"label_keys"`
+	LabelValues []string `json:"label_value"`
+	Region      []string `json:"region"`
 	//
 	NegotiatedSavingsEnabled                               bool `json:"negotiated_savings"`
 	SavingsProgramsCommittedUsageDiscountEnabled           bool `json:"savings_programs_committed_usage_discount_enable"`

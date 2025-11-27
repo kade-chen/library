@@ -41,3 +41,7 @@ type SkuService interface {
 
 	QueryByDateSkuHeru(context.Context, *model.SkuDataRequest) ([]model.AlibabaHehuSkuDateCost, error)
 }
+
+type LabelKeyService interface {
+	QueryByInvoiceMonthProjectLabelKeyAll(context.Context, *model.InvoiceMonthProjectLabelKeyRequest) (model.InvoiceMonthProjectLabelKeyLists, error)
+}

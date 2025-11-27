@@ -39,3 +39,7 @@ type SkuService interface {
 	// //by Service
 	QueryBySku(context.Context, *model.SkuRequest) ([]model.SkuCost, error)
 }
+
+type LabelKeyService interface {
+	QueryByUsageDatProjectLabelKeyAll(context.Context, *model.UsageDateProjectLabelKeyRequest) (model.UsageDateProjectLabelKeyLists, error)
+}

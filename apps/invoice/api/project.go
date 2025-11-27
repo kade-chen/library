@@ -169,28 +169,6 @@ func (h *ApiHandler) bySkuHandler(r *restful.Request, w *restful.Response) {
 	// return
 }
 
-func (h *ApiHandler) byAllServicesAllSkusHandler(r *restful.Request, w *restful.Response) {
-	// 生成唯一请求ID
-	reqID := uuid.New().String()
-	h.log.Info().Msgf("request_id=%s time=%s 接口被调用", reqID, time.Now().Format(time.RFC3339))
-	//2.read the request body parametars
-	config := model.NewProjectDataServiceSkuRequest()
-	if err := r.ReadEntity(config); err != nil {
-		h.log.Error().Msgf("request_id=%s time=%s 接口调用失败✅", reqID, time.Now().Format(time.RFC3339))
-		response.Failed(w, exception.NewInternalServerError("read request struct: %v; ERROR: %v", config, err))
-		return
-	}
-
-	a, err := h.project.QueryByDateProjectAllServicesAllSkus(r.Request.Context(), config)
-	if err != nil {
-		h.log.Error().Msgf("request_id=%s time=%s 接口调用失败✅", reqID, time.Now().Format(time.RFC3339))
-		response.Failed(w, err)
-		return
-	}
-	h.log.Info().Msgf("request_id=%s time=%s 接口已完成✅", reqID, time.Now().Format(time.RFC3339))
-	response.Success(w, a)
-}
-
 func (h *ApiHandler) byDateSkuHeRuHandler(r *restful.Request, w *restful.Response) {
 	// 生成唯一请求ID
 	reqID := uuid.New().String()
@@ -229,4 +207,48 @@ func (h *ApiHandler) byDateSkuHeRuHandler(r *restful.Request, w *restful.Respons
 	fmt.Println("写入完成")
 	response.Success(w, projectCost)
 	// return
+}
+
+func (h *ApiHandler) byAllServicesAllSkusHandler(r *restful.Request, w *restful.Response) {
+	// 生成唯一请求ID
+	reqID := uuid.New().String()
+	h.log.Info().Msgf("request_id=%s time=%s 接口被调用", reqID, time.Now().Format(time.RFC3339))
+	//2.read the request body parametars
+	config := model.NewProjectDataServiceSkuRequest()
+	if err := r.ReadEntity(config); err != nil {
+		h.log.Error().Msgf("request_id=%s time=%s 接口调用失败✅", reqID, time.Now().Format(time.RFC3339))
+		response.Failed(w, exception.NewInternalServerError("read request struct: %v; ERROR: %v", config, err))
+		return
+	}
+
+	a, err := h.project.QueryByDateProjectAllServicesAllSkus(r.Request.Context(), config)
+	if err != nil {
+		h.log.Error().Msgf("request_id=%s time=%s 接口调用失败✅", reqID, time.Now().Format(time.RFC3339))
+		response.Failed(w, err)
+		return
+	}
+	h.log.Info().Msgf("request_id=%s time=%s 接口已完成✅", reqID, time.Now().Format(time.RFC3339))
+	response.Success(w, a)
+}
+
+func (h *ApiHandler) byInvoiceMonthLabelKeyHandler(r *restful.Request, w *restful.Response) {
+	// 生成唯一请求ID
+	reqID := uuid.New().String()
+	h.log.Info().Msgf("request_id=%s time=%s 接口被调用", reqID, time.Now().Format(time.RFC3339))
+	//2.read the request body parametars
+	config := model.NewInvoiceMonthProjectLabelKeyRequest()
+	if err := r.ReadEntity(config); err != nil {
+		h.log.Error().Msgf("request_id=%s time=%s 接口调用失败✅", reqID, time.Now().Format(time.RFC3339))
+		response.Failed(w, exception.NewInternalServerError("read request struct: %v; ERROR: %v", config, err))
+		return
+	}
+
+	a, err := h.labelkey.QueryByInvoiceMonthProjectLabelKeyAll(r.Request.Context(), config)
+	if err != nil {
+		h.log.Error().Msgf("request_id=%s time=%s 接口调用失败✅", reqID, time.Now().Format(time.RFC3339))
+		response.Failed(w, err)
+		return
+	}
+	h.log.Info().Msgf("request_id=%s time=%s 接口已完成✅", reqID, time.Now().Format(time.RFC3339))
+	response.Success(w, a)
 }

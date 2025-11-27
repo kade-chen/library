@@ -23,6 +23,9 @@ func (s *service) queryByDateProjectSQL() (sql string) {
 		        AND (ARRAY_LENGTH(@project_ids) IS NULL OR ARRAY_LENGTH(@project_ids) = 0 OR project.id IN UNNEST(@project_ids))
 		        AND (ARRAY_LENGTH(@services_ids) IS NULL OR ARRAY_LENGTH(@services_ids) = 0 OR service.id IN UNNEST(@services_ids))
 		        AND (ARRAY_LENGTH(@skus_ids) IS NULL OR ARRAY_LENGTH(@skus_ids) = 0 OR sku.id IN UNNEST(@skus_ids))
+				AND (ARRAY_LENGTH(@keys) IS NULL OR ARRAY_LENGTH(@keys) = 0 OR labels[SAFE_OFFSET(0)].key IN UNNEST(@keys))
+                AND (ARRAY_LENGTH(@value) IS NULL OR ARRAY_LENGTH(@value) = 0 OR labels[SAFE_OFFSET(0)].value IN UNNEST(@value))
+                AND (ARRAY_LENGTH(@region) IS NULL OR ARRAY_LENGTH(@region) = 0 OR location.region IN UNNEST(@region))
 		    GROUP BY usage_date, project_id
 		)
 		SELECT

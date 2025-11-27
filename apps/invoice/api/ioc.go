@@ -4,6 +4,7 @@ import (
 	restfulspec "github.com/emicklei/go-restful-openapi"
 	model "github.com/kade-chen/google-billing-console/apps/common/model/invoice"
 	"github.com/kade-chen/google-billing-console/apps/invoice"
+	"github.com/kade-chen/google-billing-console/apps/invoice/impl/labelkey"
 	"github.com/kade-chen/google-billing-console/apps/invoice/impl/project"
 	"github.com/kade-chen/google-billing-console/apps/invoice/impl/services"
 	"github.com/kade-chen/google-billing-console/apps/invoice/impl/sku"
@@ -19,10 +20,11 @@ func init() {
 
 type ApiHandler struct {
 	ioc.ObjectImpl
-	log     *zerolog.Logger
-	project invoice.ProjectService
-	service invoice.Service
-	sku     invoice.SkuService
+	log      *zerolog.Logger
+	project  invoice.ProjectService
+	service  invoice.Service
+	sku      invoice.SkuService
+	labelkey invoice.LabelKeyService
 	// user_binding_roles *mongo.Collection
 	// role               *mongo.Collection
 	// policy policy.Service
@@ -33,6 +35,7 @@ func (u *ApiHandler) Init() error {
 	u.project = ioc.Controller().Get(project.AppName).(invoice.ProjectService)
 	u.service = ioc.Controller().Get(services.AppName).(invoice.Service)
 	u.sku = ioc.Controller().Get(sku.AppName).(invoice.SkuService)
+	u.labelkey = ioc.Controller().Get(labelkey.AppName).(invoice.LabelKeyService)
 
 	// db := ioc_mongo.DB()
 	// u.role = db.Collection("roles")
@@ -113,18 +116,6 @@ func (u *ApiHandler) Registry() {
 		// Filter(middlewares.NewTokenAuther().Auth_Login).
 		Returns(200, "OK", model.ProjectCost{}).
 		Notes("里面包括指定service/sku等"))
-
-	ws.Route(ws.POST("/all-services-skus").To(u.byAllServicesAllSkusHandler).
-		Doc("基于project和指定日期，取所有服务sku").
-		Param(ws.QueryParameter("project_id", "项目ID: test-id").DataType("string")).
-		Param(ws.QueryParameter("start_date", "开始日期: 2025-xx-xx").DataType("string")).
-		Param(ws.QueryParameter("end_date", "结束日期: 2025-xx-xx").DataType("string")).
-		Reads(model.ProjectDataServiceSkuRequest{}).
-		Writes(model.ByDateProjectAllServicesSkusList{}).
-		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
-		// Filter(middlewares.NewTokenAuther().Auth_Login).
-		Returns(200, "OK", model.ByDateProjectAllServicesSkusList{}).
-		Notes("基于project和指定日期，取所有服务sku"))
 
 	ws.Route(ws.POST("/by/data/date-services").To(u.byDateServiceHandler).
 		Doc("基于日期的项目费用统计").
@@ -250,4 +241,28 @@ func (u *ApiHandler) Registry() {
 		Returns(200, "OK", model.SkuDateCost{}).
 		// Filter(middlewares.NewTokenAuther().Auth_Login).
 		Notes("里面包括指定service/sku等"))
+
+	ws.Route(ws.POST("/all-services-skus").To(u.byAllServicesAllSkusHandler).
+		Doc("基于project和指定日期，取所有服务sku").
+		Param(ws.QueryParameter("project_id", "项目ID: test-id").DataType("string")).
+		Param(ws.QueryParameter("start_date", "开始日期: 2025-xx-xx").DataType("string")).
+		Param(ws.QueryParameter("end_date", "结束日期: 2025-xx-xx").DataType("string")).
+		Reads(model.ProjectDataServiceSkuRequest{}).
+		Writes(model.ByDateProjectAllServicesSkusList{}).
+		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
+		// Filter(middlewares.NewTokenAuther().Auth_Login).
+		Returns(200, "OK", model.ByDateProjectAllServicesSkusList{}).
+		Notes("基于project和指定日期，取所有服务sku"))
+
+	ws.Route(ws.POST("/labels-keys").To(u.byInvoiceMonthLabelKeyHandler).
+		Doc("基于project和指定日期，获取所有label和key").
+		Param(ws.QueryParameter("project_id", "项目ID: test-id").DataType("string")).
+		Param(ws.QueryParameter("start_date", "开始日期: 202510").DataType("string")).
+		Param(ws.QueryParameter("end_date", "结束日期: 202510").DataType("string")).
+		Reads(model.InvoiceMonthProjectLabelKeyRequest{}).
+		Writes(model.InvoiceMonthProjectLabelKeyLists{}).
+		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
+		// Filter(middlewares.NewTokenAuther().Auth_Login).
+		Returns(200, "OK", model.InvoiceMonthProjectLabelKeyLists{}).
+		Notes("基于project和指定日期，获取所有label和key"))
 }
