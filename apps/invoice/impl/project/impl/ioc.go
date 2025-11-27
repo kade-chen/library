@@ -5,8 +5,6 @@ import (
 	"fmt"
 
 	"github.com/rs/zerolog"
-	"google.golang.org/api/iterator"
-	"google.golang.org/api/option"
 
 	"cloud.google.com/go/bigquery"
 
@@ -16,7 +14,6 @@ import (
 	"github.com/kade-chen/google-billing-console/apps/invoice/impl/project"
 	"github.com/kade-chen/google-billing-console/apps/invoice/impl/services"
 	"github.com/kade-chen/google-billing-console/apps/invoice/impl/sku"
-	"github.com/kade-chen/library/exception"
 	"github.com/kade-chen/library/ioc"
 	"github.com/kade-chen/library/ioc/config/log"
 )
@@ -45,23 +42,7 @@ type service struct {
 
 func (s *service) Init() error {
 	s.log = log.Sub(s.Name())
-	client, err := bigquery.NewClient(context.Background(), ioc.Config().Get(configs.AppName).(*impl.Service).Default_Project_ID, option.WithCredentialsFile(ioc.Config().Get(configs.AppName).(*impl.Service).Default_Service_Account_Name))
-	if err != nil {
-		s.log.Error().Msgf("Failed to create BigQuery client: %v", err)
-		return exception.NewIocRegisterFailed("Failed to create BigQuery client: %v", err)
-	}
-	s.bq = client
-	// 验证能否列出 dataset
-	it := client.Datasets(context.Background())
-	dataset, err := it.Next()
-	if err == iterator.Done {
-		s.log.Info().Msgf("No datasets found, but client works fine.")
-	} else if err != nil {
-		s.log.Error().Msgf("❌ Failed to verify connection: %v", err)
-		return exception.NewIocRegisterFailed("❌ Failed to verify connection: %v", err)
-	} else {
-		s.log.Info().Msgf("✅ Verified connection! Example dataset: %s\n", dataset.DatasetID)
-	}
+	s.bq = ioc.Config().Get(configs.AppName).(*impl.Service).BQ
 
 	s.svcs = ioc.Controller().Get(services.AppName).(invoice.Service)
 	s.skus = ioc.Controller().Get(sku.AppName).(invoice.SkuService)

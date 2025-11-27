@@ -6,31 +6,36 @@ import (
 	"github.com/emicklei/go-restful/v3"
 	"github.com/google/uuid"
 	model "github.com/kade-chen/google-billing-console/apps/common/model/usagedate"
+	"github.com/kade-chen/google-billing-console/tools/trances"
 	"github.com/kade-chen/library/exception"
 	"github.com/kade-chen/library/http/response"
 )
 
 func (h *ApiHandler) byDatePojectHandler(r *restful.Request, w *restful.Response) {
 	// 生成唯一请求ID
-	reqID := uuid.New().String()
-	h.log.Info().Msgf("request_id=%s time=%s 接口被调用", reqID, time.Now().Format(time.RFC3339))
+	trancesID := trances.NewTraceID()
+
+	// 注入 trances_id 到 context
+	r.Request = trances.NewTraceIDToRequest(r.Request, trancesID)
+
+	h.log.Info().Msgf("trances_id=%s, The User begins calling the interface UsageDateByDatePojectAPI", trancesID)
 
 	//2.read the request body parametars
 	config := model.NewProjectDataRequest()
-	if err := r.ReadEntity(config); err != nil {
-		response.Failed(w, exception.NewInternalServerError("read request struct: %v; error: %v", config, err))
+	if err := r.ReadEntity(&config); err != nil {
+		h.log.Error().Msgf("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err)
+		response.Failed(w, exception.NewInternalServerError("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err))
 		return
 	}
-
+	//3.调用每天项目费用接口
 	projectCost, err := h.project.QueryByDateProject(r.Request.Context(), config)
 	if err != nil {
-		h.log.Error().Msgf("request_id=%s time=%s 接口调用失败✅", reqID, time.Now().Format(time.RFC3339))
+		h.log.Error().Msgf("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err)
 		response.Failed(w, err)
 		return
 	}
-	h.log.Info().Msgf("request_id=%s time=%s 接口已完成✅", reqID, time.Now().Format(time.RFC3339))
+	h.log.Info().Msgf("trances_id=%s, The User calling the interface Successful for UsageDateByDatePojectAPI ✅", trancesID)
 	response.Success(w, projectCost)
-	// return
 }
 
 func (h *ApiHandler) byPojectHandler(r *restful.Request, w *restful.Response) {

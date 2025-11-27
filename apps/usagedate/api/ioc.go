@@ -32,10 +32,15 @@ type ApiHandler struct {
 
 func (u *ApiHandler) Init() error {
 	u.log = logs.Sub(usagedate.AppName)
+	u.log.Debug().Msgf("---------%s API begin init.......---------", usagedate.AppName)
 	u.project = ioc.Controller().Get(project.AppName).(usagedate.ProjectService)
+	u.log.Debug().Msgf("---------%s API impl init successful---------", project.AppName)
 	u.service = ioc.Controller().Get(services.AppName).(usagedate.Service)
+	u.log.Debug().Msgf("---------%s API impl init successful---------", services.AppName)
 	u.sku = ioc.Controller().Get(sku.AppName).(usagedate.SkuService)
+	u.log.Debug().Msgf("---------%s API impl init successful---------", sku.AppName)
 	u.labelkey = ioc.Controller().Get(labelkey.AppName).(usagedate.LabelKeyService)
+	u.log.Debug().Msgf("---------%s API impl init successful---------", labelkey.AppName)
 
 	// db := ioc_mongo.DB()
 	// u.role = db.Collection("roles")
@@ -43,6 +48,7 @@ func (u *ApiHandler) Init() error {
 	// u.policy = ioc.Controller().Get(policy.AppName).(policy.Service)
 	// u.user_binding_roles = db.Collection("user_binding_roles")
 	u.Registry()
+	u.log.Debug().Msgf("---------%s All API init succeessful✅---------", usagedate.AppName)
 	return nil
 }
 
