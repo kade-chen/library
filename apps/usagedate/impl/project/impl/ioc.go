@@ -1,9 +1,6 @@
 package impl
 
 import (
-	"context"
-	"fmt"
-
 	"cloud.google.com/go/bigquery"
 	"github.com/kade-chen/google-billing-console/apps/configs"
 	"github.com/kade-chen/google-billing-console/apps/configs/impl"
@@ -41,34 +38,14 @@ type service struct {
 func (s *service) Init() error {
 	s.log = log.Sub(s.Name())
 	s.bq = ioc.Config().Get(configs.AppName).(*impl.Service).BQ
-
 	s.svcs = ioc.Controller().Get(services.AppName).(usagedate.Service)
 	s.skus = ioc.Controller().Get(sku.AppName).(usagedate.SkuService)
+	s.log.Debug().Msgf("%s init successful", s.Name())
 	return nil
 }
 
 func (service) Name() string {
 	return project.AppName
-}
-
-func (s *service) Close(ctx context.Context) error {
-	defer func() {
-		if err := s.bq.Close(); err != nil {
-			s.log.Error().Msgf("❌ Failed to close BigQuery client: %v", err)
-		} else {
-			fmt.Println("✅ BigQuery client closed successfully")
-		}
-	}()
-	// 关闭后测试调用
-	// q := s.bq.Query("SELECT 1")
-	// a, err := q.Run(context.Background())
-	// if err != nil {
-	// 	fmt.Printf("✅ Client closed: further operations fail as expected: %v\n", err)
-	// } else {
-	// 	fmt.Println("⚠️ Unexpected: client still appears functional (likely cached connection)")
-	// }
-	// _ = a
-	return nil
 }
 
 func (i *service) Priority() int {

@@ -2,6 +2,7 @@ package impl
 
 import (
 	"context"
+	"fmt"
 
 	"cloud.google.com/go/bigquery"
 	"github.com/kade-chen/google-billing-console/apps/configs"
@@ -46,9 +47,10 @@ func (s *Service) Init() error {
 		s.log.Error().Msgf("❌ Failed to verify connection: %v", err)
 		return exception.NewIocRegisterFailed("❌ Failed to verify connection: %v", err)
 	} else {
-		s.log.Debug().Msgf("✅ Verified connection! Example dataset: %s\n", dataset.DatasetID)
+		s.log.Debug().Msgf("✅ Verified connection! Example dataset: %s", dataset.DatasetID)
 	}
 	s.BQ = client
+	s.log.Debug().Msgf("%s init successful", s.Name())
 	return nil
 }
 
@@ -58,4 +60,23 @@ func (Service) Name() string {
 
 func (i *Service) Priority() int {
 	return 0
+}
+func (i *Service) Close(ctx context.Context) error {
+	defer func() {
+		if err := i.BQ.Close(); err != nil {
+			i.log.Error().Msgf("❌ Failed to close BigQuery client: %v", err)
+		} else {
+			fmt.Println("✅ BigQuery client closed successfully")
+		}
+	}()
+	// 关闭后测试调用
+	// q := s.bq.Query("SELECT 1")
+	// a, err := q.Run(context.Background())
+	// if err != nil {
+	// 	fmt.Printf("✅ Client closed: further operations fail as expected: %v\n", err)
+	// } else {
+	// 	fmt.Println("⚠️ Unexpected: client still appears functional (likely cached connection)")
+	// }
+	// _ = a
+	return nil
 }

@@ -217,30 +217,30 @@ func (u *ApiHandler) Registry() {
 		Returns(200, "OK", model.SkuCost{}).
 		Notes("里面包括指定service/sku等"))
 
-	ws.Route(ws.POST("/heru").To(u.byDateSkuHeRuHandler).
-		Doc("基于日期的项目费用统计").
-		Param(ws.QueryParameter("two_decimal_enabled", "是否启用计算精度到两位小数").DataType("boolean")).
-		Param(ws.QueryParameter("start_date", "开始日期: 202510").DataType("string")).
-		Param(ws.QueryParameter("end_date", "结束日期: 202510").DataType("string")).
-		Param(ws.QueryParameter("project_ids", "项目ID数组，如: ['myproj-123', 'myproj-456']").DataType("array[string]")).
-		Param(ws.QueryParameter("service_ids", "服务ID数组，如: ['6F81-5844-456F']").DataType("array[string]")).
-		Param(ws.QueryParameter("skus", "SKU ID数组，如: ['A123-4567-7890']").DataType("array[string]")).
-		// 以下为功能开关
-		Param(ws.QueryParameter("negotiated_savings", "启用协议价优惠计算").DataType("boolean")).
-		Param(ws.QueryParameter("savings_programs_committed_usage_discount_enable", "启用 Resource-based CUD credits 优惠计算").DataType("boolean")).
-		Param(ws.QueryParameter("savings_programs_committed_usage_discount_dollar_base_enable", "启用 Legacy spend-based CUD credits 优惠计算").DataType("boolean")).
-		Param(ws.QueryParameter("other_savings_free_tier_enable", "启用 Free Tier 优惠计算").DataType("boolean")).
-		Param(ws.QueryParameter("other_savings_promotion_enable", "启用 Promotion 优惠计算").DataType("boolean")).
-		Param(ws.QueryParameter("other_savings_sustained_usage_discount_enable", "启用 Sustained Usage Discount").DataType("boolean")).
-		Param(ws.QueryParameter("other_savings_reseller_margin_enable", "启用 Reseller Margin 优惠计算").DataType("boolean")).
-		Param(ws.QueryParameter("other_savings_discount_enable", "启用一般折扣优惠计算").DataType("boolean")).
-		Param(ws.QueryParameter("other_savings_subscription_benefit_enable", "启用 Subscription Benefit 优惠计算").DataType("boolean")).
-		Reads(model.SkuDataRequest{}).
-		Writes(model.SkuDateCost{}).
-		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
-		Returns(200, "OK", model.SkuDateCost{}).
-		// Filter(middlewares.NewTokenAuther().Auth_Login).
-		Notes("里面包括指定service/sku等"))
+	// ws.Route(ws.POST("/heru").To(u.byDateSkuHeRuHandler).
+	// 	Doc("基于日期的项目费用统计").
+	// 	Param(ws.QueryParameter("two_decimal_enabled", "是否启用计算精度到两位小数").DataType("boolean")).
+	// 	Param(ws.QueryParameter("start_date", "开始日期: 202510").DataType("string")).
+	// 	Param(ws.QueryParameter("end_date", "结束日期: 202510").DataType("string")).
+	// 	Param(ws.QueryParameter("project_ids", "项目ID数组，如: ['myproj-123', 'myproj-456']").DataType("array[string]")).
+	// 	Param(ws.QueryParameter("service_ids", "服务ID数组，如: ['6F81-5844-456F']").DataType("array[string]")).
+	// 	Param(ws.QueryParameter("skus", "SKU ID数组，如: ['A123-4567-7890']").DataType("array[string]")).
+	// 	// 以下为功能开关
+	// 	Param(ws.QueryParameter("negotiated_savings", "启用协议价优惠计算").DataType("boolean")).
+	// 	Param(ws.QueryParameter("savings_programs_committed_usage_discount_enable", "启用 Resource-based CUD credits 优惠计算").DataType("boolean")).
+	// 	Param(ws.QueryParameter("savings_programs_committed_usage_discount_dollar_base_enable", "启用 Legacy spend-based CUD credits 优惠计算").DataType("boolean")).
+	// 	Param(ws.QueryParameter("other_savings_free_tier_enable", "启用 Free Tier 优惠计算").DataType("boolean")).
+	// 	Param(ws.QueryParameter("other_savings_promotion_enable", "启用 Promotion 优惠计算").DataType("boolean")).
+	// 	Param(ws.QueryParameter("other_savings_sustained_usage_discount_enable", "启用 Sustained Usage Discount").DataType("boolean")).
+	// 	Param(ws.QueryParameter("other_savings_reseller_margin_enable", "启用 Reseller Margin 优惠计算").DataType("boolean")).
+	// 	Param(ws.QueryParameter("other_savings_discount_enable", "启用一般折扣优惠计算").DataType("boolean")).
+	// 	Param(ws.QueryParameter("other_savings_subscription_benefit_enable", "启用 Subscription Benefit 优惠计算").DataType("boolean")).
+	// 	Reads(model.SkuDataRequest{}).
+	// 	Writes(model.SkuDateCost{}).
+	// 	Metadata(restfulspec.KeyOpenAPITags, tags). //标签
+	// 	Returns(200, "OK", model.SkuDateCost{}).
+	// 	// Filter(middlewares.NewTokenAuther().Auth_Login).
+	// 	Notes("里面包括指定service/sku等"))
 
 	ws.Route(ws.POST("/all-services-skus").To(u.byAllServicesAllSkusHandler).
 		Doc("基于project和指定日期，取所有服务sku").
