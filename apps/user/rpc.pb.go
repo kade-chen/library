@@ -79,32 +79,32 @@ type QueryUserRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 分页参数
-	// @gotags: json:"page"
-	Page *PageRequest `protobuf:"bytes,1,opt,name=page,proto3" json:"page"`
+	// @gotags: json:"page" bigquery:"page"
+	Page *PageRequest `protobuf:"bytes,1,opt,name=page,proto3" json:"page" bigquery:"page"`
 	// 用户所属Domain
-	// @gotags: json:"domain" validate:"required"
-	Domain string `protobuf:"bytes,2,opt,name=domain,proto3" json:"domain" validate:"required"`
+	// @gotags: json:"domain" validate:"required" bigquery:"domain"
+	Domain string `protobuf:"bytes,2,opt,name=domain,proto3" json:"domain" validate:"required" bigquery:"domain"`
 	// 账号提供方
-	// @gotags: json:"provider"
-	Provider *PROVIDER `protobuf:"varint,3,opt,name=provider,proto3,enum=kade_chen.google_billing_console.user.PROVIDER,oneof" json:"provider"`
+	// @gotags: json:"provider" bigquery:"provider"
+	Provider *PROVIDER `protobuf:"varint,3,opt,name=provider,proto3,enum=kade_chen.google_billing_console.user.PROVIDER,oneof" json:"provider" bigquery:"provider"`
 	// 用户类型
-	// @gotags: json:"type"
-	Type *TYPE `protobuf:"varint,4,opt,name=type,proto3,enum=kade_chen.google_billing_console.user.TYPE,oneof" json:"type"`
+	// @gotags: json:"type" bigquery:"type"
+	Type *TYPE `protobuf:"varint,4,opt,name=type,proto3,enum=kade_chen.google_billing_console.user.TYPE,oneof" json:"type" bigquery:"type"`
 	// 通过Id
-	// @gotags: json:"user_ids"
-	UserIds []string `protobuf:"bytes,5,rep,name=user_ids,json=userIds,proto3" json:"user_ids"`
+	// @gotags: json:"user_ids" bigquery:"user_ids"
+	UserIds []string `protobuf:"bytes,5,rep,name=user_ids,json=userIds,proto3" json:"user_ids" bigquery:"user_ids"`
 	// 额外需要查询出来的用户
-	// @gotags: json:"extra_user_ids"
-	ExtraUserIds []string `protobuf:"bytes,7,rep,name=extra_user_ids,json=extraUserIds,proto3" json:"extra_user_ids"`
+	// @gotags: json:"extra_user_ids" bigquery:"extra_user_ids"
+	ExtraUserIds []string `protobuf:"bytes,7,rep,name=extra_user_ids,json=extraUserIds,proto3" json:"extra_user_ids" bigquery:"extra_user_ids"`
 	// 根据标签过滤用户
-	// @gotags: json:"labels"
-	Labels map[string]string `protobuf:"bytes,6,rep,name=labels,proto3" json:"labels" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	// @gotags: json:"labels" bigquery:"labels"
+	Labels map[string]string `protobuf:"bytes,6,rep,name=labels,proto3" json:"labels" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" bigquery:"labels"`
 	// 是否获取数据
-	// @gotags: json:"skip_items"
-	SkipItems bool `protobuf:"varint,8,opt,name=skip_items,json=skipItems,proto3" json:"skip_items"`
+	// @gotags: json:"skip_items" bigquery:"skip_items"
+	SkipItems bool `protobuf:"varint,8,opt,name=skip_items,json=skipItems,proto3" json:"skip_items" bigquery:"skip_items"`
 	// 关键字查询
-	// @gotags: json:"keywords"
-	Keywords string `protobuf:"bytes,9,opt,name=keywords,proto3" json:"keywords"`
+	// @gotags: json:"keywords" bigquery:"keywords"
+	Keywords string `protobuf:"bytes,9,opt,name=keywords,proto3" json:"keywords" bigquery:"keywords"`
 }
 
 func (x *QueryUserRequest) Reset() {
@@ -209,14 +209,14 @@ type DescribeUserRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 查询方式
-	// @gotags: json:"describe_by"
-	DescribeBy DESCRIBE_BY `protobuf:"varint,1,opt,name=describe_by,json=describeBy,proto3,enum=kade_chen.google_billing_console.user.DESCRIBE_BY" json:"describe_by"`
+	// @gotags: json:"describe_by" bigquery:"describe_by"
+	DescribeBy DESCRIBE_BY `protobuf:"varint,1,opt,name=describe_by,json=describeBy,proto3,enum=kade_chen.google_billing_console.user.DESCRIBE_BY" json:"describe_by" bigquery:"describe_by"`
 	// 用户账号id
-	// @gotags: json:"id"
-	Id string `protobuf:"bytes,2,opt,name=id,proto3" json:"id"`
+	// @gotags: json:"id" bigquery:"id"
+	Id string `protobuf:"bytes,2,opt,name=id,proto3" json:"id" bigquery:"id"`
 	// 用户账号
-	// @gotags: json:"username"
-	Username string `protobuf:"bytes,3,opt,name=username,proto3" json:"username"`
+	// @gotags: json:"username" bigquery:"username"
+	Username string `protobuf:"bytes,3,opt,name=username,proto3" json:"username" bigquery:"username"`
 }
 
 func (x *DescribeUserRequest) Reset() {
@@ -278,8 +278,8 @@ type DeleteUserRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 用户账号id
-	// @gotags: json:"user_ids" validate:"required,lte=60"
-	UserIds []string `protobuf:"bytes,2,rep,name=user_ids,json=userIds,proto3" json:"user_ids" validate:"required,lte=60"`
+	// @gotags: json:"user_ids" validate:"required,lte=60" bigquery:"user_ids"
+	UserIds []string `protobuf:"bytes,2,rep,name=user_ids,json=userIds,proto3" json:"user_ids" validate:"required,lte=60" bigquery:"user_ids"`
 }
 
 func (x *DeleteUserRequest) Reset() {

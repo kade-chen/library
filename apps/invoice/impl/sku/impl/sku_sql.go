@@ -107,4 +107,3 @@ func (s *service) queryBySkuSQL() (sql string) {
 
 	return sql
 }
-

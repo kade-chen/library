@@ -12,224 +12,220 @@ import "google-billing-console/apps/notify/pb/notify.proto";
 import "google-billing-console/apps/notify/pb/setting.proto";
 
 message Domain {
+    // 对象Id
+  // @gotags: bson:"id" json:"id" bigquery:"id"
+  string id = 1;
   // 元信息
-  // @gotags: bson:",inline" json:"meta"
-  Meta meta = 1;
+  // @gotags: bson:",inline" json:"meta" bigquery:"meta"
+  Meta meta = 2;
   // 创建信息
-  // @gotags: bson:",inline" json:"spec"
-  CreateDomainRequest spec = 2;
+  // @gotags: bson:",inline" json:"spec" bigquery:"spec"
+  CreateDomainRequest spec = 3;
 }
 
 message Meta {
-  // 对象Id
-  // @gotags: bson:"_id" json:"id"
-  string id = 1;
+  // // 对象Id
+  // // @gotags: bson:"id" json:"id" bigquery:"id"
+  // string id = 1;
   // 创建时间
-  // @gotags: bson:"create_at" json:"create_at"
+  // @gotags: bson:"create_at" json:"create_at" bigquery:"create_at"
   int64 create_at = 2;
   // 更新时间
-  // @gotags: bson:"update_at" json:"update_at"
+  // @gotags: bson:"update_at" json:"update_at" bigquery:"update_at"
   int64 update_at = 3;
   // 更新人
-  // @gotags: bson:"update_by" json:"update_by"
+  // @gotags: bson:"update_by" json:"update_by" bigquery:"update_by"
   string update_by = 4;
 }
 
 message CreateDomainRequest {
   // 域状态, 是否需要冻结该域, 冻结时, 该域下面所有用户禁止登录
-  // @gotags: bson:"enabled" json:"enabled"
+  // @gotags: bson:"enabled" json:"enabled" bigquery:"enabled"
   bool enabled = 1;
   // 归属人
-  // @gotags: bson:"owner" json:"owner"
+  // @gotags: bson:"owner" json:"owner" bigquery:"owner"
   string owner = 2;
   // 全称
-  // @gotags: bson:"name" json:"name"  validate:"required"
+  // @gotags: bson:"name" json:"name"  validate:"required" bigquery:"name"
   string name = 3;
   // 公司LOGO图片的URL
-  // @gotags: bson:"logo_path" json:"logo_path"
+  // @gotags: bson:"logo_path" json:"logo_path" bigquery:"logo_path"
   string logo_path = 4;
   // 描述
-  // @gotags: bson:"description" json:"description"
+  // @gotags: bson:"description" json:"description" bigquery:"description"
   string description = 5;
   // 电话
-  // @gotags: bson:"phone" json:"phone"
+  // @gotags: bson:"phone" json:"phone" bigquery:"phone"
   string phone = 6;
   // 规模: 50人以下, 50~100, ...
-  // @gotags: bson:"size" json:"size"
+  // @gotags: bson:"size" json:"size" bigquery:"size"
   string size = 7;
   // 位置: 指城市, 比如 中国,四川,成都
-  // @gotags: bson:"location" json:"location"
+  // @gotags: bson:"location" json:"location" bigquery:"location"
   string location = 8;
   // 地址: 比如环球中心 10F 1034
-  // @gotags: bson:"address" json:"address"
+  // @gotags: bson:"address" json:"address" bigquery:"address"
   string address = 9;
   // 所属行业: 比如, 互联网
-  // @gotags: bson:"industry" json:"industry"
+  // @gotags: bson:"industry" json:"industry" bigquery:"industry"
   string industry = 10;
   // 传真
-  // @gotags: bson:"fax" json:"fax"
+  // @gotags: bson:"fax" json:"fax" bigquery:"fax"
   string fax = 11;
   // 联系人
-  // @gotags: bson:"contack" json:"contack"
+  // @gotags: bson:"contack" json:"contack" bigquery:"contack"
   Contact contack = 12;
   // 登录安全
-  // @gotags: bson:"login_security" json:"login_security"
+  // @gotags: bson:"login_security" json:"login_security" bigquery:"login_security"
   LoginSecurity login_security = 19;
   // 验证码配置
-  // @gotags: bson:"code_config" json:"code_config"
+  // @gotags: bson:"code_config" json:"code_config" bigquery:"code_config"
   CodeSetting code_config = 20;
   // 通知配置
-  // @gotags: bson:"notify_config" json:"notify_config"
+  // @gotags: bson:"notify_config" json:"notify_config" bigquery:"notify_config"
   notify.NotifySetting notify_config = 21;
   // 密码安全
-  // @gotags: bson:"password_config" json:"password_config"
+  // @gotags: bson:"password_config" json:"password_config" bigquery:"password_config"
   PasswordConfig password_config = 13;
   // LdapConfig 域关联的LDAP设置
-  // @gotags: bson:"ldap_setting" json:"ldap_setting"
+  // @gotags: bson:"ldap_setting" json:"ldap_setting" bigquery:"ldap_setting"
   LdapConfig ldap_setting = 15;
   // FeishuConfig 域关联的飞书设置
-  // @gotags: bson:"feishu_setting" json:"feishu_setting"
+  // @gotags: bson:"feishu_setting" json:"feishu_setting" bigquery:"feishu_setting"
   FeishuConfig feishu_setting = 16;
   // DingDingConfig 域关联的钉钉设置
-  // @gotags: bson:"dingding_setting" json:"dingding_setting"
+  // @gotags: bson:"dingding_setting" json:"dingding_setting" bigquery:"dingding_setting"
   DingDingConfig dingding_setting = 17;
   // WechatWorkConfig 域关联的企业微信设置
-  // @gotags: bson:"wechat_work_setting" json:"wechat_work_setting"
+  // @gotags: bson:"wechat_work_setting" json:"wechat_work_setting" bigquery:"wechat_work_setting"
   WechatWorkConfig wechat_work_setting = 18;
 }
 
-// 联系人
 message Contact {
   // 姓名
-  // @gotags: bson:"name" json:"name"
+  // @gotags: bson:"name" json:"name" bigquery:"name"
   string name = 1;
   // 职位
-  // @gotags: bson:"title" json:"title"
+  // @gotags: bson:"title" json:"title" bigquery:"title"
   string title = 2;
   // 电话
-  // @gotags: bson:"phone" json:"phone"
+  // @gotags: bson:"phone" json:"phone" bigquery:"phone"
   string phone = 3;
   // 邮箱
-  // @gotags: bson:"email" json:"email"
+  // @gotags: bson:"email" json:"email" bigquery:"email"
   string email = 4;
 }
 
-// LoginSecurity 登录安全
 message LoginSecurity {
   // 异常登录锁
-  // @gotags: bson:"exception_lock" json:"exception_lock"
+  // @gotags: bson:"exception_lock" json:"exception_lock" bigquery:"exception_lock"
   bool exception_lock = 1;
   // 异常配置
-  // @gotags: bson:"exception_lock_config" json:"exception_lock_config"
+  // @gotags: bson:"exception_lock_config" json:"exception_lock_config" bigquery:"exception_lock_config"
   ExceptionLockConfig exception_lock_config = 2;
   // 重试锁
-  // @gotags: bson:"retry_lock" json:"retry_lock"
+  // @gotags: bson:"retry_lock" json:"retry_lock" bigquery:"retry_lock"
   bool retry_lock = 3;
   // 重试锁配置
-  // @gotags: bson:"retry_lock_config" json:"retry_lock_config"
+  // @gotags: bson:"retry_lock_config" json:"retry_lock_config" bigquery:"retry_lock_config"
   RetryLockConfig retry_lock_config = 4;
   // IP限制
-  // @gotags: bson:"ip_limite" json:"ip_limite"
+  // @gotags: bson:"ip_limite" json:"ip_limite" bigquery:"ip_limite"
   bool ip_limite = 5;
   // IP限制配置
-  // @gotags: bson:"ip_limite_config" json:"ip_limite_config"
+  // @gotags: bson:"ip_limite_config" json:"ip_limite_config" bigquery:"ip_limite_config"
   IPLimiteConfig ip_limite_config = 6;
 }
 
-// ExceptionLockConfig todo
 message ExceptionLockConfig {
   // 异地登录
-  // @gotags: bson:"other_place_login" json:"other_place_login"
+  // @gotags: bson:"other_place_login" json:"other_place_login" bigquery:"other_place_login"
   bool other_place_login = 1;
   // 未登录天数
-  // @gotags: bson:"not_login_days" json:"not_login_days"
+  // @gotags: bson:"not_login_days" json:"not_login_days" bigquery:"not_login_days"
   uint32 not_login_days = 2;
 }
 
-// RetryLockConfig 重试锁配置
 message RetryLockConfig {
   // 重试限制
-  // @gotags: bson:"retry_limite" json:"retry_limite"
+  // @gotags: bson:"retry_limite" json:"retry_limite" bigquery:"retry_limite"
   uint32 retry_limite = 1;
   // 锁定时长
-  // @gotags: bson:"locked_minite" json:"locked_minite"
+  // @gotags: bson:"locked_minite" json:"locked_minite" bigquery:"locked_minite"
   uint32 locked_minite = 2;
 }
 
-// IPLimiteConfig todo
 message IPLimiteConfig {
   // 黑名单还是白名单
-  // @gotags: bson:"type" json:"type"
+  // @gotags: bson:"type" json:"type" bigquery:"type"
   string type = 1;
   // ip列表
-  // @gotags: bson:"ip" json:"ip"
+  // @gotags: bson:"ip" json:"ip" bigquery:"ip"
   repeated string ip = 2;
 }
 
 message CodeSetting {
   // 通知方式
-  // @gotags: `bson:"type" json:"type"`
+  // @gotags: `bson:"type" json:"type"` bigquery:"type"
   notify.NOTIFY_TYPE notify_type = 1;
   // 验证码默认过期时间
-  // @gotags: bson:"expire_minutes" json:"expire_minutes" validate:"required"
+  // @gotags: bson:"expire_minutes" json:"expire_minutes" validate:"required" bigquery:"expire_minutes"
   uint32 expire_minutes = 2;
   // 邮件通知时的模板
-  // @gotags: bson:"mail_template" json:"mail_template"
+  // @gotags: bson:"mail_template" json:"mail_template" bigquery:"mail_template"
   string mail_template = 3;
   // 短信通知时的云商模板ID
-  // @gotags: bson:"sms_template_id" json:"sms_template_id"
+  // @gotags: bson:"sms_template_id" json:"sms_template_id" bigquery:"sms_template_id"
   string sms_template_id = 4;
 }
 
-// PasswordSecurity 密码安全设置
 message PasswordConfig {
   // 开启本地用户名密码认证
-  // @gotags: bson:"enabled" json:"enabled"
+  // @gotags: bson:"enabled" json:"enabled" bigquery:"enabled"
   bool enabled = 12;
   // 密码长度
-  // @gotags: bson:"length" json:"length" validate:"required,min=8,max=64"
+  // @gotags: bson:"length" json:"length" validate:"required,min=8,max=64" bigquery:"length"
   int32 length = 1;
   // 包含数字 比如 1234
-  // @gotags: bson:"include_number" json:"include_number"
+  // @gotags: bson:"include_number" json:"include_number" bigquery:"include_number"
   bool include_number = 2;
   // 包含小写字母 比如 abcd
-  // @gotags: bson:"include_lower_letter" json:"include_lower_letter"
+  // @gotags: bson:"include_lower_letter" json:"include_lower_letter" bigquery:"include_lower_letter"
   bool include_lower_letter = 3;
   // 包含大写字母 比如 ABCD
-  // @gotags: bson:"include_upper_letter" json:"include_upper_letter"
+  // @gotags: bson:"include_upper_letter" json:"include_upper_letter" bigquery:"include_upper_letter"
   bool include_upper_letter = 4;
   // 包含特殊字符 比如 !"£*
-  // @gotags: bson:"include_symbols" json:"include_symbols"
+  // @gotags: bson:"include_symbols" json:"include_symbols" bigquery:"include_symbols"
   bool include_symbols = 5;
   // 排除相似字符, 比如 i1jIo0
-  // @gotags: bson:"include_similar" json:"include_similar"
+  // @gotags: bson:"include_similar" json:"include_similar" bigquery:"include_similar"
   bool exclude_similar = 6;
   // 排除不容易记忆的特殊字符, 比如 <>{}[]()/|\`
-  // @gotags: bson:"exclude_ambiguous" json:"exclude_ambiguous"
+  // @gotags: bson:"exclude_ambiguous" json:"exclude_ambiguous" bigquery:"exclude_ambiguous"
   bool exclude_ambiguous = 7;
   // 手动指定密码允许的字符集合
-  // @gotags: bson:"character_set" json:"character_set"
+  // @gotags: bson:"character_set" json:"character_set" bigquery:"character_set"
   string character_set = 8;
   // 重复限制
   // @gotags: bson:"repeate_limite" json:"repeate_limite"
-  // validate:"required,min=1,max=24"
+  // validate:"required,min=1,max=24" bigquery:"repeate_limite"
   uint32 repeate_limite = 9;
   // 密码过期时间, 密码过期后要求用户重置密码
   // @gotags: bson:"password_expired_days" json:"password_expired_days"
-  // validate:"required,min=0,max=365"
+  // validate:"required,min=0,max=365" bigquery:"password_expired_days"
   uint32 password_expired_days = 10;
   // 密码过期前多少天开始提醒
   // @gotags: bson:"before_expired_remind_days"
-  // json:"before_expired_remind_days" validate:"required,min=0,max=365"
+  // json:"before_expired_remind_days" validate:"required,min=0,max=365" bigquery:"before_expired_remind_days"
   uint32 before_expired_remind_days = 11;
 }
 
-
 message DomainSet {
   // 总数量
-  // @gotags: bson:"total" json:"total"
+  // @gotags: bson:"total" json:"total" bigquery:"total"
   int64 total = 1;
   // 数据项
-  // @gotags: bson:"items" json:"items"
+  // @gotags: bson:"items" json:"items" bigquery:"items"
   repeated Domain items = 2;
 }

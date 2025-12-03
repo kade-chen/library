@@ -56,4 +56,3 @@ func (s *service) queryByDateSkuSQL() (sql string) {
 
 	return sql
 }
-

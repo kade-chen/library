@@ -26,14 +26,14 @@ type SmsConfig struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 开启短信通知
-	// @gotags: bson:"enabled" json:"enabled" env:"SMS_ENABLED"
-	Enabled bool `protobuf:"varint,3,opt,name=enabled,proto3" json:"enabled" bson:"enabled" env:"SMS_ENABLED"`
+	// @gotags: bson:"enabled" json:"enabled" env:"SMS_ENABLED" bigquery:"enabled"
+	Enabled bool `protobuf:"varint,3,opt,name=enabled,proto3" json:"enabled" bson:"enabled" env:"SMS_ENABLED" bigquery:"enabled"`
 	// 短信服务商
-	// @gotags: bson:"provider" json:"provider" env:"SMS_PROVIDER"
-	Provider PROVIDER `protobuf:"varint,1,opt,name=provider,proto3,enum=kade_chen.google_billing_console.notify.PROVIDER" json:"provider" bson:"provider" env:"SMS_PROVIDER"`
+	// @gotags: bson:"provider" json:"provider" env:"SMS_PROVIDER" bigquery:"provider"
+	Provider PROVIDER `protobuf:"varint,1,opt,name=provider,proto3,enum=kade_chen.google_billing_console.notify.PROVIDER" json:"provider" bson:"provider" env:"SMS_PROVIDER" bigquery:"provider"`
 	// 腾讯短信服务配置
-	// @gotags: bson:"tencent" json:"tencent"
-	Tencent *TencentSmsConfig `protobuf:"bytes,2,opt,name=tencent,proto3" json:"tencent" bson:"tencent"`
+	// @gotags: bson:"tencent" json:"tencent" bigquery:"tencent"
+	Tencent *TencentSmsConfig `protobuf:"bytes,2,opt,name=tencent,proto3" json:"tencent" bson:"tencent" bigquery:"tencent"`
 }
 
 func (x *SmsConfig) Reset() {
@@ -96,20 +96,20 @@ type TencentSmsConfig struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 服务地址
-	// @gotags: bson:"endpoint" json:"endpoint" env:"SMS_TENCENT_ENDPOINT"
-	Endpoint string `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint" bson:"endpoint" env:"SMS_TENCENT_ENDPOINT"`
+	// @gotags: bson:"endpoint" json:"endpoint" env:"SMS_TENCENT_ENDPOINT" bigquery:"endpoint"
+	Endpoint string `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint" bson:"endpoint" env:"SMS_TENCENT_ENDPOINT" bigquery:"endpoint"`
 	// id
-	// @gotags: bson:"secret_id" json:"secret_id" env:"SMS_TENCENT_SECRET_ID"
-	SecretId string `protobuf:"bytes,2,opt,name=secret_id,json=secretId,proto3" json:"secret_id" bson:"secret_id" env:"SMS_TENCENT_SECRET_ID"`
+	// @gotags: bson:"secret_id" json:"secret_id" env:"SMS_TENCENT_SECRET_ID" bigquery:"secret_id"
+	SecretId string `protobuf:"bytes,2,opt,name=secret_id,json=secretId,proto3" json:"secret_id" bson:"secret_id" env:"SMS_TENCENT_SECRET_ID" bigquery:"secret_id"`
 	// secret
-	// @gotags: bson:"secret_key" json:"secret_key" env:"SMS_TENCENT_SECRET_KEY"
-	SecretKey string `protobuf:"bytes,3,opt,name=secret_key,json=secretKey,proto3" json:"secret_key" bson:"secret_key" env:"SMS_TENCENT_SECRET_KEY"`
+	// @gotags: bson:"secret_key" json:"secret_key" env:"SMS_TENCENT_SECRET_KEY" bigquery:"secret_key"
+	SecretKey string `protobuf:"bytes,3,opt,name=secret_key,json=secretKey,proto3" json:"secret_key" bson:"secret_key" env:"SMS_TENCENT_SECRET_KEY" bigquery:"secret_key"`
 	// app id
-	// @gotags: bson:"app_id" json:"app_id" env:"SMS_TENCENT_APPID"
-	AppId string `protobuf:"bytes,4,opt,name=app_id,json=appId,proto3" json:"app_id" bson:"app_id" env:"SMS_TENCENT_APPID"`
+	// @gotags: bson:"app_id" json:"app_id" env:"SMS_TENCENT_APPID" bigquery:"app_id"
+	AppId string `protobuf:"bytes,4,opt,name=app_id,json=appId,proto3" json:"app_id" bson:"app_id" env:"SMS_TENCENT_APPID" bigquery:"app_id"`
 	// sign
-	// @gotags: bson:"sign" json:"sign" env:"SMS_TENCENT_SIGN"
-	Sign string `protobuf:"bytes,5,opt,name=sign,proto3" json:"sign" bson:"sign" env:"SMS_TENCENT_SIGN"`
+	// @gotags: bson:"sign" json:"sign" env:"SMS_TENCENT_SIGN" bigquery:"sign"
+	Sign string `protobuf:"bytes,5,opt,name=sign,proto3" json:"sign" bson:"sign" env:"SMS_TENCENT_SIGN" bigquery:"sign"`
 }
 
 func (x *TencentSmsConfig) Reset() {

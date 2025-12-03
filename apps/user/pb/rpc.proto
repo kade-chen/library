@@ -15,63 +15,73 @@ service RPC {
   rpc DescribeUser(DescribeUserRequest) returns (User);
   
 }
-
 // QueryUserRequest 获取子账号列表
 message QueryUserRequest {
   // 分页参数
-  // @gotags: json:"page"
+  // @gotags: json:"page" bigquery:"page"
   PageRequest page = 1;
+
   // 用户所属Domain
-  // @gotags: json:"domain" validate:"required"
+  // @gotags: json:"domain" validate:"required" bigquery:"domain"
   string domain = 2;
+
   // 账号提供方
-  // @gotags: json:"provider"
+  // @gotags: json:"provider" bigquery:"provider"
   optional PROVIDER provider = 3;
+
   // 用户类型
-  // @gotags: json:"type" 
+  // @gotags: json:"type" bigquery:"type"
   optional TYPE type = 4;
+
   // 通过Id
-  // @gotags: json:"user_ids"
+  // @gotags: json:"user_ids" bigquery:"user_ids"
   repeated string user_ids = 5;
+
   // 额外需要查询出来的用户
-  // @gotags: json:"extra_user_ids"
+  // @gotags: json:"extra_user_ids" bigquery:"extra_user_ids"
   repeated string extra_user_ids = 7;
+
   // 根据标签过滤用户
-  // @gotags: json:"labels"
+  // @gotags: json:"labels" bigquery:"labels"
   map<string, string> labels = 6;
+
   // 是否获取数据
-  // @gotags: json:"skip_items"
+  // @gotags: json:"skip_items" bigquery:"skip_items"
   bool skip_items = 8;
+
   // 关键字查询
-  // @gotags: json:"keywords"
+  // @gotags: json:"keywords" bigquery:"keywords"
   string keywords = 9;
 }
 
 // DescribeUserRequest 查询用户详情
 message DescribeUserRequest {
   // 查询方式
-  // @gotags: json:"describe_by"
+  // @gotags: json:"describe_by" bigquery:"describe_by"
   DESCRIBE_BY describe_by = 1;
+
   // 用户账号id
-  // @gotags: json:"id"
+  // @gotags: json:"id" bigquery:"id"
   string id = 2;
+
   // 用户账号
-  // @gotags: json:"username"
+  // @gotags: json:"username" bigquery:"username"
   string username = 3;
 }
 
 enum DESCRIBE_BY {
   // 通过UserId查询用户
   USER_ID = 0;
+
   // 通过Username查询用户
   USER_NAME = 1;
+
   // 通过飞书UserId查询用户
   FEISHU_USER_ID = 2;
 }
 
-
 message DeleteUserRequest {
-    // 用户账号id
-    // @gotags: json:"user_ids" validate:"required,lte=60"
-    repeated string user_ids = 2;
+  // 用户账号id
+  // @gotags: json:"user_ids" validate:"required,lte=60" bigquery:"user_ids"
+  repeated string user_ids = 2;
 }

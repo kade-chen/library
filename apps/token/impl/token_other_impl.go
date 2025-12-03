@@ -9,7 +9,6 @@ import (
 	"github.com/kade-chen/google-billing-console/apps/token"
 	"github.com/kade-chen/google-billing-console/apps/token/provider"
 	"github.com/kade-chen/library/exception"
-	"go.mongodb.org/mongo-driver/bson"
 )
 
 // 1.isseuer token
@@ -56,22 +55,22 @@ func (s *service) blockOtherWebToken(ctx context.Context, tk *token.Token) error
 		status.BlockReason = fmt.Sprintf("你于 %s 从其他地方通过 %s 登录", now.Format(time.RFC3339), tk.GrantType)
 		status.BlockType = token.BLOCK_TYPE_OTHER_PLACE_LOGGED_IN
 
-		rs, err := s.col.UpdateMany(
-			ctx,
-			bson.M{
-				"platform": token.PLATFORM_WEB,
-				"domain":   bson.M{"$eq": tk.Domain},
-				"_id":      tk.AccessToken,
-				// "issue_at":        bson.M{"$lt": tk.IssueAt}, // 使用 $lte 小于等于
-				"status.is_block": false,
-			},
-			bson.M{"$set": bson.M{"status": status}}, // 更新 status 字段，设置为新的 status 值
-		)
-		if err != nil {
-			s.log.Error().Msgf("updateMany error: %v", err)
-			return err
-		}
-		s.log.Debug().Msgf("block %d tokens", rs.ModifiedCount)
+		// rs, err := s.col.UpdateMany(
+		// 	ctx,
+		// 	bson.M{
+		// 		"platform": token.PLATFORM_WEB,
+		// 		"domain":   bson.M{"$eq": tk.Domain},
+		// 		"_id":      tk.AccessToken,
+		// 		// "issue_at":        bson.M{"$lt": tk.IssueAt}, // 使用 $lte 小于等于
+		// 		"status.is_block": false,
+		// 	},
+		// 	bson.M{"$set": bson.M{"status": status}}, // 更新 status 字段，设置为新的 status 值
+		// )
+		// if err != nil {
+		// 	s.log.Error().Msgf("updateMany error: %v", err)
+		// 	return err
+		// }
+		// s.log.Debug().Msgf("block %d tokens", rs.ModifiedCount)
 		return nil
 	}
 
@@ -80,19 +79,19 @@ func (s *service) blockOtherWebToken(ctx context.Context, tk *token.Token) error
 		return nil
 	}
 	//如果是web登陆，需要关闭之前的登录令牌
-	if tk.Platform.Equal(token.PLATFORM_WEB) {
-		filter := bson.D{
-			{Key: "_id", Value: bson.D{{Key: "$ne", Value: tk.AccessToken}}},   // _id 不等于 tk.UserId
-			{Key: "username", Value: bson.D{{Key: "$eq", Value: tk.Username}}}, // username 等于 tk.Username
-			{Key: "domain", Value: bson.D{{Key: "$eq", Value: tk.Domain}}},     // domain 等于 tk.Domain
-		}
-		result, err := s.col.DeleteMany(context.Background(), filter)
-		if err != nil {
-			return err
-		}
-		// 输出删除的文档数量
-		s.log.Info().Msgf("%d documents have been deleted", result.DeletedCount)
-	}
+	// if tk.Platform.Equal(token.PLATFORM_WEB) {
+	// 	filter := bson.D{
+	// 		{Key: "_id", Value: bson.D{{Key: "$ne", Value: tk.AccessToken}}},   // _id 不等于 tk.UserId
+	// 		{Key: "username", Value: bson.D{{Key: "$eq", Value: tk.Username}}}, // username 等于 tk.Username
+	// 		{Key: "domain", Value: bson.D{{Key: "$eq", Value: tk.Domain}}},     // domain 等于 tk.Domain
+	// 	}
+	// 	result, err := s.col.DeleteMany(context.Background(), filter)
+	// 	if err != nil {
+	// 		return err
+	// 	}
+	// 	// 输出删除的文档数量
+	// 	s.log.Info().Msgf("%d documents have been deleted", result.DeletedCount)
+	// }
 
 	now := time.Now()
 	status := token.NewStatus()
@@ -101,21 +100,21 @@ func (s *service) blockOtherWebToken(ctx context.Context, tk *token.Token) error
 	status.BlockReason = fmt.Sprintf("你于 %s 从其他地方通过 %s 登录", now.Format(time.RFC3339), tk.GrantType)
 	status.BlockType = token.BLOCK_TYPE_OTHER_PLACE_LOGGED_IN
 
-	rs, err := s.col.UpdateMany(
-		ctx,
-		bson.M{
-			"platform": token.PLATFORM_WEB,
-			"domain":   bson.M{"$eq": tk.Domain},
-			"_id":      tk.AccessToken,
-			// "issue_at":        bson.M{"$lt": tk.IssueAt}, // 使用 $lte 小于等于
-			"status.is_block": false,
-		},
-		bson.M{"$set": bson.M{"status": status}}, // 更新 status 字段，设置为新的 status 值
-	)
-	if err != nil {
-		return err
-	}
-	s.log.Debug().Msgf("block %d tokens", rs.ModifiedCount)
+	// rs, err := s.col.UpdateMany(
+	// 	ctx,
+	// 	bson.M{
+	// 		"platform": token.PLATFORM_WEB,
+	// 		"domain":   bson.M{"$eq": tk.Domain},
+	// 		"_id":      tk.AccessToken,
+	// 		// "issue_at":        bson.M{"$lt": tk.IssueAt}, // 使用 $lte 小于等于
+	// 		"status.is_block": false,
+	// 	},
+	// 	bson.M{"$set": bson.M{"status": status}}, // 更新 status 字段，设置为新的 status 值
+	// )
+	// if err != nil {
+	// 	return err
+	// }
+	// s.log.Debug().Msgf("block %d tokens", rs.ModifiedCount)
 	return nil
 }
 

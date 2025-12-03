@@ -26,44 +26,44 @@ type LdapConfig struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 开启LDAP认证
-	// @gotags: bson:"enabled" json:"enabled"
-	Enabled bool `protobuf:"varint,12,opt,name=enabled,proto3" json:"enabled" bson:"enabled"`
+	// @gotags: bson:"enabled" json:"enabled" bigquery:"enabled"
+	Enabled bool `protobuf:"varint,12,opt,name=enabled,proto3" json:"enabled" bson:"enabled" bigquery:"enabled"`
 	// LDAP Server URL
-	// @gotags: bson:"url" json:"url"
-	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url" bson:"url"`
+	// @gotags: bson:"url" json:"url" bigquery:"url"
+	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url" bson:"url" bigquery:"url"`
 	// 管理账号的用户名称
-	// @gotags: bson:"bind_dn" json:"bind_dn"
-	BindDn string `protobuf:"bytes,2,opt,name=bind_dn,json=bindDn,proto3" json:"bind_dn" bson:"bind_dn"`
+	// @gotags: bson:"bind_dn" json:"bind_dn" bigquery:"bind_dn"
+	BindDn string `protobuf:"bytes,2,opt,name=bind_dn,json=bindDn,proto3" json:"bind_dn" bson:"bind_dn" bigquery:"bind_dn"`
 	// 管理账号的用户密码
-	// @gotags: bson:"bind_password" json:"bind_password"
-	BindPassword string `protobuf:"bytes,3,opt,name=bind_password,json=bindPassword,proto3" json:"bind_password" bson:"bind_password"`
-	// TLS是是否校验证书有效性
-	// @gotags: bson:"skip_verify" json:"skip_verify"
-	SkipVerify bool `protobuf:"varint,4,opt,name=skip_verify,json=skipVerify,proto3" json:"skip_verify" bson:"skip_verify"`
-	// LDAP 服务器的登录用户名，必须是从根结点到用户节点的全路径
-	// @gotags: bson:"base_dn" json:"base_dn"
-	BaseDn string `protobuf:"bytes,5,opt,name=base_dn,json=baseDn,proto3" json:"base_dn" bson:"base_dn"`
+	// @gotags: bson:"bind_password" json:"bind_password" bigquery:"bind_password"
+	BindPassword string `protobuf:"bytes,3,opt,name=bind_password,json=bindPassword,proto3" json:"bind_password" bson:"bind_password" bigquery:"bind_password"`
+	// TLS是否校验证书有效性
+	// @gotags: bson:"skip_verify" json:"skip_verify" bigquery:"skip_verify"
+	SkipVerify bool `protobuf:"varint,4,opt,name=skip_verify,json=skipVerify,proto3" json:"skip_verify" bson:"skip_verify" bigquery:"skip_verify"`
+	// LDAP 服务器的登录用户名（根结点到用户节点的全路径）
+	// @gotags: bson:"base_dn" json:"base_dn" bigquery:"base_dn"
+	BaseDn string `protobuf:"bytes,5,opt,name=base_dn,json=baseDn,proto3" json:"base_dn" bson:"base_dn" bigquery:"base_dn"`
 	// 用户过滤条件
-	// @gotags: bson:"user_filter" json:"user_filter"
-	UserFilter string `protobuf:"bytes,6,opt,name=user_filter,json=userFilter,proto3" json:"user_filter" bson:"user_filter"`
+	// @gotags: bson:"user_filter" json:"user_filter" bigquery:"user_filter"
+	UserFilter string `protobuf:"bytes,6,opt,name=user_filter,json=userFilter,proto3" json:"user_filter" bson:"user_filter" bigquery:"user_filter"`
 	// 用户组过滤条件
-	// @gotags: bson:"group_filter" json:"group_filter"
-	GroupFilter string `protobuf:"bytes,7,opt,name=group_filter,json=groupFilter,proto3" json:"group_filter" bson:"group_filter"`
+	// @gotags: bson:"group_filter" json:"group_filter" bigquery:"group_filter"
+	GroupFilter string `protobuf:"bytes,7,opt,name=group_filter,json=groupFilter,proto3" json:"group_filter" bson:"group_filter" bigquery:"group_filter"`
 	// 组属性的名称
-	// @gotags: bson:"groupname_attribute" json:"groupname_attribute"
-	GroupnameAttribute string `protobuf:"bytes,8,opt,name=groupname_attribute,json=groupnameAttribute,proto3" json:"groupname_attribute" bson:"groupname_attribute"`
+	// @gotags: bson:"groupname_attribute" json:"groupname_attribute" bigquery:"groupname_attribute"
+	GroupnameAttribute string `protobuf:"bytes,8,opt,name=groupname_attribute,json=groupnameAttribute,proto3" json:"groupname_attribute" bson:"groupname_attribute" bigquery:"groupname_attribute"`
 	// 用户属性的名称
-	// @gotags: bson:"username_attribute" json:"username_attribute"
-	UsernameAttribute string `protobuf:"bytes,9,opt,name=username_attribute,json=usernameAttribute,proto3" json:"username_attribute" bson:"username_attribute"`
+	// @gotags: bson:"username_attribute" json:"username_attribute" bigquery:"username_attribute"
+	UsernameAttribute string `protobuf:"bytes,9,opt,name=username_attribute,json=usernameAttribute,proto3" json:"username_attribute" bson:"username_attribute" bigquery:"username_attribute"`
 	// 用户邮箱属性的名称
-	// @gotags: bson:"mail_attribute" json:"mail_attribute"
-	MailAttribute string `protobuf:"bytes,10,opt,name=mail_attribute,json=mailAttribute,proto3" json:"mail_attribute" bson:"mail_attribute"`
+	// @gotags: bson:"mail_attribute" json:"mail_attribute" bigquery:"mail_attribute"
+	MailAttribute string `protobuf:"bytes,10,opt,name=mail_attribute,json=mailAttribute,proto3" json:"mail_attribute" bson:"mail_attribute" bigquery:"mail_attribute"`
 	// 用户显示名称属性名称
-	// @gotags: bson:"display_name_attribute" json:"display_name_attribute"
-	DisplayNameAttribute string `protobuf:"bytes,11,opt,name=display_name_attribute,json=displayNameAttribute,proto3" json:"display_name_attribute" bson:"display_name_attribute"`
-	// 新增用户或者注销用户时，是否同步, 默认不做同步, 只读区用户信息
-	// @gotags: bson:"data_sync" json:"data_sync"
-	DataSync bool `protobuf:"varint,13,opt,name=data_sync,json=dataSync,proto3" json:"data_sync" bson:"data_sync"`
+	// @gotags: bson:"display_name_attribute" json:"display_name_attribute" bigquery:"display_name_attribute"
+	DisplayNameAttribute string `protobuf:"bytes,11,opt,name=display_name_attribute,json=displayNameAttribute,proto3" json:"display_name_attribute" bson:"display_name_attribute" bigquery:"display_name_attribute"`
+	// 新增用户或注销用户时，是否同步（默认不同步，只读区用户信息）
+	// @gotags: bson:"data_sync" json:"data_sync" bigquery:"data_sync"
+	DataSync bool `protobuf:"varint,13,opt,name=data_sync,json=dataSync,proto3" json:"data_sync" bson:"data_sync" bigquery:"data_sync"`
 }
 
 func (x *LdapConfig) Reset() {

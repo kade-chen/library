@@ -87,4 +87,3 @@ func (s *service) queryByServiceSQL() (sql string) {
 
 	return sql
 }
-

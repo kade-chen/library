@@ -27,23 +27,23 @@ type Code struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 编号
-	// @gotags: bson:"_id" json:"id"
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" bson:"_id"`
+	// @gotags: bson:"_id" json:"id" bigquery:"id"
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" bson:"_id" bigquery:"id"`
 	// 验证码
-	// @gotags: bson:"code" json:"code"
-	Code string `protobuf:"bytes,2,opt,name=code,proto3" json:"code" bson:"code"`
+	// @gotags: bson:"code" json:"code" bigquery:"code"
+	Code string `protobuf:"bytes,2,opt,name=code,proto3" json:"code" bson:"code" bigquery:"code"`
 	// 用户域
-	// @gotags: json:"domain" validate:"required"
-	Domain string `protobuf:"bytes,3,opt,name=domain,proto3" json:"domain" validate:"required"`
+	// @gotags: json:"domain" validate:"required" bigquery:"domain"
+	Domain string `protobuf:"bytes,3,opt,name=domain,proto3" json:"domain" validate:"required" bigquery:"domain"`
 	// 用户名称
-	// @gotags: json:"username" validate:"required"
-	Username string `protobuf:"bytes,4,opt,name=username,proto3" json:"username" validate:"required"`
+	// @gotags: json:"username" validate:"required" bigquery:"username"
+	Username string `protobuf:"bytes,4,opt,name=username,proto3" json:"username" validate:"required" bigquery:"username"`
 	// 颁发时间
-	// @gotags: bson:"issue_at" json:"issue_at"
-	IssueAt int64 `protobuf:"varint,5,opt,name=issue_at,json=issueAt,proto3" json:"issue_at" bson:"issue_at"`
+	// @gotags: bson:"issue_at" json:"issue_at" bigquery:"issue_at"
+	IssueAt int64 `protobuf:"varint,5,opt,name=issue_at,json=issueAt,proto3" json:"issue_at" bson:"issue_at" bigquery:"issue_at"`
 	// 验证码过期时间
-	// @gotags: bson:"expired_minite" json:"expired_minite"
-	ExpiredMinite uint32 `protobuf:"varint,6,opt,name=expired_minite,json=expiredMinite,proto3" json:"expired_minite" bson:"expired_minite"`
+	// @gotags: bson:"expired_minite" json:"expired_minite" bigquery:"expired_minite"
+	ExpiredMinite uint32 `protobuf:"varint,6,opt,name=expired_minite,json=expiredMinite,proto3" json:"expired_minite" bson:"expired_minite" bigquery:"expired_minite"`
 }
 
 func (x *Code) Reset() {

@@ -4,7 +4,6 @@ import (
 	"time"
 
 	// "github.com/kade-chen/library/tools/hash"
-	"github.com/rs/xid"
 
 	"github.com/kade-chen/google-billing-console/apps/notify"
 )
@@ -23,14 +22,15 @@ func NewDomain(req *CreateDomainRequest) (*Domain, error) {
 		Meta: NewMeta(),
 		Spec: req,
 	}
-	d.Meta.Id = req.Name
+	d.Id = req.Name
 	// d.Meta.Id = hash.FnvHash(req.Name)
 	return d, nil
 }
 
 func NewMeta() *Meta {
+
 	return &Meta{
-		Id:       xid.New().String(),
+		// Id:       xid.New().String(),
 		CreateAt: time.Now().Unix(),
 	}
 }

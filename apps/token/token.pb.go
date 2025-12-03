@@ -43,7 +43,7 @@ const (
 	GRANT_TYPE_WECHAT_WORK GRANT_TYPE = 7
 	// 飞书授权
 	GRANT_TYPE_FEISHU GRANT_TYPE = 8
-	// 飞书授权
+	// 钉钉授权
 	GRANT_TYPE_DINGDING GRANT_TYPE = 9
 	// 转发给其他认证服务做认证
 	GRANT_TYPE_FORWARD_AUTH GRANT_TYPE = 10
@@ -211,7 +211,7 @@ func (PLATFORM) EnumDescriptor() ([]byte, []int) {
 type BLOCK_TYPE int32
 
 const (
-	// 刷新Token过期, 回话中断
+	// 刷新Token过期, 会话中断
 	BLOCK_TYPE_REFRESH_TOKEN_EXPIRED BLOCK_TYPE = 0
 	// 异地登陆
 	BLOCK_TYPE_OTHER_PLACE_LOGGED_IN BLOCK_TYPE = 1
@@ -266,50 +266,50 @@ type IssueTokenRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 测试颁发
-	// @gotags: json:"dry_run"
-	DryRun bool `protobuf:"varint,15,opt,name=dry_run,json=dryRun,proto3" json:"dry_run"`
+	// @gotags: json:"dry_run" bigquery:"dry_run"
+	DryRun bool `protobuf:"varint,15,opt,name=dry_run,json=dryRun,proto3" json:"dry_run" bigquery:"dry_run"`
 	// 授权类型
-	// @gotags: json:"grant_type"
-	GrantType GRANT_TYPE `protobuf:"varint,1,opt,name=grant_type,json=grantType,proto3,enum=kade_chen.google_billing_console.token.GRANT_TYPE" json:"grant_type"`
+	// @gotags: json:"grant_type" bigquery:"grant_type"
+	GrantType GRANT_TYPE `protobuf:"varint,1,opt,name=grant_type,json=grantType,proto3,enum=kade_chen.google_billing_console.token.GRANT_TYPE" json:"grant_type" bigquery:"grant_type"`
 	// 令牌类型
-	// @gotags: json:"type"
-	Type TOKEN_TYPE `protobuf:"varint,2,opt,name=type,proto3,enum=kade_chen.google_billing_console.token.TOKEN_TYPE" json:"type"`
+	// @gotags: json:"type" bigquery:"type"
+	Type TOKEN_TYPE `protobuf:"varint,2,opt,name=type,proto3,enum=kade_chen.google_billing_console.token.TOKEN_TYPE" json:"type" bigquery:"type"`
 	// 令牌过期时间
-	// @gotags: json:"expired_at"
-	ExpiredAt int64 `protobuf:"varint,3,opt,name=expired_at,json=expiredAt,proto3" json:"expired_at"`
+	// @gotags: json:"expired_at" bigquery:"expired_at"
+	ExpiredAt int64 `protobuf:"varint,3,opt,name=expired_at,json=expiredAt,proto3" json:"expired_at" bigquery:"expired_at"`
 	// 令牌访问空间
-	// @gotags: json:"namespace"
-	Namespace string `protobuf:"bytes,4,opt,name=namespace,proto3" json:"namespace"`
-	// 空间内的过滤条件, 格式key=value
-	// @gotags: json:"scope,omitempty"
-	Scope string `protobuf:"bytes,5,opt,name=scope,proto3" json:"scope,omitempty"`
-	// PASSWORD授权时, 用户名
-	// @gotags: json:"username,omitempty"
-	Username string `protobuf:"bytes,6,opt,name=username,proto3" json:"username,omitempty"`
-	// PASSWORD授权时, 用户密码
-	// @gotags: json:"password,omitempty"
-	Password string `protobuf:"bytes,7,opt,name=password,proto3" json:"password,omitempty"`
-	// REFRESH授权时, 刷新令牌
-	// @gotags: json:"refresh_token,omitempty"
-	RefreshToken string `protobuf:"bytes,8,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
-	// PRIVATE_TOKEN授权时, 访问令牌
-	// @gotags: json:"access_token,omitempty"
-	AccessToken string `protobuf:"bytes,9,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
-	// PRIVATE_TOKEN授权时, 描述信息
-	// @gotags: json:"description"
-	Description string `protobuf:"bytes,10,opt,name=description,proto3" json:"description"`
-	// AUTH_CODE授权时, Code
-	// @gotags: json:"auth_code"
-	AuthCode string `protobuf:"bytes,11,opt,name=auth_code,json=authCode,proto3" json:"auth_code"`
-	// AUTH_CODE授权时, State
-	// @gotags: json:"state"
-	State string `protobuf:"bytes,12,opt,name=state,proto3" json:"state"`
+	// @gotags: json:"namespace" bigquery:"namespace"
+	Namespace string `protobuf:"bytes,4,opt,name=namespace,proto3" json:"namespace" bigquery:"namespace"`
+	// 空间内的过滤条件, 格式 key=value
+	// @gotags: json:"scope,omitempty" bigquery:"scope"
+	Scope string `protobuf:"bytes,5,opt,name=scope,proto3" json:"scope,omitempty" bigquery:"scope"`
+	// PASSWORD 授权时, 用户名
+	// @gotags: json:"username,omitempty" bigquery:"username"
+	Username string `protobuf:"bytes,6,opt,name=username,proto3" json:"username,omitempty" bigquery:"username"`
+	// PASSWORD 授权时, 用户密码
+	// @gotags: json:"password,omitempty" bigquery:"password"
+	Password string `protobuf:"bytes,7,opt,name=password,proto3" json:"password,omitempty" bigquery:"password"`
+	// REFRESH 授权时, 刷新令牌
+	// @gotags: json:"refresh_token,omitempty" bigquery:"refresh_token"
+	RefreshToken string `protobuf:"bytes,8,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty" bigquery:"refresh_token"`
+	// PRIVATE_TOKEN 授权时, 访问令牌
+	// @gotags: json:"access_token,omitempty" bigquery:"access_token"
+	AccessToken string `protobuf:"bytes,9,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty" bigquery:"access_token"`
+	// PRIVATE_TOKEN 授权时, 描述信息
+	// @gotags: json:"description" bigquery:"description"
+	Description string `protobuf:"bytes,10,opt,name=description,proto3" json:"description" bigquery:"description"`
+	// AUTH_CODE 授权时, Code
+	// @gotags: json:"auth_code" bigquery:"auth_code"
+	AuthCode string `protobuf:"bytes,11,opt,name=auth_code,json=authCode,proto3" json:"auth_code" bigquery:"auth_code"`
+	// AUTH_CODE 授权时, State
+	// @gotags: json:"state" bigquery:"state"
+	State string `protobuf:"bytes,12,opt,name=state,proto3" json:"state" bigquery:"state"`
 	// 二次认证时验证码
-	// @gotags: json:"verify_code"
-	VerifyCode string `protobuf:"bytes,13,opt,name=verify_code,json=verifyCode,proto3" json:"verify_code"`
+	// @gotags: json:"verify_code" bigquery:"verify_code"
+	VerifyCode string `protobuf:"bytes,13,opt,name=verify_code,json=verifyCode,proto3" json:"verify_code" bigquery:"verify_code"`
 	// 令牌办法给客户端信息
-	// @gotags: json:"location,omitempty"
-	Location *Location `protobuf:"bytes,14,opt,name=location,proto3" json:"location,omitempty"`
+	// @gotags: json:"location,omitempty" bigquery:"location"
+	Location *Location `protobuf:"bytes,14,opt,name=location,proto3" json:"location,omitempty" bigquery:"location"`
 }
 
 func (x *IssueTokenRequest) Reset() {
@@ -454,12 +454,12 @@ type Location struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// 令牌申请者IP地址
-	// @gotags: bson:"ip_location" json:"ip_location"
-	IpLocation *IPLocation `protobuf:"bytes,1,opt,name=ip_location,json=ipLocation,proto3" json:"ip_location" bson:"ip_location"`
-	// 令牌申请者UA
-	// @gotags: bson:"user_agent" json:"user_agent"
-	UserAgent *UserAgent `protobuf:"bytes,2,opt,name=user_agent,json=userAgent,proto3" json:"user_agent" bson:"user_agent"`
+	// 令牌申请者 IP 地址
+	// @gotags: bson:"ip_location" json:"ip_location" bigquery:"ip_location"
+	IpLocation *IPLocation `protobuf:"bytes,1,opt,name=ip_location,json=ipLocation,proto3" json:"ip_location" bson:"ip_location" bigquery:"ip_location"`
+	// 令牌申请者 UA
+	// @gotags: bson:"user_agent" json:"user_agent" bigquery:"user_agent"
+	UserAgent *UserAgent `protobuf:"bytes,2,opt,name=user_agent,json=userAgent,proto3" json:"user_agent" bson:"user_agent" bigquery:"user_agent"`
 }
 
 func (x *Location) Reset() {
@@ -508,30 +508,29 @@ func (x *Location) GetUserAgent() *UserAgent {
 	return nil
 }
 
-// IPLocation 客户端地理位置信息
 type IPLocation struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// 令牌申请者IP地址
-	// @gotags: bson:"remote_ip" json:"remote_ip"
-	RemoteIp string `protobuf:"bytes,1,opt,name=remote_ip,json=remoteIp,proto3" json:"remote_ip" bson:"remote_ip"`
+	// IP 地址
+	// @gotags: bson:"remote_ip" json:"remote_ip" bigquery:"remote_ip"
+	RemoteIp string `protobuf:"bytes,1,opt,name=remote_ip,json=remoteIp,proto3" json:"remote_ip" bson:"remote_ip" bigquery:"remote_ip"`
 	// 国家
-	// @gotags: bson:"country" json:"country"
-	Country string `protobuf:"bytes,3,opt,name=country,proto3" json:"country" bson:"country"`
+	// @gotags: bson:"country" json:"country" bigquery:"country"
+	Country string `protobuf:"bytes,3,opt,name=country,proto3" json:"country" bson:"country" bigquery:"country"`
 	// 地区
-	// @gotags: bson:"region" json:"region"
-	Region string `protobuf:"bytes,4,opt,name=region,proto3" json:"region" bson:"region"`
+	// @gotags: bson:"region" json:"region" bigquery:"region"
+	Region string `protobuf:"bytes,4,opt,name=region,proto3" json:"region" bson:"region" bigquery:"region"`
 	// 省
-	// @gotags: bson:"province" json:"province"
-	Province string `protobuf:"bytes,5,opt,name=province,proto3" json:"province" bson:"province"`
+	// @gotags: bson:"province" json:"province" bigquery:"province"
+	Province string `protobuf:"bytes,5,opt,name=province,proto3" json:"province" bson:"province" bigquery:"province"`
 	// 城
-	// @gotags: bson:"city" json:"city"
-	City string `protobuf:"bytes,6,opt,name=city,proto3" json:"city" bson:"city"`
+	// @gotags: bson:"city" json:"city" bigquery:"city"
+	City string `protobuf:"bytes,6,opt,name=city,proto3" json:"city" bson:"city" bigquery:"city"`
 	// 服务商
-	// @gotags: bson:"isp" json:"isp"
-	Isp string `protobuf:"bytes,7,opt,name=isp,proto3" json:"isp" bson:"isp"`
+	// @gotags: bson:"isp" json:"isp" bigquery:"isp"
+	Isp string `protobuf:"bytes,7,opt,name=isp,proto3" json:"isp" bson:"isp" bigquery:"isp"`
 }
 
 func (x *IPLocation) Reset() {
@@ -608,30 +607,30 @@ func (x *IPLocation) GetIsp() string {
 	return ""
 }
 
-// UserAgent todo
+// UserAgent 客户端信息
 type UserAgent struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// 系统OS
-	// @gotags: bson:"os" json:"os"
-	Os string `protobuf:"bytes,1,opt,name=os,proto3" json:"os" bson:"os"`
+	// 系统 OS
+	// @gotags: bson:"os" json:"os" bigquery:"os"
+	Os string `protobuf:"bytes,1,opt,name=os,proto3" json:"os" bson:"os" bigquery:"os"`
 	// 客户端平台
-	// @gotags: bson:"platform" json:"platform"
-	Platform string `protobuf:"bytes,2,opt,name=platform,proto3" json:"platform" bson:"platform"`
+	// @gotags: bson:"platform" json:"platform" bigquery:"platform"
+	Platform string `protobuf:"bytes,2,opt,name=platform,proto3" json:"platform" bson:"platform" bigquery:"platform"`
 	// 内核名称
-	// @gotags: bson:"engine_name" json:"engine_name"
-	EngineName string `protobuf:"bytes,3,opt,name=engine_name,json=engineName,proto3" json:"engine_name" bson:"engine_name"`
+	// @gotags: bson:"engine_name" json:"engine_name" bigquery:"engine_name"
+	EngineName string `protobuf:"bytes,3,opt,name=engine_name,json=engineName,proto3" json:"engine_name" bson:"engine_name" bigquery:"engine_name"`
 	// 内核版本
-	// @gotags: bson:"engine_version" json:"engine_version"
-	EngineVersion string `protobuf:"bytes,4,opt,name=engine_version,json=engineVersion,proto3" json:"engine_version" bson:"engine_version"`
+	// @gotags: bson:"engine_version" json:"engine_version" bigquery:"engine_version"
+	EngineVersion string `protobuf:"bytes,4,opt,name=engine_version,json=engineVersion,proto3" json:"engine_version" bson:"engine_version" bigquery:"engine_version"`
 	// 浏览器名称
-	// @gotags: bson:"browser_name" json:"browser_name"
-	BrowserName string `protobuf:"bytes,5,opt,name=browser_name,json=browserName,proto3" json:"browser_name" bson:"browser_name"`
+	// @gotags: bson:"browser_name" json:"browser_name" bigquery:"browser_name"
+	BrowserName string `protobuf:"bytes,5,opt,name=browser_name,json=browserName,proto3" json:"browser_name" bson:"browser_name" bigquery:"browser_name"`
 	// 浏览器版本
-	// @gotags: bson:"browser_version" json:"browser_version"
-	BrowserVersion string `protobuf:"bytes,6,opt,name=browser_version,json=browserVersion,proto3" json:"browser_version" bson:"browser_version"`
+	// @gotags: bson:"browser_version" json:"browser_version" bigquery:"browser_version"
+	BrowserVersion string `protobuf:"bytes,6,opt,name=browser_version,json=browserVersion,proto3" json:"browser_version" bson:"browser_version" bigquery:"browser_version"`
 }
 
 func (x *UserAgent) Reset() {
@@ -713,66 +712,66 @@ type Token struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// 颁发平台, 根据授权方式判断
-	// @gotags: bson:"platform" json:"platform"
-	Platform PLATFORM `protobuf:"varint,1,opt,name=platform,proto3,enum=kade_chen.google_billing_console.token.PLATFORM" json:"platform" bson:"platform"`
-	// 访问令牌
-	// @gotags: bson:"_id" json:"access_token"
-	AccessToken string `protobuf:"bytes,2,opt,name=access_token,json=accessToken,proto3" json:"access_token" bson:"_id"`
-	// 刷新令牌, 当访问令牌过期时, 可以刷新令牌进行刷新
-	// @gotags: bson:"refresh_token" json:"refresh_token"
-	RefreshToken string `protobuf:"bytes,3,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token" bson:"refresh_token"`
+	// 颁发平台
+	// @gotags: bson:"platform" json:"platform" bigquery:"platform"
+	Platform PLATFORM `protobuf:"varint,1,opt,name=platform,proto3,enum=kade_chen.google_billing_console.token.PLATFORM" json:"platform" bson:"platform" bigquery:"platform"`
+	// Access Token
+	// @gotags: bson:"_id" json:"access_token" bigquery:"access_token"
+	AccessToken string `protobuf:"bytes,2,opt,name=access_token,json=accessToken,proto3" json:"access_token" bson:"_id" bigquery:"access_token"`
+	// Refresh Token
+	// @gotags: bson:"refresh_token" json:"refresh_token" bigquery:"refresh_token"
+	RefreshToken string `protobuf:"bytes,3,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token" bson:"refresh_token" bigquery:"refresh_token"`
 	// 颁发时间
-	// @gotags: bson:"issue_at" json:"issue_at"
-	IssueAt int64 `protobuf:"varint,4,opt,name=issue_at,json=issueAt,proto3" json:"issue_at" bson:"issue_at"`
-	// 访问令牌过期时间, 单位秒
-	// @gotags: bson:"access_expired_at" json:"access_expired_at"
-	AccessExpiredAt int64 `protobuf:"varint,5,opt,name=access_expired_at,json=accessExpiredAt,proto3" json:"access_expired_at" bson:"access_expired_at"`
-	// 刷新令牌过期时间, 单位秒
-	// @gotags: bson:"refresh_expired_at" json:"refresh_expired_at"
-	RefreshExpiredAt int64 `protobuf:"varint,6,opt,name=refresh_expired_at,json=refreshExpiredAt,proto3" json:"refresh_expired_at" bson:"refresh_expired_at"`
+	// @gotags: bson:"issue_at" json:"issue_at" bigquery:"issue_at"
+	IssueAt int64 `protobuf:"varint,4,opt,name=issue_at,json=issueAt,proto3" json:"issue_at" bson:"issue_at" bigquery:"issue_at"`
+	// 访问令牌过期时间
+	// @gotags: bson:"access_expired_at" json:"access_expired_at" bigquery:"access_expired_at"
+	AccessExpiredAt int64 `protobuf:"varint,5,opt,name=access_expired_at,json=accessExpiredAt,proto3" json:"access_expired_at" bson:"access_expired_at" bigquery:"access_expired_at"`
+	// 刷新令牌过期时间
+	// @gotags: bson:"refresh_expired_at" json:"refresh_expired_at" bigquery:"refresh_expired_at"
+	RefreshExpiredAt int64 `protobuf:"varint,6,opt,name=refresh_expired_at,json=refreshExpiredAt,proto3" json:"refresh_expired_at" bson:"refresh_expired_at" bigquery:"refresh_expired_at"`
 	// 用户类型
-	// @gotags: bson:"user_type" json:"user_type"
-	UserType user.TYPE `protobuf:"varint,7,opt,name=user_type,json=userType,proto3,enum=kade_chen.google_billing_console.user.TYPE" json:"user_type" bson:"user_type"`
-	// 用户当前所处域
-	// @gotags: bson:"domain" json:"domain"
-	Domain string `protobuf:"bytes,8,opt,name=domain,proto3" json:"domain" bson:"domain"`
+	// @gotags: bson:"user_type" json:"user_type" bigquery:"user_type"
+	UserType user.TYPE `protobuf:"varint,7,opt,name=user_type,json=userType,proto3,enum=kade_chen.google_billing_console.user.TYPE" json:"user_type" bson:"user_type" bigquery:"user_type"`
+	// 用户当前域
+	// @gotags: bson:"domain" json:"domain" bigquery:"domain"
+	Domain string `protobuf:"bytes,8,opt,name=domain,proto3" json:"domain" bson:"domain" bigquery:"domain"`
 	// 用户名
-	// @gotags: bson:"username" json:"username"
-	Username string `protobuf:"bytes,9,opt,name=username,proto3" json:"username" bson:"username"`
-	// 用户Id
-	// @gotags: bson:"user_id" json:"user_id"
-	UserId string `protobuf:"bytes,10,opt,name=user_id,json=userId,proto3" json:"user_id" bson:"user_id"`
-	// 是否是共享账号, 允许多人同时使用, 继承自用户类型, 第三方SSO除外
-	// @gotags: bson:"shared_user" json:"shared_user"
-	SharedUser bool `protobuf:"varint,21,opt,name=shared_user,json=sharedUser,proto3" json:"shared_user" bson:"shared_user"`
+	// @gotags: bson:"username" json:"username" bigquery:"username"
+	Username string `protobuf:"bytes,9,opt,name=username,proto3" json:"username" bson:"username" bigquery:"username"`
+	// 用户 ID
+	// @gotags: bson:"user_id" json:"user_id" bigquery:"user_id"
+	UserId string `protobuf:"bytes,10,opt,name=user_id,json=userId,proto3" json:"user_id" bson:"user_id" bigquery:"user_id"`
+	// 是否共享账号
+	// @gotags: bson:"shared_user" json:"shared_user" bigquery:"shared_user"
+	SharedUser bool `protobuf:"varint,21,opt,name=shared_user,json=sharedUser,proto3" json:"shared_user" bson:"shared_user" bigquery:"shared_user"`
 	// 授权类型
-	// @gotags: bson:"grant_type" json:"grant_type"
-	GrantType GRANT_TYPE `protobuf:"varint,11,opt,name=grant_type,json=grantType,proto3,enum=kade_chen.google_billing_console.token.GRANT_TYPE" json:"grant_type" bson:"grant_type"`
+	// @gotags: bson:"grant_type" json:"grant_type" bigquery:"grant_type"
+	GrantType GRANT_TYPE `protobuf:"varint,11,opt,name=grant_type,json=grantType,proto3,enum=kade_chen.google_billing_console.token.GRANT_TYPE" json:"grant_type" bson:"grant_type" bigquery:"grant_type"`
 	// 令牌类型
-	// @gotags: bson:"type" json:"type"
-	Type TOKEN_TYPE `protobuf:"varint,12,opt,name=type,proto3,enum=kade_chen.google_billing_console.token.TOKEN_TYPE" json:"type" bson:"type"`
+	// @gotags: bson:"type" json:"type" bigquery:"type"
+	Type TOKEN_TYPE `protobuf:"varint,12,opt,name=type,proto3,enum=kade_chen.google_billing_console.token.TOKEN_TYPE" json:"type" bson:"type" bigquery:"type"`
 	// 当前空间
-	// @gotags: bson:"namespace" json:"namespace"
-	Namespace string `protobuf:"bytes,13,opt,name=namespace,proto3" json:"namespace" bson:"namespace"`
-	// 是不是空间管理员, 空间管理员可以管理空间设置
-	// @gotags: bson:"is_namespace_manager" json:"is_namespace_manager"
-	IsNamespaceManager bool `protobuf:"varint,20,opt,name=is_namespace_manager,json=isNamespaceManager,proto3" json:"is_namespace_manager" bson:"is_namespace_manager"`
-	// 空间内的过来条件, 格式key=value
-	// @gotags: bson:"scope" json:"scope,omitempty"
-	Scope string `protobuf:"bytes,14,opt,name=scope,proto3" json:"scope,omitempty" bson:"scope"`
-	// 令牌描述信息, 当授权类型为Private Token时, 做描述使用
-	// @gotags: bson:"description" json:"description,omitempty"
-	Description string `protobuf:"bytes,15,opt,name=description,proto3" json:"description,omitempty" bson:"description"`
+	// @gotags: bson:"namespace" json:"namespace" bigquery:"namespace"
+	Namespace string `protobuf:"bytes,13,opt,name=namespace,proto3" json:"namespace" bson:"namespace" bigquery:"namespace"`
+	// 空间管理员
+	// @gotags: bson:"is_namespace_manager" json:"is_namespace_manager" bigquery:"is_namespace_manager"
+	IsNamespaceManager bool `protobuf:"varint,20,opt,name=is_namespace_manager,json=isNamespaceManager,proto3" json:"is_namespace_manager" bson:"is_namespace_manager" bigquery:"is_namespace_manager"`
+	// 空间过滤条件
+	// @gotags: bson:"scope" json:"scope,omitempty" bigquery:"scope"
+	Scope string `protobuf:"bytes,14,opt,name=scope,proto3" json:"scope,omitempty" bson:"scope" bigquery:"scope"`
+	// 描述信息
+	// @gotags: bson:"description" json:"description,omitempty" bigquery:"description"
+	Description string `protobuf:"bytes,15,opt,name=description,proto3" json:"description,omitempty" bson:"description" bigquery:"description"`
 	// 令牌状态
-	// @gotags: bson:"status" json:"status,omitempty"
-	Status *Status `protobuf:"bytes,17,opt,name=status,proto3" json:"status,omitempty" bson:"status"`
-	// 令牌办法给客户端信息
-	// @gotags: bson:"location" json:"location,omitempty"
-	Location *Location `protobuf:"bytes,18,opt,name=location,proto3" json:"location,omitempty" bson:"location"`
+	// @gotags: bson:"status" json:"status,omitempty" bigquery:"status"
+	Status *Status `protobuf:"bytes,17,opt,name=status,proto3" json:"status,omitempty" bson:"status" bigquery:"status"`
+	// 申请方信息
+	// @gotags: bson:"location" json:"location,omitempty" bigquery:"location"
+	Location *Location `protobuf:"bytes,18,opt,name=location,proto3" json:"location,omitempty" bson:"location" bigquery:"location"`
 	// 其他信息
-	// @gotags: bson:"meta" json:"meta,omitempty"
-	Meta map[string]string `protobuf:"bytes,19,rep,name=meta,proto3" json:"meta,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" bson:"meta"`
+	// @gotags: bson:"meta" json:"meta,omitempty" bigquery:"meta"
+	Meta map[string]string `protobuf:"bytes,19,rep,name=meta,proto3" json:"meta,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" bson:"meta" bigquery:"meta"`
 }
 
 func (x *Token) Reset() {
@@ -947,23 +946,24 @@ func (x *Token) GetMeta() map[string]string {
 	return nil
 }
 
+// 用户冻结状态
 type Status struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	// 是否冻结
-	// @gotags: bson:"is_block" json:"is_block"
-	IsBlock bool `protobuf:"varint,1,opt,name=is_block,json=isBlock,proto3" json:"is_block" bson:"is_block"`
+	// @gotags: bson:"is_block" json:"is_block" bigquery:"is_block"
+	IsBlock bool `protobuf:"varint,1,opt,name=is_block,json=isBlock,proto3" json:"is_block" bson:"is_block" bigquery:"is_block"`
 	// 冻结类型
-	// @gotags: bson:"block_type" json:"block_type"
-	BlockType BLOCK_TYPE `protobuf:"varint,2,opt,name=block_type,json=blockType,proto3,enum=kade_chen.google_billing_console.token.BLOCK_TYPE" json:"block_type" bson:"block_type"`
+	// @gotags: bson:"block_type" json:"block_type" bigquery:"block_type"
+	BlockType BLOCK_TYPE `protobuf:"varint,2,opt,name=block_type,json=blockType,proto3,enum=kade_chen.google_billing_console.token.BLOCK_TYPE" json:"block_type" bson:"block_type" bigquery:"block_type"`
 	// 冻结时间
-	// @gotags: bson:"block_at" json:"block_at"
-	BlockAt int64 `protobuf:"varint,3,opt,name=block_at,json=blockAt,proto3" json:"block_at" bson:"block_at"`
+	// @gotags: bson:"block_at" json:"block_at" bigquery:"block_at"
+	BlockAt int64 `protobuf:"varint,3,opt,name=block_at,json=blockAt,proto3" json:"block_at" bson:"block_at" bigquery:"block_at"`
 	// 冻结原因
-	// @gotags: bson:"block_reason" json:"block_reason"
-	BlockReason string `protobuf:"bytes,4,opt,name=block_reason,json=blockReason,proto3" json:"block_reason" bson:"block_reason"`
+	// @gotags: bson:"block_reason" json:"block_reason" bigquery:"block_reason"
+	BlockReason string `protobuf:"bytes,4,opt,name=block_reason,json=blockReason,proto3" json:"block_reason" bson:"block_reason" bigquery:"block_reason"`
 }
 
 func (x *Status) Reset() {

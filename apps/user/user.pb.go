@@ -76,15 +76,10 @@ func (TYPE) EnumDescriptor() ([]byte, []int) {
 type PROVIDER int32
 
 const (
-	// 本地数据库
-	PROVIDER_LOCAL PROVIDER = 0
-	// 来源LDAP
-	PROVIDER_LDAP PROVIDER = 1
-	// 来源飞书
-	PROVIDER_FEISHU PROVIDER = 2
-	// 来源钉钉
-	PROVIDER_DINGDING PROVIDER = 3
-	// 来源企业微信
+	PROVIDER_LOCAL       PROVIDER = 0
+	PROVIDER_LDAP        PROVIDER = 1
+	PROVIDER_FEISHU      PROVIDER = 2
+	PROVIDER_DINGDING    PROVIDER = 3
 	PROVIDER_WECHAT_WORK PROVIDER = 4
 )
 
@@ -136,10 +131,8 @@ func (PROVIDER) EnumDescriptor() ([]byte, []int) {
 type CREATE_FROM int32
 
 const (
-	// 管理员创建
 	CREATE_FROM_PRIMARY_ACCOUNT CREATE_FROM = 0
-	// 自己注册
-	CREATE_FROM_SELF CREATE_FROM = 1
+	CREATE_FROM_SELF            CREATE_FROM = 1
 )
 
 // Enum value maps for CREATE_FROM.
@@ -184,12 +177,9 @@ func (CREATE_FROM) EnumDescriptor() ([]byte, []int) {
 type Gender int32
 
 const (
-	// 保密
 	Gender_UNKNOWN Gender = 0
-	// 男
-	Gender_MALE Gender = 1
-	// 女
-	Gender_FEMALE Gender = 2
+	Gender_MALE    Gender = 1
+	Gender_FEMALE  Gender = 2
 )
 
 // Enum value maps for Gender.
@@ -239,24 +229,27 @@ type User struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// 对象Id
+	// @gotags: bson:"id" json:"id" bigquery:"id"
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" bson:"id" bigquery:"id"`
 	// 元信息
-	// @gotags: bson:",inline" json:"meta"
-	Meta *Meta `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta" bson:",inline"`
+	// @gotags: bson:",inline" json:"meta" bigquery:"meta"
+	Meta *Meta `protobuf:"bytes,2,opt,name=meta,proto3" json:"meta" bson:",inline" bigquery:"meta"`
 	// 定义信息
-	// @gotags: bson:",inline" json:"spec"
-	Spec *CreateUserRequest `protobuf:"bytes,2,opt,name=spec,proto3" json:"spec" bson:",inline"`
+	// @gotags: bson:",inline" json:"spec" bigquery:"spec"
+	Spec *CreateUserRequest `protobuf:"bytes,3,opt,name=spec,proto3" json:"spec" bson:",inline" bigquery:"spec"`
 	// 密码相关信息
-	// @gotags: bson:"password" json:"password"
-	Password *Password `protobuf:"bytes,4,opt,name=password,proto3" json:"password" bson:"password"`
+	// @gotags: bson:"password" json:"password" bigquery:"password"
+	Password *Password `protobuf:"bytes,4,opt,name=password,proto3" json:"password" bson:"password" bigquery:"password"`
 	// 用户状态
-	// @gotags: bson:"status" json:"status"
-	Status *Status `protobuf:"bytes,5,opt,name=status,proto3" json:"status" bson:"status"`
+	// @gotags: bson:"status" json:"status" bigquery:"status"
+	Status *Status `protobuf:"bytes,5,opt,name=status,proto3" json:"status" bson:"status" bigquery:"status"`
 	// 飞书token
-	// @gotags: bson:"feishu_token" json:"feishu_token"
-	FeishuToken *FeishuAccessToken `protobuf:"bytes,6,opt,name=feishu_token,json=feishuToken,proto3" json:"feishu_token" bson:"feishu_token"`
+	// @gotags: bson:"feishu_token" json:"feishu_token" bigquery:"feishu_token"
+	FeishuToken *FeishuAccessToken `protobuf:"bytes,6,opt,name=feishu_token,json=feishuToken,proto3" json:"feishu_token" bson:"feishu_token" bigquery:"feishu_token"`
 	// 钉钉token
-	// @gotags: bson:"dingding_token" json:"dingding_token"
-	DingdingToken *DingDingAccessToken `protobuf:"bytes,7,opt,name=dingding_token,json=dingdingToken,proto3" json:"dingding_token" bson:"dingding_token"`
+	// @gotags: bson:"dingding_token" json:"dingding_token" bigquery:"dingding_token"
+	DingdingToken *DingDingAccessToken `protobuf:"bytes,7,opt,name=dingding_token,json=dingdingToken,proto3" json:"dingding_token" bson:"dingding_token" bigquery:"dingding_token"`
 }
 
 func (x *User) Reset() {
@@ -289,6 +282,13 @@ func (x *User) ProtoReflect() protoreflect.Message {
 // Deprecated: Use User.ProtoReflect.Descriptor instead.
 func (*User) Descriptor() ([]byte, []int) {
 	return file_google_billing_console_apps_user_pb_user_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *User) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
 }
 
 func (x *User) GetMeta() *Meta {
@@ -341,50 +341,50 @@ type CreateUserRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 账号提供方
-	// @gotags: json:"provider" bson:"provider"
-	Provider PROVIDER `protobuf:"varint,1,opt,name=provider,proto3,enum=kade_chen.google_billing_console.user.PROVIDER" json:"provider" bson:"provider"`
+	// @gotags: json:"provider" bson:"provider" bigquery:"provider"
+	Provider PROVIDER `protobuf:"varint,1,opt,name=provider,proto3,enum=kade_chen.google_billing_console.user.PROVIDER" json:"provider" bson:"provider" bigquery:"provider"`
 	// 用户类型
-	// @gotags: json:"type" bson:"type"
-	Type TYPE `protobuf:"varint,2,opt,name=type,proto3,enum=kade_chen.google_billing_console.user.TYPE" json:"type" bson:"type"`
-	// 是否共享账号, 默认SSO, 不允许同一个账号给多少同时使用
-	// @gotags: json:"shared" bson:"shared"
-	Shared bool `protobuf:"varint,15,opt,name=shared,proto3" json:"shared" bson:"shared"`
+	// @gotags: json:"type" bson:"type" bigquery:"type"
+	Type TYPE `protobuf:"varint,2,opt,name=type,proto3,enum=kade_chen.google_billing_console.user.TYPE" json:"type" bson:"type" bigquery:"type"`
+	// 是否共享账号
+	// @gotags: json:"shared" bson:"shared" bigquery:"shared"
+	Shared bool `protobuf:"varint,15,opt,name=shared,proto3" json:"shared" bson:"shared" bigquery:"shared"`
 	// 创建来源
-	// @gotags: json:"create_from" bson:"create_from"
-	CreateFrom CREATE_FROM `protobuf:"varint,3,opt,name=create_from,json=createFrom,proto3,enum=kade_chen.google_billing_console.user.CREATE_FROM" json:"create_from" bson:"create_from"`
+	// @gotags: json:"create_from" bson:"create_from" bigquery:"create_from"
+	CreateFrom CREATE_FROM `protobuf:"varint,3,opt,name=create_from,json=createFrom,proto3,enum=kade_chen.google_billing_console.user.CREATE_FROM" json:"create_from" bson:"create_from" bigquery:"create_from"`
 	// 创建类型
-	// @gotags: json:"create_by" bson:"create_by"
-	CreateBy string `protobuf:"bytes,13,opt,name=create_by,json=createBy,proto3" json:"create_by" bson:"create_by"`
+	// @gotags: json:"create_by" bson:"create_by" bigquery:"create_by"
+	CreateBy string `protobuf:"bytes,13,opt,name=create_by,json=createBy,proto3" json:"create_by" bson:"create_by" bigquery:"create_by"`
 	// 域信息
-	// @gotags: json:"domain" bson:"domain" validate:"required"
-	Domain string `protobuf:"bytes,4,opt,name=domain,proto3" json:"domain" bson:"domain" validate:"required"`
+	// @gotags: json:"domain" bson:"domain" validate:"required" bigquery:"domain"
+	Domain string `protobuf:"bytes,4,opt,name=domain,proto3" json:"domain" bson:"domain" validate:"required" bigquery:"domain"`
 	// 用户账号名称
-	// @gotags: json:"username" bson:"username" validate:"required,lte=60"
-	Username string `protobuf:"bytes,5,opt,name=username,proto3" json:"username" bson:"username" validate:"required,lte=60"`
+	// @gotags: json:"username" bson:"username" validate:"required,lte=60" bigquery:"username"
+	Username string `protobuf:"bytes,5,opt,name=username,proto3" json:"username" bson:"username" validate:"required,lte=60" bigquery:"username"`
 	// 密码相关信息
-	// @gotags: json:"password" bson:"-" validate:"required,lte=80"
-	Password string `protobuf:"bytes,6,opt,name=password,proto3" json:"password" bson:"-" validate:"required,lte=80"`
+	// @gotags: json:"password" bson:"-" validate:"required,lte=80" bigquery:"password"
+	Password string `protobuf:"bytes,6,opt,name=password,proto3" json:"password" bson:"-" validate:"required,lte=80" bigquery:"password"`
 	// 用户描述
-	// @gotags: json:"description" bson:"description"
-	Description string `protobuf:"bytes,7,opt,name=description,proto3" json:"description" bson:"description"`
-	// 用户标签, 用于过滤用户
-	// @gotags: json:"labels" bson:"labels"
-	Labels map[string]string `protobuf:"bytes,11,rep,name=labels,proto3" json:"labels" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" bson:"labels"`
+	// @gotags: json:"description" bson:"description" bigquery:"description"
+	Description string `protobuf:"bytes,7,opt,name=description,proto3" json:"description" bson:"description" bigquery:"description"`
+	// 用户标签
+	// @gotags: json:"labels" bson:"labels" bigquery:"labels"
+	Labels map[string]string `protobuf:"bytes,11,rep,name=labels,proto3" json:"labels" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" bson:"labels" bigquery:"labels"`
 	// 用户飞书相关信息
-	// @gotags: json:"feishu" bson:"feishu"
-	Feishu *Feishu `protobuf:"bytes,8,opt,name=feishu,proto3" json:"feishu" bson:"feishu"`
+	// @gotags: json:"feishu" bson:"feishu" bigquery:"feishu"
+	Feishu *Feishu `protobuf:"bytes,8,opt,name=feishu,proto3" json:"feishu" bson:"feishu" bigquery:"feishu"`
 	// 用户钉钉相关信息
-	// @gotags: json:"dingding" bson:"dingding"
-	Dingding *DingDing `protobuf:"bytes,9,opt,name=dingding,proto3" json:"dingding" bson:"dingding"`
+	// @gotags: json:"dingding" bson:"dingding" bigquery:"dingding"
+	Dingding *DingDing `protobuf:"bytes,9,opt,name=dingding,proto3" json:"dingding" bson:"dingding" bigquery:"dingding"`
 	// 用户企业微信相关信息
-	// @gotags: json:"wechatwork" bson:"wechatwork"
-	Wechatwork *WechatWork `protobuf:"bytes,10,opt,name=wechatwork,proto3" json:"wechatwork" bson:"wechatwork"`
-	// 使用全名作为uid, 比如 admin@default, 默认使用uuid
-	// @gotags: json:"use_full_named_uid" bson:"use_full_named_uid"
-	UseFullNamedUid bool `protobuf:"varint,12,opt,name=use_full_named_uid,json=useFullNamedUid,proto3" json:"use_full_named_uid" bson:"use_full_named_uid"`
+	// @gotags: json:"wechatwork" bson:"wechatwork" bigquery:"wechatwork"
+	Wechatwork *WechatWork `protobuf:"bytes,10,opt,name=wechatwork,proto3" json:"wechatwork" bson:"wechatwork" bigquery:"wechatwork"`
+	// 使用全名作为uid
+	// @gotags: json:"use_full_named_uid" bson:"use_full_named_uid" bigquery:"use_full_named_uid"
+	UseFullNamedUid bool `protobuf:"varint,12,opt,name=use_full_named_uid,json=useFullNamedUid,proto3" json:"use_full_named_uid" bson:"use_full_named_uid" bigquery:"use_full_named_uid"`
 	// Profile信息
-	// @gotags bson:"profile" json:"profile"
-	Profile *Profile `protobuf:"bytes,14,opt,name=profile,proto3" json:"profile,omitempty"`
+	// @gotags: bson:"profile" json:"profile" bigquery:"profile"
+	Profile *Profile `protobuf:"bytes,14,opt,name=profile,proto3" json:"profile" bson:"profile" bigquery:"profile"`
 }
 
 func (x *CreateUserRequest) Reset() {
@@ -530,17 +530,17 @@ type Feishu struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 是否启用飞书认证
-	// @gotags: bson:"enabled" json:"enabled"
-	Enabled bool `protobuf:"varint,4,opt,name=enabled,proto3" json:"enabled" bson:"enabled"`
+	// @gotags: bson:"enabled" json:"enabled" bigquery:"enabled"
+	Enabled bool `protobuf:"varint,4,opt,name=enabled,proto3" json:"enabled" bson:"enabled" bigquery:"enabled"`
 	// 用户在飞书应用内的唯一标识
-	// @gotags: bson:"open_id" json:"open_id"
-	OpenId string `protobuf:"bytes,1,opt,name=open_id,json=openId,proto3" json:"open_id" bson:"open_id"`
-	// 用户统一ID，在同一租户开发的所有应用内的唯一标识
-	// @gotags: bson:"union_id" json:"union_id"
-	UnionId string `protobuf:"bytes,2,opt,name=union_id,json=unionId,proto3" json:"union_id" bson:"union_id"`
-	// 用户 user id，申请了邮箱获取权限(获取用户 user ID)的应用会返回该字段
-	// @gotags: bson:"user_id" json:"user_id"
-	UserId string `protobuf:"bytes,3,opt,name=user_id,json=userId,proto3" json:"user_id" bson:"user_id"`
+	// @gotags: bson:"open_id" json:"open_id" bigquery:"open_id"
+	OpenId string `protobuf:"bytes,1,opt,name=open_id,json=openId,proto3" json:"open_id" bson:"open_id" bigquery:"open_id"`
+	// 用户统一ID
+	// @gotags: bson:"union_id" json:"union_id" bigquery:"union_id"
+	UnionId string `protobuf:"bytes,2,opt,name=union_id,json=unionId,proto3" json:"union_id" bson:"union_id" bigquery:"union_id"`
+	// 用户 user id
+	// @gotags: bson:"user_id" json:"user_id" bigquery:"user_id"
+	UserId string `protobuf:"bytes,3,opt,name=user_id,json=userId,proto3" json:"user_id" bson:"user_id" bigquery:"user_id"`
 }
 
 func (x *Feishu) Reset() {
@@ -609,14 +609,14 @@ type DingDing struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 是否启用钉钉认证
-	// @gotags: bson:"enabled" json:"enabled"
-	Enabled bool `protobuf:"varint,3,opt,name=enabled,proto3" json:"enabled" bson:"enabled"`
+	// @gotags: bson:"enabled" json:"enabled" bigquery:"enabled"
+	Enabled bool `protobuf:"varint,3,opt,name=enabled,proto3" json:"enabled" bson:"enabled" bigquery:"enabled"`
 	// 用户在飞书应用内的唯一标识
-	// @gotags: bson:"open_id" json:"open_id"
-	OpenId string `protobuf:"bytes,1,opt,name=open_id,json=openId,proto3" json:"open_id" bson:"open_id"`
-	// 用户统一ID，在同一租户开发的所有应用内的唯一标识
-	// @gotags: bson:"union_id" json:"union_id"
-	UnionId string `protobuf:"bytes,2,opt,name=union_id,json=unionId,proto3" json:"union_id" bson:"union_id"`
+	// @gotags: bson:"open_id" json:"open_id" bigquery:"open_id"
+	OpenId string `protobuf:"bytes,1,opt,name=open_id,json=openId,proto3" json:"open_id" bson:"open_id" bigquery:"open_id"`
+	// 用户统一ID
+	// @gotags: bson:"union_id" json:"union_id" bigquery:"union_id"
+	UnionId string `protobuf:"bytes,2,opt,name=union_id,json=unionId,proto3" json:"union_id" bson:"union_id" bigquery:"union_id"`
 }
 
 func (x *DingDing) Reset() {
@@ -678,14 +678,14 @@ type WechatWork struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 是否启用企业微信认证
-	// @gotags: bson:"enabled" json:"enabled"
-	Enabled bool `protobuf:"varint,3,opt,name=enabled,proto3" json:"enabled" bson:"enabled"`
+	// @gotags: bson:"enabled" json:"enabled" bigquery:"enabled"
+	Enabled bool `protobuf:"varint,3,opt,name=enabled,proto3" json:"enabled" bson:"enabled" bigquery:"enabled"`
 	// 用户在企业微信中的Id
-	// @gotags: bson:"user_id" json:"user_id"
-	UserId string `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id" bson:"user_id"`
+	// @gotags: bson:"user_id" json:"user_id" bigquery:"user_id"
+	UserId string `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id" bson:"user_id" bigquery:"user_id"`
 	// 用户在企业微信唯一标识
-	// @gotags: bson:"open_id" json:"open_id"
-	OpenId string `protobuf:"bytes,2,opt,name=open_id,json=openId,proto3" json:"open_id" bson:"open_id"`
+	// @gotags: bson:"open_id" json:"open_id" bigquery:"open_id"
+	OpenId string `protobuf:"bytes,2,opt,name=open_id,json=openId,proto3" json:"open_id" bson:"open_id" bigquery:"open_id"`
 }
 
 func (x *WechatWork) Reset() {
@@ -741,42 +741,41 @@ func (x *WechatWork) GetOpenId() string {
 	return ""
 }
 
-// Profile todo
 type Profile struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	// 用户真实姓名
-	// @gotags: bson:"real_name" json:"real_name" validate:"lte=10"
-	RealName string `protobuf:"bytes,1,opt,name=real_name,json=realName,proto3" json:"real_name" bson:"real_name" validate:"lte=10"`
-	// 用户昵称, 用于在界面进行展示
-	// @gotags: bson:"nick_name" json:"nick_name" validate:"lte=30"
-	NickName string `protobuf:"bytes,2,opt,name=nick_name,json=nickName,proto3" json:"nick_name" bson:"nick_name" validate:"lte=30"`
-	// 手机号码, 用户可以通过手机进行注册和密码找回, 还可以通过手机号进行登录
-	// @gotags: bson:"phone" json:"phone" validate:"lte=30"
-	Phone string `protobuf:"bytes,3,opt,name=phone,proto3" json:"phone" bson:"phone" validate:"lte=30"`
-	// 邮箱, 用户可以通过邮箱进行注册和照明密码
-	// @gotags: bson:"email" json:"email" validate:"lte=30"
-	Email string `protobuf:"bytes,4,opt,name=email,proto3" json:"email" bson:"email" validate:"lte=30"`
+	// @gotags: bson:"real_name" json:"real_name" validate:"lte=10" bigquery:"real_name"
+	RealName string `protobuf:"bytes,1,opt,name=real_name,json=realName,proto3" json:"real_name" bson:"real_name" validate:"lte=10" bigquery:"real_name"`
+	// 用户昵称
+	// @gotags: bson:"nick_name" json:"nick_name" validate:"lte=30" bigquery:"nick_name"
+	NickName string `protobuf:"bytes,2,opt,name=nick_name,json=nickName,proto3" json:"nick_name" bson:"nick_name" validate:"lte=30" bigquery:"nick_name"`
+	// 手机号码
+	// @gotags: bson:"phone" json:"phone" validate:"lte=30" bigquery:"phone"
+	Phone string `protobuf:"bytes,3,opt,name=phone,proto3" json:"phone" bson:"phone" validate:"lte=30" bigquery:"phone"`
+	// 邮箱
+	// @gotags: bson:"email" json:"email" validate:"lte=30" bigquery:"email"
+	Email string `protobuf:"bytes,4,opt,name=email,proto3" json:"email" bson:"email" validate:"lte=30" bigquery:"email"`
 	// 用户住址
-	// @gotags: bson:"address" json:"address" validate:"lte=120"
-	Address string `protobuf:"bytes,5,opt,name=address,proto3" json:"address" bson:"address" validate:"lte=120"`
+	// @gotags: bson:"address" json:"address" validate:"lte=120" bigquery:"address"
+	Address string `protobuf:"bytes,5,opt,name=address,proto3" json:"address" bson:"address" validate:"lte=120" bigquery:"address"`
 	// 性别
-	// @gotags: bson:"gender" json:"gender" validate:"lte=10"
-	Gender Gender `protobuf:"varint,6,opt,name=gender,proto3,enum=kade_chen.google_billing_console.user.Gender" json:"gender" bson:"gender" validate:"lte=10"`
+	// @gotags: bson:"gender" json:"gender" validate:"lte=10" bigquery:"gender"
+	Gender Gender `protobuf:"varint,6,opt,name=gender,proto3,enum=kade_chen.google_billing_console.user.Gender" json:"gender" bson:"gender" validate:"lte=10" bigquery:"gender"`
 	// 头像
-	// @gotags: bson:"avatar" json:"avatar" validate:"lte=300"
-	Avatar string `protobuf:"bytes,7,opt,name=avatar,proto3" json:"avatar" bson:"avatar" validate:"lte=300"`
+	// @gotags: bson:"avatar" json:"avatar" validate:"lte=300" bigquery:"avatar"
+	Avatar string `protobuf:"bytes,7,opt,name=avatar,proto3" json:"avatar" bson:"avatar" validate:"lte=300" bigquery:"avatar"`
 	// 用户使用的语言
-	// @gotags: bson:"language" json:"language" validate:"lte=40"
-	Language string `protobuf:"bytes,8,opt,name=language,proto3" json:"language" bson:"language" validate:"lte=40"`
+	// @gotags: bson:"language" json:"language" validate:"lte=40" bigquery:"language"
+	Language string `protobuf:"bytes,8,opt,name=language,proto3" json:"language" bson:"language" validate:"lte=40" bigquery:"language"`
 	// 用户所在的城市
-	// @gotags: bson:"city" json:"city" validate:"lte=40"
-	City string `protobuf:"bytes,9,opt,name=city,proto3" json:"city" bson:"city" validate:"lte=40"`
+	// @gotags: bson:"city" json:"city" validate:"lte=40" bigquery:"city"
+	City string `protobuf:"bytes,9,opt,name=city,proto3" json:"city" bson:"city" validate:"lte=40" bigquery:"city"`
 	// 用户所在的省
-	// @gotags: bson:"province" json:"province" validate:"lte=40"
-	Province string `protobuf:"bytes,10,opt,name=province,proto3" json:"province" bson:"province" validate:"lte=40"`
+	// @gotags: bson:"province" json:"province" validate:"lte=40" bigquery:"province"
+	Province string `protobuf:"bytes,10,opt,name=province,proto3" json:"province" bson:"province" validate:"lte=40" bigquery:"province"`
 }
 
 func (x *Profile) Reset() {
@@ -887,29 +886,29 @@ type Password struct {
 	unknownFields protoimpl.UnknownFields
 
 	// hash过后的密码
-	// @gotags: bson:"password" json:"password,omitempty"
-	Password string `protobuf:"bytes,1,opt,name=password,proto3" json:"password,omitempty" bson:"password"`
+	// @gotags: bson:"password" json:"password,omitempty" bigquery:"password"
+	Password string `protobuf:"bytes,1,opt,name=password,proto3" json:"password,omitempty" bson:"password" bigquery:"password"`
 	// 密码创建时间
-	// @gotags: bson:"create_at" json:"create_at"
-	CreateAt int64 `protobuf:"varint,2,opt,name=create_at,json=createAt,proto3" json:"create_at" bson:"create_at"`
+	// @gotags: bson:"create_at" json:"create_at" bigquery:"create_at"
+	CreateAt int64 `protobuf:"varint,2,opt,name=create_at,json=createAt,proto3" json:"create_at" bson:"create_at" bigquery:"create_at"`
 	// 密码更新时间
-	// @gotags: bson:"update_at" json:"update_at"
-	UpdateAt int64 `protobuf:"varint,3,opt,name=update_at,json=updateAt,proto3" json:"update_at" bson:"update_at"`
+	// @gotags: bson:"update_at" json:"update_at" bigquery:"update_at"
+	UpdateAt int64 `protobuf:"varint,3,opt,name=update_at,json=updateAt,proto3" json:"update_at" bson:"update_at" bigquery:"update_at"`
 	// 密码需要被重置
-	// @gotags: bson:"need_reset" json:"need_reset"
-	NeedReset bool `protobuf:"varint,4,opt,name=need_reset,json=needReset,proto3" json:"need_reset" bson:"need_reset"`
+	// @gotags: bson:"need_reset" json:"need_reset" bigquery:"need_reset"
+	NeedReset bool `protobuf:"varint,4,opt,name=need_reset,json=needReset,proto3" json:"need_reset" bson:"need_reset" bigquery:"need_reset"`
 	// 需要重置的原因
-	// @gotags: bson:"reset_reason" json:"reset_reason"
-	ResetReason string `protobuf:"bytes,5,opt,name=reset_reason,json=resetReason,proto3" json:"reset_reason" bson:"reset_reason"`
-	// 密码过期时间, 密码过期后要求用户重置密码
-	// @gotags: bson:"expired_days" json:"expired_days"
-	ExpiredDays uint32 `protobuf:"varint,6,opt,name=expired_days,json=expiredDays,proto3" json:"expired_days" bson:"expired_days"`
+	// @gotags: bson:"reset_reason" json:"reset_reason" bigquery:"reset_reason"
+	ResetReason string `protobuf:"bytes,5,opt,name=reset_reason,json=resetReason,proto3" json:"reset_reason" bson:"reset_reason" bigquery:"reset_reason"`
+	// 密码过期时间
+	// @gotags: bson:"expired_days" json:"expired_days" bigquery:"expired_days"
+	ExpiredDays uint32 `protobuf:"varint,6,opt,name=expired_days,json=expiredDays,proto3" json:"expired_days" bson:"expired_days" bigquery:"expired_days"`
 	// 密码过期前多少天开始提醒
-	// @gotags: bson:"expired_remind" json:"expired_remind"
-	ExpiredRemind uint32 `protobuf:"varint,7,opt,name=expired_remind,json=expiredRemind,proto3" json:"expired_remind" bson:"expired_remind"`
+	// @gotags: bson:"expired_remind" json:"expired_remind" bigquery:"expired_remind"
+	ExpiredRemind uint32 `protobuf:"varint,7,opt,name=expired_remind,json=expiredRemind,proto3" json:"expired_remind" bson:"expired_remind" bigquery:"expired_remind"`
 	// 历史密码
-	// @gotags: bson:"history" json:"history,omitempty"
-	History []string `protobuf:"bytes,8,rep,name=history,proto3" json:"history,omitempty" bson:"history"`
+	// @gotags: bson:"history" json:"history,omitempty" bigquery:"history"
+	History []string `protobuf:"bytes,8,rep,name=history,proto3" json:"history,omitempty" bson:"history" bigquery:"history"`
 }
 
 func (x *Password) Reset() {
@@ -1000,27 +999,26 @@ func (x *Password) GetHistory() []string {
 	return nil
 }
 
-// Status 用户状态
 type Status struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	// 用户是否初始化
-	// @gotags: bson:"is_initialized" json:"is_initialized"
-	IsInitialized bool `protobuf:"varint,5,opt,name=is_initialized,json=isInitialized,proto3" json:"is_initialized" bson:"is_initialized"`
+	// @gotags: bson:"is_initialized" json:"is_initialized" bigquery:"is_initialized"
+	IsInitialized bool `protobuf:"varint,5,opt,name=is_initialized,json=isInitialized,proto3" json:"is_initialized" bson:"is_initialized" bigquery:"is_initialized"`
 	// 是否冻结
-	// @gotags: bson:"locked" json:"locked"
-	Locked bool `protobuf:"varint,1,opt,name=locked,proto3" json:"locked" bson:"locked"`
+	// @gotags: bson:"locked" json:"locked" bigquery:"locked"
+	Locked bool `protobuf:"varint,1,opt,name=locked,proto3" json:"locked" bson:"locked" bigquery:"locked"`
 	// 冻结时间
-	// @gotags: bson:"locked_time" json:"locked_time"
-	LockedTime int64 `protobuf:"varint,2,opt,name=locked_time,json=lockedTime,proto3" json:"locked_time" bson:"locked_time"`
+	// @gotags: bson:"locked_time" json:"locked_time" bigquery:"locked_time"
+	LockedTime int64 `protobuf:"varint,2,opt,name=locked_time,json=lockedTime,proto3" json:"locked_time" bson:"locked_time" bigquery:"locked_time"`
 	// 冻结原因
-	// @gotags: bson:"locked_reson" json:"locked_reson"
-	LockedReson string `protobuf:"bytes,3,opt,name=locked_reson,json=lockedReson,proto3" json:"locked_reson" bson:"locked_reson"`
+	// @gotags: bson:"locked_reson" json:"locked_reson" bigquery:"locked_reson"
+	LockedReson string `protobuf:"bytes,3,opt,name=locked_reson,json=lockedReson,proto3" json:"locked_reson" bson:"locked_reson" bigquery:"locked_reson"`
 	// 解冻时间
-	// @gotags: bson:"unlock_time" json:"unlock_time"
-	UnlockTime int64 `protobuf:"varint,4,opt,name=unlock_time,json=unlockTime,proto3" json:"unlock_time" bson:"unlock_time"`
+	// @gotags: bson:"unlock_time" json:"unlock_time" bigquery:"unlock_time"
+	UnlockTime int64 `protobuf:"varint,4,opt,name=unlock_time,json=unlockTime,proto3" json:"unlock_time" bson:"unlock_time" bigquery:"unlock_time"`
 }
 
 func (x *Status) Reset() {
@@ -1095,24 +1093,24 @@ type FeishuAccessToken struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// 飞书服务器授权的access_token，用于调用其他接口
-	// @gotags: bson:"access_token" json:"access_token"
-	AccessToken string `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3" json:"access_token" bson:"access_token"`
-	// token OAuth 2.0协议规定的Token类型，固定为 Bearer
-	// @gotags: bson:"token_type" json:"token_type"
-	TokenType string `protobuf:"bytes,2,opt,name=token_type,json=tokenType,proto3" json:"token_type" bson:"token_type"`
+	// 飞书服务器授权的access_token
+	// @gotags: bson:"access_token" json:"access_token" bigquery:"access_token"
+	AccessToken string `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3" json:"access_token" bson:"access_token" bigquery:"access_token"`
+	// token类型
+	// @gotags: bson:"token_type" json:"token_type" bigquery:"token_type"
+	TokenType string `protobuf:"bytes,2,opt,name=token_type,json=tokenType,proto3" json:"token_type" bson:"token_type" bigquery:"token_type"`
 	// access_token 颁发时间
-	// @gotags: bson:"issue_at" json:"issue_at"
-	IssueAt int64 `protobuf:"varint,3,opt,name=issue_at,json=issueAt,proto3" json:"issue_at" bson:"issue_at"`
-	// access_token 的有效期，三方应用服务器需要根据此返回值来控制access_token的有效时间
-	// @gotags: bson:"expires_in" json:"expires_in"
-	ExpiresIn int64 `protobuf:"varint,4,opt,name=expires_in,json=expiresIn,proto3" json:"expires_in" bson:"expires_in"`
-	// 当 access_token 过期时，通过 refresh_token来刷新，获取新的 access_token
-	// @gotags: bson:"refresh_token" json:"refresh_token"
-	RefreshToken string `protobuf:"bytes,5,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token" bson:"refresh_token"`
+	// @gotags: bson:"issue_at" json:"issue_at" bigquery:"issue_at"
+	IssueAt int64 `protobuf:"varint,3,opt,name=issue_at,json=issueAt,proto3" json:"issue_at" bson:"issue_at" bigquery:"issue_at"`
+	// access_token 的有效期
+	// @gotags: bson:"expires_in" json:"expires_in" bigquery:"expires_in"
+	ExpiresIn int64 `protobuf:"varint,4,opt,name=expires_in,json=expiresIn,proto3" json:"expires_in" bson:"expires_in" bigquery:"expires_in"`
+	// refresh_token
+	// @gotags: bson:"refresh_token" json:"refresh_token" bigquery:"refresh_token"
+	RefreshToken string `protobuf:"bytes,5,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token" bson:"refresh_token" bigquery:"refresh_token"`
 	// refresh_token 的有效期
-	// @gotags: bson:"refresh_expires_in" json:"refresh_expires_in"
-	RefreshExpiresIn int64 `protobuf:"varint,6,opt,name=refresh_expires_in,json=refreshExpiresIn,proto3" json:"refresh_expires_in" bson:"refresh_expires_in"`
+	// @gotags: bson:"refresh_expires_in" json:"refresh_expires_in" bigquery:"refresh_expires_in"
+	RefreshExpiresIn int64 `protobuf:"varint,6,opt,name=refresh_expires_in,json=refreshExpiresIn,proto3" json:"refresh_expires_in" bson:"refresh_expires_in" bigquery:"refresh_expires_in"`
 }
 
 func (x *FeishuAccessToken) Reset() {
@@ -1195,20 +1193,20 @@ type DingDingAccessToken struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 生成的accessToken
-	// @gotags: bson:"access_token" json:"accessToken"
-	AccessToken string `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3" json:"accessToken" bson:"access_token"`
-	// 生成的refresh_token。可以使用此刷新token，定期的获取用户的accessToken
-	// @gotags: bson:"refresh_token" json:"refreshToken"
-	RefreshToken string `protobuf:"bytes,2,opt,name=refresh_token,json=refreshToken,proto3" json:"refreshToken" bson:"refresh_token"`
-	// 超时时间，单位秒。
-	// @gotags: bson:"expires_in" json:"expireIn"
-	ExpiresIn int64 `protobuf:"varint,3,opt,name=expires_in,json=expiresIn,proto3" json:"expireIn" bson:"expires_in"`
-	// 所选企业corpId。
-	// @gotags: bson:"corp_id" json:"corpId"
-	CorpId string `protobuf:"bytes,4,opt,name=corp_id,json=corpId,proto3" json:"corpId" bson:"corp_id"`
+	// @gotags: bson:"access_token" json:"accessToken" bigquery:"access_token"
+	AccessToken string `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3" json:"accessToken" bson:"access_token" bigquery:"access_token"`
+	// refresh_token
+	// @gotags: bson:"refresh_token" json:"refreshToken" bigquery:"refresh_token"
+	RefreshToken string `protobuf:"bytes,2,opt,name=refresh_token,json=refreshToken,proto3" json:"refreshToken" bson:"refresh_token" bigquery:"refresh_token"`
+	// 超时时间
+	// @gotags: bson:"expires_in" json:"expireIn" bigquery:"expires_in"
+	ExpiresIn int64 `protobuf:"varint,3,opt,name=expires_in,json=expiresIn,proto3" json:"expireIn" bson:"expires_in" bigquery:"expires_in"`
+	// 所选企业corpId
+	// @gotags: bson:"corp_id" json:"corpId" bigquery:"corp_id"
+	CorpId string `protobuf:"bytes,4,opt,name=corp_id,json=corpId,proto3" json:"corpId" bson:"corp_id" bigquery:"corp_id"`
 	// access_token 颁发时间
-	// @gotags: bson:"issue_at" json:"issue_at"
-	IssueAt int64 `protobuf:"varint,5,opt,name=issue_at,json=issueAt,proto3" json:"issue_at" bson:"issue_at"`
+	// @gotags: bson:"issue_at" json:"issue_at" bigquery:"issue_at"
+	IssueAt int64 `protobuf:"varint,5,opt,name=issue_at,json=issueAt,proto3" json:"issue_at" bson:"issue_at" bigquery:"issue_at"`
 }
 
 func (x *DingDingAccessToken) Reset() {
@@ -1284,11 +1282,11 @@ type UserSet struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 总数量
-	// @gotags: bson:"total" json:"total"
-	Total int64 `protobuf:"varint,1,opt,name=total,proto3" json:"total" bson:"total"`
+	// @gotags: bson:"total" json:"total" bigquery:"total"
+	Total int64 `protobuf:"varint,1,opt,name=total,proto3" json:"total" bson:"total" bigquery:"total"`
 	// 数据项
-	// @gotags: bson:"items" json:"items"
-	Items []*User `protobuf:"bytes,2,rep,name=items,proto3" json:"items" bson:"items"`
+	// @gotags: bson:"items" json:"items" bigquery:"items"
+	Items []*User `protobuf:"bytes,2,rep,name=items,proto3" json:"items" bson:"items" bigquery:"items"`
 }
 
 func (x *UserSet) Reset() {
@@ -1348,12 +1346,13 @@ var file_google_billing_console_apps_user_pb_user_proto_rawDesc = []byte{
 	0x6c, 0x65, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2d,
 	0x62, 0x69, 0x6c, 0x6c, 0x69, 0x6e, 0x67, 0x2d, 0x63, 0x6f, 0x6e, 0x73, 0x6f, 0x6c, 0x65, 0x2f,
 	0x61, 0x70, 0x70, 0x73, 0x2f, 0x75, 0x73, 0x65, 0x72, 0x2f, 0x70, 0x62, 0x2f, 0x6d, 0x65, 0x74,
-	0x61, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xe9, 0x03, 0x0a, 0x04, 0x55, 0x73, 0x65, 0x72,
-	0x12, 0x3f, 0x0a, 0x04, 0x6d, 0x65, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2b,
+	0x61, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xf9, 0x03, 0x0a, 0x04, 0x55, 0x73, 0x65, 0x72,
+	0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64,
+	0x12, 0x3f, 0x0a, 0x04, 0x6d, 0x65, 0x74, 0x61, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2b,
 	0x2e, 0x6b, 0x61, 0x64, 0x65, 0x5f, 0x63, 0x68, 0x65, 0x6e, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
 	0x65, 0x5f, 0x62, 0x69, 0x6c, 0x6c, 0x69, 0x6e, 0x67, 0x5f, 0x63, 0x6f, 0x6e, 0x73, 0x6f, 0x6c,
 	0x65, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x4d, 0x65, 0x74, 0x61, 0x52, 0x04, 0x6d, 0x65, 0x74,
-	0x61, 0x12, 0x4c, 0x0a, 0x04, 0x73, 0x70, 0x65, 0x63, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x61, 0x12, 0x4c, 0x0a, 0x04, 0x73, 0x70, 0x65, 0x63, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32,
 	0x38, 0x2e, 0x6b, 0x61, 0x64, 0x65, 0x5f, 0x63, 0x68, 0x65, 0x6e, 0x2e, 0x67, 0x6f, 0x6f, 0x67,
 	0x6c, 0x65, 0x5f, 0x62, 0x69, 0x6c, 0x6c, 0x69, 0x6e, 0x67, 0x5f, 0x63, 0x6f, 0x6e, 0x73, 0x6f,
 	0x6c, 0x65, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x55, 0x73,

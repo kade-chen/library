@@ -7,21 +7,26 @@ option go_package = "github.com/kade-chen/google-billing-console/apps/token";
 // Code 验证码
 message Code {
   // 编号
-  // @gotags: bson:"_id" json:"id"
+  // @gotags: bson:"_id" json:"id" bigquery:"id"
   string id = 1;
+
   // 验证码
-  // @gotags: bson:"code" json:"code"
+  // @gotags: bson:"code" json:"code" bigquery:"code"
   string code = 2;
+
   // 用户域
-  // @gotags: json:"domain" validate:"required"
+  // @gotags: json:"domain" validate:"required" bigquery:"domain"
   string domain = 3;
+
   // 用户名称
-  // @gotags: json:"username" validate:"required"
+  // @gotags: json:"username" validate:"required" bigquery:"username"
   string username = 4;
+
   // 颁发时间
-  // @gotags: bson:"issue_at" json:"issue_at"
+  // @gotags: bson:"issue_at" json:"issue_at" bigquery:"issue_at"
   int64 issue_at = 5;
+
   // 验证码过期时间
-  // @gotags: bson:"expired_minite" json:"expired_minite"
+  // @gotags: bson:"expired_minite" json:"expired_minite" bigquery:"expired_minite"
   uint32 expired_minite = 6;
 }

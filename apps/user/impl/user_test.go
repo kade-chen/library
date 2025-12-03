@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"testing"
 
+	_ "github.com/kade-chen/google-billing-console/apps/configs/impl"
 	"github.com/kade-chen/google-billing-console/apps/user"
 	_ "github.com/kade-chen/google-billing-console/apps/user/impl"
 	"github.com/kade-chen/library/ioc"

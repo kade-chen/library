@@ -119,4 +119,3 @@ func (s *service) queryByDateSkuSQL1() (sql string) {
 
 	return sql
 }
-

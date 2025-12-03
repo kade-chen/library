@@ -26,17 +26,17 @@ type DingDingConfig struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 开启钉钉认证
-	// @gotags: bson:"enabled" json:"enabled"
-	Enabled bool `protobuf:"varint,4,opt,name=enabled,proto3" json:"enabled" bson:"enabled"`
+	// @gotags: bson:"enabled" json:"enabled" bigquery:"enabled"
+	Enabled bool `protobuf:"varint,4,opt,name=enabled,proto3" json:"enabled" bson:"enabled" bigquery:"enabled"`
 	// 飞书应用凭证, Oauth2.0时 也叫client_id
-	// @gotags: bson:"client_id" json:"client_id" env:"DINGDING_CLIENT_ID"
-	ClientId string `protobuf:"bytes,1,opt,name=client_id,json=clientId,proto3" json:"client_id" bson:"client_id" env:"DINGDING_CLIENT_ID"`
+	// @gotags: bson:"client_id" json:"client_id" env:"DINGDING_CLIENT_ID" bigquery:"client_id"
+	ClientId string `protobuf:"bytes,1,opt,name=client_id,json=clientId,proto3" json:"client_id" bson:"client_id" env:"DINGDING_CLIENT_ID" bigquery:"client_id"`
 	// 飞书应用凭证, Oauth2.0时 也叫client_secret
-	// @gotags: bson:"client_secret" json:"client_secret" env:"DINGDING_CLIENT_SECRET"
-	ClientSecret string `protobuf:"bytes,2,opt,name=client_secret,json=clientSecret,proto3" json:"client_secret" bson:"client_secret" env:"DINGDING_CLIENT_SECRET"`
+	// @gotags: bson:"client_secret" json:"client_secret" env:"DINGDING_CLIENT_SECRET" bigquery:"client_secret"
+	ClientSecret string `protobuf:"bytes,2,opt,name=client_secret,json=clientSecret,proto3" json:"client_secret" bson:"client_secret" env:"DINGDING_CLIENT_SECRET" bigquery:"client_secret"`
 	// Oauth2.0时, 应用服务地址页面
-	// @gotags: bson:"redirect_uri" json:"redirect_uri" env:"DINGDING_REDIRECT_URI"
-	RedirectUri string `protobuf:"bytes,3,opt,name=redirect_uri,json=redirectUri,proto3" json:"redirect_uri" bson:"redirect_uri" env:"DINGDING_REDIRECT_URI"`
+	// @gotags: bson:"redirect_uri" json:"redirect_uri" env:"DINGDING_REDIRECT_URI" bigquery:"redirect_uri"
+	RedirectUri string `protobuf:"bytes,3,opt,name=redirect_uri,json=redirectUri,proto3" json:"redirect_uri" bson:"redirect_uri" env:"DINGDING_REDIRECT_URI" bigquery:"redirect_uri"`
 }
 
 func (x *DingDingConfig) Reset() {

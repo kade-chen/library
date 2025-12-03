@@ -13,13 +13,13 @@ service RPC {
   // 校验验证码
   rpc VerifyCode(VerifyCodeRequest) returns (Code);
 }
-
 message ValicateTokenRequest {
   // 令牌
-  //  @gotags: json:"access_token"
+  // @gotags: json:"access_token" bigquery:"access_token"
   string access_token = 1;
-  // 令牌
-  //  @gotags: json:"access_token_name"
+
+  // 令牌名称
+  // @gotags: json:"access_token_name" bigquery:"access_token_name"
   string ACCESS_TOKEN_NAME = 2;
 }
 
@@ -33,21 +33,24 @@ enum DESCRIBY_BY {
 // VerifyCodeRequest 验证码校验请求
 message VerifyCodeRequest {
   // 用户名
-  // @gotags: json:"username" validate:"required"
+  // @gotags: json:"username" validate:"required" bigquery:"username"
   string username = 1;
+
   // 验证码
-  // @gotags: json:"code" validate:"required"
+  // @gotags: json:"code" validate:"required" bigquery:"code"
   string code = 2;
 }
 
 message RevolkTokenRequest {
   // 令牌
-  // @gotags: json:"access_token"
+  // @gotags: json:"access_token" bigquery:"access_token"
   string access_token = 1;
+
   // 刷新令牌
-  // @gotags: json:"refresh_token"
+  // @gotags: json:"refresh_token" bigquery:"refresh_token"
   string refresh_token = 5;
+
   // 令牌名字
-  // @gotags: json:"access_token_name"
+  // @gotags: json:"access_token_name" bigquery:"access_token_name"
   string ACCESS_TOKEN_NAME = 2;
 }

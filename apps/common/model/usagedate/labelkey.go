@@ -23,4 +23,3 @@ type UsageDateProjectLabelKeyLists struct {
 	LabelValue   []string `bigquery:"value" json:"value"`
 	LabelKeyPath []string `bigquery:"key_value_path" json:"key_value_path"`
 }
-

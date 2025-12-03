@@ -75,14 +75,14 @@ type DescribeDomainRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 查询方式
-	// @gotags: json:"describe_by"
-	DescribeBy DESCRIBE_BY `protobuf:"varint,1,opt,name=describe_by,json=describeBy,proto3,enum=kade_chen.google_billing_console.domain.DESCRIBE_BY" json:"describe_by"`
+	// @gotags: json:"describe_by" bigquery:"describe_by"
+	DescribeBy DESCRIBE_BY `protobuf:"varint,1,opt,name=describe_by,json=describeBy,proto3,enum=kade_chen.google_billing_console.domain.DESCRIBE_BY" json:"describe_by" bigquery:"describe_by"`
 	// 通过Id查询
-	// @gotags: json:"id"
-	Id string `protobuf:"bytes,2,opt,name=id,proto3" json:"id"`
+	// @gotags: json:"id" bigquery:"id"
+	Id string `protobuf:"bytes,2,opt,name=id,proto3" json:"id" bigquery:"id"`
 	// 通过名称查询
-	// @gotags: json:"name"
-	Name string `protobuf:"bytes,3,opt,name=name,proto3" json:"name"`
+	// @gotags: json:"name" bigquery:"name"
+	Name string `protobuf:"bytes,3,opt,name=name,proto3" json:"name" bigquery:"name"`
 }
 
 func (x *DescribeDomainRequest) Reset() {
@@ -146,11 +146,11 @@ type QueryDomainRequest struct {
 	// 分页参数
 	Page *PageRequest `protobuf:"bytes,1,opt,name=page,proto3" json:"page,omitempty"`
 	// Domain 相关Id
-	// @gotags: json:"ids"
-	Ids []string `protobuf:"bytes,2,rep,name=ids,proto3" json:"ids"`
+	// @gotags: json:"ids" bigquery:"ids"
+	Ids []string `protobuf:"bytes,2,rep,name=ids,proto3" json:"ids" bigquery:"ids"`
 	// Domain 相关Name
-	// @gotags: json:"names"
-	Names []string `protobuf:"bytes,3,rep,name=names,proto3" json:"names"`
+	// @gotags: json:"names" bigquery:"names"
+	Names []string `protobuf:"bytes,3,rep,name=names,proto3" json:"names" bigquery:"names"`
 }
 
 func (x *QueryDomainRequest) Reset() {
@@ -211,9 +211,12 @@ type PageRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	PageSize   uint64 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
-	PageNumber uint64 `protobuf:"varint,2,opt,name=page_number,json=pageNumber,proto3" json:"page_number,omitempty"`
-	Offset     int64  `protobuf:"varint,3,opt,name=offset,proto3" json:"offset,omitempty"`
+	// @gotags: bigquery:"page_size"
+	PageSize uint64 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" bigquery:"page_size"`
+	// @gotags: bigquery:"page_number"
+	PageNumber uint64 `protobuf:"varint,2,opt,name=page_number,json=pageNumber,proto3" json:"page_number,omitempty" bigquery:"page_number"`
+	// @gotags: bigquery:"offset"
+	Offset int64 `protobuf:"varint,3,opt,name=offset,proto3" json:"offset,omitempty" bigquery:"offset"`
 }
 
 func (x *PageRequest) Reset() {

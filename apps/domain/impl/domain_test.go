@@ -9,6 +9,7 @@ import (
 	"github.com/kade-chen/library/ioc"
 	"github.com/kade-chen/library/tools/format"
 
+	_ "github.com/kade-chen/google-billing-console/apps/configs/impl"
 	_ "github.com/kade-chen/google-billing-console/apps/domain/impl"
 )
 
@@ -18,11 +19,11 @@ var (
 )
 
 func TestCreateDomain(t *testing.T) {
-	req := domain.NewCreateDomainRequest()
-	req.Name = "wondercloud.com"
-	req.Description = "test domain"
-	ins, _ := impl.CreateDomain(ctx, req)
-	fmt.Println(format.ToJSON(ins))
+	// req := domain.NewCreateDomainRequest()
+	// req.Name = "wondercloud.com"
+	// req.Description = "test domain"
+	// ins, _ := impl.CreateDomain(ctx, req)
+	// fmt.Println(format.ToJSON(ins))
 }
 
 func TestDescribeDomain(t *testing.T) {

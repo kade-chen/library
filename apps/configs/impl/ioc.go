@@ -22,10 +22,14 @@ func init() {
 
 type Service struct {
 	ioc.ObjectImpl
-	BQ                           *bigquery.Client
-	log                          *zerolog.Logger
-	Default_Project_ID           string `toml:"default_project_id" json:"default_project_id" yaml:"default_project_id"`
-	Default_Service_Account_Name string `toml:"default_service_account_name" json:"default_service_account_name" yaml:"default_service_account_name"`
+	BQ                                     *bigquery.Client
+	log                                    *zerolog.Logger
+	Default_Project_ID                     string `toml:"default_project_id" json:"default_project_id" yaml:"default_project_id"`
+	Default_Service_Account_Name           string `toml:"default_service_account_name" json:"default_service_account_name" yaml:"default_service_account_name"`
+	GoogleBillingConsoleDataset            string `toml:"google_billing_console_dataset" json:"google_billing_console_dataset" yaml:"google_billing_console_dataset"`
+	GoogleBillingConsoleDatasetTableUser   string `toml:"google_billing_console_dataset_table_user" json:"google_billing_console_dataset_table_user" yaml:"google_billing_console_dataset_table_user"`
+	GoogleBillingConsoleDatasetTableDomain string `toml:"google_billing_console_dataset_table_domain" json:"google_billing_console_dataset_table_domain" yaml:"google_billing_console_dataset_table_domain"`
+	GoogleBillingConsoleDatasetTableToken  string `toml:"google_billing_console_dataset_table_token" json:"google_billing_console_dataset_table_token" yaml:"google_billing_console_dataset_table_token"`
 }
 
 func (s *Service) Init() error {

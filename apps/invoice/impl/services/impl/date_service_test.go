@@ -6,8 +6,8 @@ import (
 	"testing"
 
 	model "github.com/kade-chen/google-billing-console/apps/common/model/invoice"
-	"github.com/kade-chen/google-billing-console/apps/invoice/impl/services"
 	"github.com/kade-chen/google-billing-console/apps/invoice"
+	"github.com/kade-chen/google-billing-console/apps/invoice/impl/services"
 
 	"github.com/kade-chen/library/ioc"
 	"github.com/kade-chen/library/tools/format"

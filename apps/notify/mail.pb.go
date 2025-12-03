@@ -26,20 +26,20 @@ type MailConfig struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 开启语音通知
-	// @gotags: bson:"enabled" json:"enabled" env:"MAIL_ENABLED"
-	Enabled bool `protobuf:"varint,5,opt,name=enabled,proto3" json:"enabled" bson:"enabled" env:"MAIL_ENABLED"`
+	// @gotags: bson:"enabled" json:"enabled" env:"MAIL_ENABLED" bigquery:"enabled"
+	Enabled bool `protobuf:"varint,5,opt,name=enabled,proto3" json:"enabled" bson:"enabled" env:"MAIL_ENABLED" bigquery:"enabled"`
 	// mail服务器地址
-	// @gotags: bson:"host" json:"host" env:"MAIL_HOST"
-	Host string `protobuf:"bytes,1,opt,name=host,proto3" json:"host" bson:"host" env:"MAIL_HOST"`
+	// @gotags: bson:"host" json:"host" env:"MAIL_HOST" bigquery:"host"
+	Host string `protobuf:"bytes,1,opt,name=host,proto3" json:"host" bson:"host" env:"MAIL_HOST" bigquery:"host"`
 	// mail服务器端口
-	// @gotags: bson:"port" json:"port" env:"MAIL_HORT"
-	Port int32 `protobuf:"varint,2,opt,name=port,proto3" json:"port" bson:"port" env:"MAIL_HORT"`
+	// @gotags: bson:"port" json:"port" env:"MAIL_HORT" bigquery:"port"
+	Port int32 `protobuf:"varint,2,opt,name=port,proto3" json:"port" bson:"port" env:"MAIL_HORT" bigquery:"port"`
 	// 用户名称
-	// @gotags: bson:"username" json:"username" env:"MAIL_USERNAME"
-	Username string `protobuf:"bytes,3,opt,name=username,proto3" json:"username" bson:"username" env:"MAIL_USERNAME"`
+	// @gotags: bson:"username" json:"username" env:"MAIL_USERNAME" bigquery:"username"
+	Username string `protobuf:"bytes,3,opt,name=username,proto3" json:"username" bson:"username" env:"MAIL_USERNAME" bigquery:"username"`
 	// 用户密码
-	// @gotags: bson:"password" json:"password" env:"MAIL_PASSWORD"
-	Password string `protobuf:"bytes,4,opt,name=password,proto3" json:"password" bson:"password" env:"MAIL_PASSWORD"`
+	// @gotags: bson:"password" json:"password" env:"MAIL_PASSWORD" bigquery:"password"
+	Password string `protobuf:"bytes,4,opt,name=password,proto3" json:"password" bson:"password" env:"MAIL_PASSWORD" bigquery:"password"`
 }
 
 func (x *MailConfig) Reset() {

@@ -24,8 +24,8 @@ func (u *UserSet) Tojson() string {
 // }
 
 func (u *UserSet) UserIds() (uids []string) {
-	for i := range u.Items {
-		uids = append(uids, u.Items[i].Meta.Id)
-	}
+	// for i := range u.Items {
+	// uids = append(uids, u.Items[i].Meta.Id)
+	// }
 	return
 }

@@ -3,14 +3,14 @@ package password
 import (
 	"context"
 
-	"github.com/kade-chen/library/exception"
-	"github.com/kade-chen/library/ioc"
-	"github.com/kade-chen/library/ioc/config/log"
-	ioc_mongo "github.com/kade-chen/library/ioc/config/mongo"
 	"github.com/kade-chen/google-billing-console/apps/domain"
 	"github.com/kade-chen/google-billing-console/apps/token"
 	"github.com/kade-chen/google-billing-console/apps/token/provider"
 	"github.com/kade-chen/google-billing-console/apps/user"
+	"github.com/kade-chen/library/exception"
+	"github.com/kade-chen/library/ioc"
+	"github.com/kade-chen/library/ioc/config/log"
+	ioc_mongo "github.com/kade-chen/library/ioc/config/mongo"
 	"github.com/rs/zerolog"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -59,7 +59,7 @@ func (p *password) IssueToken(ctx context.Context, req *token.IssueTokenRequest)
 	tk.SharedUser = u.Spec.Shared
 	tk.Username = u.Spec.Username
 	tk.UserType = u.Spec.Type
-	tk.UserId = u.Meta.Id
+	tk.UserId = u.Id
 
 	return tk, err
 }
@@ -104,7 +104,7 @@ func (p *password) validate(ctx context.Context, username, password string) (*us
 		expiredRemain, expiredDays = uint(u.Password.ExpiredRemind), uint(u.Password.ExpiredDays)
 	}
 
-	err = u.Password.CheckPasswordExpired(expiredRemain, expiredDays, p.col, u.Meta.Id)
+	err = u.Password.CheckPasswordExpired(expiredRemain, expiredDays, p.col, u.Id)
 	if err != nil {
 		p.log.Error().Msgf("check password expired error: %s", err)
 		return nil, err

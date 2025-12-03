@@ -6,34 +6,39 @@ option go_package = "github.com/kade-chen/google-billing-console/apps/notify";
 
 import "google-billing-console/apps/notify/pb/notify.proto";
 
-
 message SmsConfig {
     // 开启短信通知
-    // @gotags: bson:"enabled" json:"enabled" env:"SMS_ENABLED"
+    // @gotags: bson:"enabled" json:"enabled" env:"SMS_ENABLED" bigquery:"enabled"
     bool enabled = 3;
+
     // 短信服务商
-    // @gotags: bson:"provider" json:"provider" env:"SMS_PROVIDER"
+    // @gotags: bson:"provider" json:"provider" env:"SMS_PROVIDER" bigquery:"provider"
     PROVIDER provider = 1;
+
     // 腾讯短信服务配置
-    // @gotags: bson:"tencent" json:"tencent"
+    // @gotags: bson:"tencent" json:"tencent" bigquery:"tencent"
     TencentSmsConfig tencent = 2;
 }
 
 // 接口和相关文档请参考https://console.cloud.tencent.com/api/explorer?Product=sms&Version=2019-07-11&Action=SendSms&SignVersion=
 message TencentSmsConfig {
     // 服务地址
-    // @gotags: bson:"endpoint" json:"endpoint" env:"SMS_TENCENT_ENDPOINT"
+    // @gotags: bson:"endpoint" json:"endpoint" env:"SMS_TENCENT_ENDPOINT" bigquery:"endpoint"
     string endpoint = 1;
+
     // id
-    // @gotags: bson:"secret_id" json:"secret_id" env:"SMS_TENCENT_SECRET_ID"
+    // @gotags: bson:"secret_id" json:"secret_id" env:"SMS_TENCENT_SECRET_ID" bigquery:"secret_id"
     string secret_id = 2;
+
     // secret
-    // @gotags: bson:"secret_key" json:"secret_key" env:"SMS_TENCENT_SECRET_KEY"
+    // @gotags: bson:"secret_key" json:"secret_key" env:"SMS_TENCENT_SECRET_KEY" bigquery:"secret_key"
     string secret_key = 3;
+
     // app id
-    // @gotags: bson:"app_id" json:"app_id" env:"SMS_TENCENT_APPID"
+    // @gotags: bson:"app_id" json:"app_id" env:"SMS_TENCENT_APPID" bigquery:"app_id"
     string app_id = 4;
+
     // sign
-    // @gotags: bson:"sign" json:"sign" env:"SMS_TENCENT_SIGN"
+    // @gotags: bson:"sign" json:"sign" env:"SMS_TENCENT_SIGN" bigquery:"sign"
     string sign = 5;
 }

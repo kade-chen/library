@@ -26,14 +26,14 @@ type VoiceConfig struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 开启语音通知
-	// @gotags: bson:"enabled" json:"enabled" env:"VOICE_ENABLED"
-	Enabled bool `protobuf:"varint,3,opt,name=enabled,proto3" json:"enabled" bson:"enabled" env:"VOICE_ENABLED"`
+	// @gotags: bson:"enabled" json:"enabled" env:"VOICE_ENABLED" bigquery:"enabled"
+	Enabled bool `protobuf:"varint,3,opt,name=enabled,proto3" json:"enabled" bson:"enabled" env:"VOICE_ENABLED" bigquery:"enabled"`
 	// 短信服务商
-	// @gotags: bson:"provider" json:"provider" env:"SMS_PROVIDER"
-	Provider PROVIDER `protobuf:"varint,1,opt,name=provider,proto3,enum=kade_chen.google_billing_console.notify.PROVIDER" json:"provider" bson:"provider" env:"SMS_PROVIDER"`
+	// @gotags: bson:"provider" json:"provider" env:"SMS_PROVIDER" bigquery:"provider"
+	Provider PROVIDER `protobuf:"varint,1,opt,name=provider,proto3,enum=kade_chen.google_billing_console.notify.PROVIDER" json:"provider" bson:"provider" env:"SMS_PROVIDER" bigquery:"provider"`
 	// 腾讯云配置
-	// @gotags: bson:"tencent" json:"tencent"
-	Tencent *TencentVoiceConfig `protobuf:"bytes,2,opt,name=tencent,proto3" json:"tencent" bson:"tencent"`
+	// @gotags: bson:"tencent" json:"tencent" bigquery:"tencent"
+	Tencent *TencentVoiceConfig `protobuf:"bytes,2,opt,name=tencent,proto3" json:"tencent" bson:"tencent" bigquery:"tencent"`
 }
 
 func (x *VoiceConfig) Reset() {
@@ -96,28 +96,28 @@ type TencentVoiceConfig struct {
 
 	// SDK 会自动指定域名，通常无需指定域名，但访问金融区的服务时必须手动指定域名
 	// 例如 VMS 的上海金融区域名为 vms.ap-shanghai-fsi.tencentcloudapi.com
-	// @gotags: bson:"endpoint" json:"endpoint" env:"VOICE_TENCENT_ENDPOINT"
-	Endpoint string `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint" bson:"endpoint" env:"VOICE_TENCENT_ENDPOINT"`
+	// @gotags: bson:"endpoint" json:"endpoint" env:"VOICE_TENCENT_ENDPOINT" bigquery:"endpoint"
+	Endpoint string `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint" bson:"endpoint" env:"VOICE_TENCENT_ENDPOINT" bigquery:"endpoint"`
 	// 腾讯云凭证Id
-	// @gotags: bson:"secret_id" json:"secret_id" env:"VOICE_TENCENT_SECRET_ID"
-	SecretId string `protobuf:"bytes,2,opt,name=secret_id,json=secretId,proto3" json:"secret_id" bson:"secret_id" env:"VOICE_TENCENT_SECRET_ID"`
+	// @gotags: bson:"secret_id" json:"secret_id" env:"VOICE_TENCENT_SECRET_ID" bigquery:"secret_id"
+	SecretId string `protobuf:"bytes,2,opt,name=secret_id,json=secretId,proto3" json:"secret_id" bson:"secret_id" env:"VOICE_TENCENT_SECRET_ID" bigquery:"secret_id"`
 	// 腾讯云凭证Key
-	// @gotags: bson:"secret_key" json:"secret_key" env:"VOICE_TENCENT_SECRET_KEY"
-	SecretKey string `protobuf:"bytes,3,opt,name=secret_key,json=secretKey,proto3" json:"secret_key" bson:"secret_key" env:"VOICE_TENCENT_SECRET_KEY"`
+	// @gotags: bson:"secret_key" json:"secret_key" env:"VOICE_TENCENT_SECRET_KEY" bigquery:"secret_key"
+	SecretKey string `protobuf:"bytes,3,opt,name=secret_key,json=secretKey,proto3" json:"secret_key" bson:"secret_key" env:"VOICE_TENCENT_SECRET_KEY" bigquery:"secret_key"`
 	// 腾讯云控制台: https://console.cloud.tencent.com/vms/app 查看appId
-	// @gotags: bson:"app_id" json:"app_id" env:"VOICE_TENCENT_APPID"
-	AppId string `protobuf:"bytes,4,opt,name=app_id,json=appId,proto3" json:"app_id" bson:"app_id" env:"VOICE_TENCENT_APPID"`
+	// @gotags: bson:"app_id" json:"app_id" env:"VOICE_TENCENT_APPID" bigquery:"app_id"
+	AppId string `protobuf:"bytes,4,opt,name=app_id,json=appId,proto3" json:"app_id" bson:"app_id" env:"VOICE_TENCENT_APPID" bigquery:"app_id"`
 	// 实例化 VMS 的 client 对象
 	// 第二个参数是地域信息，可以直接填写字符串 ap-guangzhou，或者引用预设的常量
-	// @gotags: bson:"region" json:"region" env:"VOICE_TENCENT_REGION"
-	Region string `protobuf:"bytes,5,opt,name=region,proto3" json:"region" bson:"region" env:"VOICE_TENCENT_REGION"`
+	// @gotags: bson:"region" json:"region" env:"VOICE_TENCENT_REGION" bigquery:"region"
+	Region string `protobuf:"bytes,5,opt,name=region,proto3" json:"region" bson:"region" env:"VOICE_TENCENT_REGION" bigquery:"region"`
 	// SDK 默认用 TC3-HMAC-SHA256 进行签名，非必要请不要修改该字段
-	// @gotags: bson:"sign_method" json:"sign_method" env:"VOICE_TENCENT_SIGN_METHOD"
-	SignMethod string `protobuf:"bytes,6,opt,name=sign_method,json=signMethod,proto3" json:"sign_method" bson:"sign_method" env:"VOICE_TENCENT_SIGN_METHOD"`
+	// @gotags: bson:"sign_method" json:"sign_method" env:"VOICE_TENCENT_SIGN_METHOD" bigquery:"sign_method"
+	SignMethod string `protobuf:"bytes,6,opt,name=sign_method,json=signMethod,proto3" json:"sign_method" bson:"sign_method" env:"VOICE_TENCENT_SIGN_METHOD" bigquery:"sign_method"`
 	// SDK 默认使用 POST 方法
 	// 如需使用 GET 方法，可以在此处设置，但 GET 方法无法处理较大的请求
-	// @gotags: bson:"req_method" json:"req_method" env:"VOICE_TENCENT_REQ_METHOD"
-	ReqMethod string `protobuf:"bytes,7,opt,name=req_method,json=reqMethod,proto3" json:"req_method" bson:"req_method" env:"VOICE_TENCENT_REQ_METHOD"`
+	// @gotags: bson:"req_method" json:"req_method" env:"VOICE_TENCENT_REQ_METHOD" bigquery:"req_method"
+	ReqMethod string `protobuf:"bytes,7,opt,name=req_method,json=reqMethod,proto3" json:"req_method" bson:"req_method" env:"VOICE_TENCENT_REQ_METHOD" bigquery:"req_method"`
 }
 
 func (x *TencentVoiceConfig) Reset() {

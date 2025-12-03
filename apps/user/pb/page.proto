@@ -6,10 +6,12 @@ option go_package = "github.com/kade-chen/google-billing-console/apps/user";
 
 
 message PageRequest {
-    // @gotags: bson:"page_size" json:"page_size"
+    // @gotags: bson:"page_size" json:"page_size" bigquery:"page_size"
     uint64 page_size = 1;
-        // @gotags: bson:"page_number" json:"page_number"
+
+    // @gotags: bson:"page_number" json:"page_number" bigquery:"page_number"
     uint64 page_number = 2;
-        // @gotags: bson:"offset" json:"offset"
+
+    // @gotags: bson:"offset" json:"offset" bigquery:"offset"
     int64 offset = 3;
 }

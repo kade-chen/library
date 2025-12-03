@@ -5,26 +5,30 @@ package kade_chen.google_billing_console.user;
 option go_package = "github.com/kade-chen/google-billing-console/apps/user";
 
 
-message Meta  {
-    // 对象Id
-    // @gotags: bson:"_id" json:"id"
-    string id = 1;
+message Meta {
+    // // 对象Id
+    // // @gotags: bson:"_id" json:"id" bigquery:"id"
+    // string id = 1;
+
     // 创建时间
-    // @gotags: bson:"create_at" json:"create_at"
+    // @gotags: bson:"create_at" json:"create_at" bigquery:"create_at"
     int64 create_at = 2;
+
     // 更新时间
-    // @gotags: bson:"update_at" json:"update_at"
+    // @gotags: bson:"update_at" json:"update_at" bigquery:"update_at"
     int64 update_at = 3;
+
     // 更新人
-    // @gotags: bson:"update_by" json:"update_by"
+    // @gotags: bson:"update_by" json:"update_by" bigquery:"update_by"
     string update_by = 4;
 }
 
 message Scope {
     // 对象所在域
-    // @gotags: bson:"domain" json:"domain"
+    // @gotags: bson:"domain" json:"domain" bigquery:"domain"
     string domain = 1;
+
     // 对象所在空间
-    // @gotags: bson:"namespace" json:"namespace"
+    // @gotags: bson:"namespace" json:"namespace" bigquery:"namespace"
     string namespace = 2;
 }

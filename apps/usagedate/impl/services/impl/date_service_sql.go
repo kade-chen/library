@@ -44,4 +44,3 @@ func (s *service) queryByDateServiceSQL() (sql string) {
 
 	return sql
 }
-

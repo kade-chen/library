@@ -34,7 +34,7 @@ func NewUser(req *CreateUserRequest) (*User, error) {
 		u := &User{
 			Meta: &Meta{
 				// Id:       req.Username + "-" + xid.New().String(),
-				Id:       req.Username + "@" + req.Domain,
+				// Id:       req.Username + "@" + req.Domain,
 				CreateAt: time.Now().Unix(),
 			},
 			Spec:     req,

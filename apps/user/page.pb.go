@@ -25,12 +25,12 @@ type PageRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// @gotags: bson:"page_size" json:"page_size"
-	PageSize uint64 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size" bson:"page_size"`
-	// @gotags: bson:"page_number" json:"page_number"
-	PageNumber uint64 `protobuf:"varint,2,opt,name=page_number,json=pageNumber,proto3" json:"page_number" bson:"page_number"`
-	// @gotags: bson:"offset" json:"offset"
-	Offset int64 `protobuf:"varint,3,opt,name=offset,proto3" json:"offset" bson:"offset"`
+	// @gotags: bson:"page_size" json:"page_size" bigquery:"page_size"
+	PageSize uint64 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size" bson:"page_size" bigquery:"page_size"`
+	// @gotags: bson:"page_number" json:"page_number" bigquery:"page_number"
+	PageNumber uint64 `protobuf:"varint,2,opt,name=page_number,json=pageNumber,proto3" json:"page_number" bson:"page_number" bigquery:"page_number"`
+	// @gotags: bson:"offset" json:"offset" bigquery:"offset"
+	Offset int64 `protobuf:"varint,3,opt,name=offset,proto3" json:"offset" bson:"offset" bigquery:"offset"`
 }
 
 func (x *PageRequest) Reset() {

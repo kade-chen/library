@@ -26,12 +26,15 @@ type Domain struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// 对象Id
+	// @gotags: bson:"id" json:"id" bigquery:"id"
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" bson:"id" bigquery:"id"`
 	// 元信息
-	// @gotags: bson:",inline" json:"meta"
-	Meta *Meta `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta" bson:",inline"`
+	// @gotags: bson:",inline" json:"meta" bigquery:"meta"
+	Meta *Meta `protobuf:"bytes,2,opt,name=meta,proto3" json:"meta" bson:",inline" bigquery:"meta"`
 	// 创建信息
-	// @gotags: bson:",inline" json:"spec"
-	Spec *CreateDomainRequest `protobuf:"bytes,2,opt,name=spec,proto3" json:"spec" bson:",inline"`
+	// @gotags: bson:",inline" json:"spec" bigquery:"spec"
+	Spec *CreateDomainRequest `protobuf:"bytes,3,opt,name=spec,proto3" json:"spec" bson:",inline" bigquery:"spec"`
 }
 
 func (x *Domain) Reset() {
@@ -66,6 +69,13 @@ func (*Domain) Descriptor() ([]byte, []int) {
 	return file_google_billing_console_apps_domain_pb_domain_proto_rawDescGZIP(), []int{0}
 }
 
+func (x *Domain) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
 func (x *Domain) GetMeta() *Meta {
 	if x != nil {
 		return x.Meta
@@ -85,18 +95,18 @@ type Meta struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// 对象Id
-	// @gotags: bson:"_id" json:"id"
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id" bson:"_id"`
+	// // 对象Id
+	// // @gotags: bson:"id" json:"id" bigquery:"id"
+	// string id = 1;
 	// 创建时间
-	// @gotags: bson:"create_at" json:"create_at"
-	CreateAt int64 `protobuf:"varint,2,opt,name=create_at,json=createAt,proto3" json:"create_at" bson:"create_at"`
+	// @gotags: bson:"create_at" json:"create_at" bigquery:"create_at"
+	CreateAt int64 `protobuf:"varint,2,opt,name=create_at,json=createAt,proto3" json:"create_at" bson:"create_at" bigquery:"create_at"`
 	// 更新时间
-	// @gotags: bson:"update_at" json:"update_at"
-	UpdateAt int64 `protobuf:"varint,3,opt,name=update_at,json=updateAt,proto3" json:"update_at" bson:"update_at"`
+	// @gotags: bson:"update_at" json:"update_at" bigquery:"update_at"
+	UpdateAt int64 `protobuf:"varint,3,opt,name=update_at,json=updateAt,proto3" json:"update_at" bson:"update_at" bigquery:"update_at"`
 	// 更新人
-	// @gotags: bson:"update_by" json:"update_by"
-	UpdateBy string `protobuf:"bytes,4,opt,name=update_by,json=updateBy,proto3" json:"update_by" bson:"update_by"`
+	// @gotags: bson:"update_by" json:"update_by" bigquery:"update_by"
+	UpdateBy string `protobuf:"bytes,4,opt,name=update_by,json=updateBy,proto3" json:"update_by" bson:"update_by" bigquery:"update_by"`
 }
 
 func (x *Meta) Reset() {
@@ -131,13 +141,6 @@ func (*Meta) Descriptor() ([]byte, []int) {
 	return file_google_billing_console_apps_domain_pb_domain_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *Meta) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
 func (x *Meta) GetCreateAt() int64 {
 	if x != nil {
 		return x.CreateAt
@@ -165,65 +168,65 @@ type CreateDomainRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 域状态, 是否需要冻结该域, 冻结时, 该域下面所有用户禁止登录
-	// @gotags: bson:"enabled" json:"enabled"
-	Enabled bool `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled" bson:"enabled"`
+	// @gotags: bson:"enabled" json:"enabled" bigquery:"enabled"
+	Enabled bool `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled" bson:"enabled" bigquery:"enabled"`
 	// 归属人
-	// @gotags: bson:"owner" json:"owner"
-	Owner string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner" bson:"owner"`
+	// @gotags: bson:"owner" json:"owner" bigquery:"owner"
+	Owner string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner" bson:"owner" bigquery:"owner"`
 	// 全称
-	// @gotags: bson:"name" json:"name"  validate:"required"
-	Name string `protobuf:"bytes,3,opt,name=name,proto3" json:"name" bson:"name" validate:"required"`
+	// @gotags: bson:"name" json:"name"  validate:"required" bigquery:"name"
+	Name string `protobuf:"bytes,3,opt,name=name,proto3" json:"name" bson:"name" validate:"required" bigquery:"name"`
 	// 公司LOGO图片的URL
-	// @gotags: bson:"logo_path" json:"logo_path"
-	LogoPath string `protobuf:"bytes,4,opt,name=logo_path,json=logoPath,proto3" json:"logo_path" bson:"logo_path"`
+	// @gotags: bson:"logo_path" json:"logo_path" bigquery:"logo_path"
+	LogoPath string `protobuf:"bytes,4,opt,name=logo_path,json=logoPath,proto3" json:"logo_path" bson:"logo_path" bigquery:"logo_path"`
 	// 描述
-	// @gotags: bson:"description" json:"description"
-	Description string `protobuf:"bytes,5,opt,name=description,proto3" json:"description" bson:"description"`
+	// @gotags: bson:"description" json:"description" bigquery:"description"
+	Description string `protobuf:"bytes,5,opt,name=description,proto3" json:"description" bson:"description" bigquery:"description"`
 	// 电话
-	// @gotags: bson:"phone" json:"phone"
-	Phone string `protobuf:"bytes,6,opt,name=phone,proto3" json:"phone" bson:"phone"`
+	// @gotags: bson:"phone" json:"phone" bigquery:"phone"
+	Phone string `protobuf:"bytes,6,opt,name=phone,proto3" json:"phone" bson:"phone" bigquery:"phone"`
 	// 规模: 50人以下, 50~100, ...
-	// @gotags: bson:"size" json:"size"
-	Size string `protobuf:"bytes,7,opt,name=size,proto3" json:"size" bson:"size"`
+	// @gotags: bson:"size" json:"size" bigquery:"size"
+	Size string `protobuf:"bytes,7,opt,name=size,proto3" json:"size" bson:"size" bigquery:"size"`
 	// 位置: 指城市, 比如 中国,四川,成都
-	// @gotags: bson:"location" json:"location"
-	Location string `protobuf:"bytes,8,opt,name=location,proto3" json:"location" bson:"location"`
+	// @gotags: bson:"location" json:"location" bigquery:"location"
+	Location string `protobuf:"bytes,8,opt,name=location,proto3" json:"location" bson:"location" bigquery:"location"`
 	// 地址: 比如环球中心 10F 1034
-	// @gotags: bson:"address" json:"address"
-	Address string `protobuf:"bytes,9,opt,name=address,proto3" json:"address" bson:"address"`
+	// @gotags: bson:"address" json:"address" bigquery:"address"
+	Address string `protobuf:"bytes,9,opt,name=address,proto3" json:"address" bson:"address" bigquery:"address"`
 	// 所属行业: 比如, 互联网
-	// @gotags: bson:"industry" json:"industry"
-	Industry string `protobuf:"bytes,10,opt,name=industry,proto3" json:"industry" bson:"industry"`
+	// @gotags: bson:"industry" json:"industry" bigquery:"industry"
+	Industry string `protobuf:"bytes,10,opt,name=industry,proto3" json:"industry" bson:"industry" bigquery:"industry"`
 	// 传真
-	// @gotags: bson:"fax" json:"fax"
-	Fax string `protobuf:"bytes,11,opt,name=fax,proto3" json:"fax" bson:"fax"`
+	// @gotags: bson:"fax" json:"fax" bigquery:"fax"
+	Fax string `protobuf:"bytes,11,opt,name=fax,proto3" json:"fax" bson:"fax" bigquery:"fax"`
 	// 联系人
-	// @gotags: bson:"contack" json:"contack"
-	Contack *Contact `protobuf:"bytes,12,opt,name=contack,proto3" json:"contack" bson:"contack"`
+	// @gotags: bson:"contack" json:"contack" bigquery:"contack"
+	Contack *Contact `protobuf:"bytes,12,opt,name=contack,proto3" json:"contack" bson:"contack" bigquery:"contack"`
 	// 登录安全
-	// @gotags: bson:"login_security" json:"login_security"
-	LoginSecurity *LoginSecurity `protobuf:"bytes,19,opt,name=login_security,json=loginSecurity,proto3" json:"login_security" bson:"login_security"`
+	// @gotags: bson:"login_security" json:"login_security" bigquery:"login_security"
+	LoginSecurity *LoginSecurity `protobuf:"bytes,19,opt,name=login_security,json=loginSecurity,proto3" json:"login_security" bson:"login_security" bigquery:"login_security"`
 	// 验证码配置
-	// @gotags: bson:"code_config" json:"code_config"
-	CodeConfig *CodeSetting `protobuf:"bytes,20,opt,name=code_config,json=codeConfig,proto3" json:"code_config" bson:"code_config"`
+	// @gotags: bson:"code_config" json:"code_config" bigquery:"code_config"
+	CodeConfig *CodeSetting `protobuf:"bytes,20,opt,name=code_config,json=codeConfig,proto3" json:"code_config" bson:"code_config" bigquery:"code_config"`
 	// 通知配置
-	// @gotags: bson:"notify_config" json:"notify_config"
-	NotifyConfig *notify.NotifySetting `protobuf:"bytes,21,opt,name=notify_config,json=notifyConfig,proto3" json:"notify_config" bson:"notify_config"`
+	// @gotags: bson:"notify_config" json:"notify_config" bigquery:"notify_config"
+	NotifyConfig *notify.NotifySetting `protobuf:"bytes,21,opt,name=notify_config,json=notifyConfig,proto3" json:"notify_config" bson:"notify_config" bigquery:"notify_config"`
 	// 密码安全
-	// @gotags: bson:"password_config" json:"password_config"
-	PasswordConfig *PasswordConfig `protobuf:"bytes,13,opt,name=password_config,json=passwordConfig,proto3" json:"password_config" bson:"password_config"`
+	// @gotags: bson:"password_config" json:"password_config" bigquery:"password_config"
+	PasswordConfig *PasswordConfig `protobuf:"bytes,13,opt,name=password_config,json=passwordConfig,proto3" json:"password_config" bson:"password_config" bigquery:"password_config"`
 	// LdapConfig 域关联的LDAP设置
-	// @gotags: bson:"ldap_setting" json:"ldap_setting"
-	LdapSetting *LdapConfig `protobuf:"bytes,15,opt,name=ldap_setting,json=ldapSetting,proto3" json:"ldap_setting" bson:"ldap_setting"`
+	// @gotags: bson:"ldap_setting" json:"ldap_setting" bigquery:"ldap_setting"
+	LdapSetting *LdapConfig `protobuf:"bytes,15,opt,name=ldap_setting,json=ldapSetting,proto3" json:"ldap_setting" bson:"ldap_setting" bigquery:"ldap_setting"`
 	// FeishuConfig 域关联的飞书设置
-	// @gotags: bson:"feishu_setting" json:"feishu_setting"
-	FeishuSetting *FeishuConfig `protobuf:"bytes,16,opt,name=feishu_setting,json=feishuSetting,proto3" json:"feishu_setting" bson:"feishu_setting"`
+	// @gotags: bson:"feishu_setting" json:"feishu_setting" bigquery:"feishu_setting"
+	FeishuSetting *FeishuConfig `protobuf:"bytes,16,opt,name=feishu_setting,json=feishuSetting,proto3" json:"feishu_setting" bson:"feishu_setting" bigquery:"feishu_setting"`
 	// DingDingConfig 域关联的钉钉设置
-	// @gotags: bson:"dingding_setting" json:"dingding_setting"
-	DingdingSetting *DingDingConfig `protobuf:"bytes,17,opt,name=dingding_setting,json=dingdingSetting,proto3" json:"dingding_setting" bson:"dingding_setting"`
+	// @gotags: bson:"dingding_setting" json:"dingding_setting" bigquery:"dingding_setting"
+	DingdingSetting *DingDingConfig `protobuf:"bytes,17,opt,name=dingding_setting,json=dingdingSetting,proto3" json:"dingding_setting" bson:"dingding_setting" bigquery:"dingding_setting"`
 	// WechatWorkConfig 域关联的企业微信设置
-	// @gotags: bson:"wechat_work_setting" json:"wechat_work_setting"
-	WechatWorkSetting *WechatWorkConfig `protobuf:"bytes,18,opt,name=wechat_work_setting,json=wechatWorkSetting,proto3" json:"wechat_work_setting" bson:"wechat_work_setting"`
+	// @gotags: bson:"wechat_work_setting" json:"wechat_work_setting" bigquery:"wechat_work_setting"
+	WechatWorkSetting *WechatWorkConfig `protobuf:"bytes,18,opt,name=wechat_work_setting,json=wechatWorkSetting,proto3" json:"wechat_work_setting" bson:"wechat_work_setting" bigquery:"wechat_work_setting"`
 }
 
 func (x *CreateDomainRequest) Reset() {
@@ -398,24 +401,23 @@ func (x *CreateDomainRequest) GetWechatWorkSetting() *WechatWorkConfig {
 	return nil
 }
 
-// 联系人
 type Contact struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	// 姓名
-	// @gotags: bson:"name" json:"name"
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name" bson:"name"`
+	// @gotags: bson:"name" json:"name" bigquery:"name"
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name" bson:"name" bigquery:"name"`
 	// 职位
-	// @gotags: bson:"title" json:"title"
-	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title" bson:"title"`
+	// @gotags: bson:"title" json:"title" bigquery:"title"
+	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title" bson:"title" bigquery:"title"`
 	// 电话
-	// @gotags: bson:"phone" json:"phone"
-	Phone string `protobuf:"bytes,3,opt,name=phone,proto3" json:"phone" bson:"phone"`
+	// @gotags: bson:"phone" json:"phone" bigquery:"phone"
+	Phone string `protobuf:"bytes,3,opt,name=phone,proto3" json:"phone" bson:"phone" bigquery:"phone"`
 	// 邮箱
-	// @gotags: bson:"email" json:"email"
-	Email string `protobuf:"bytes,4,opt,name=email,proto3" json:"email" bson:"email"`
+	// @gotags: bson:"email" json:"email" bigquery:"email"
+	Email string `protobuf:"bytes,4,opt,name=email,proto3" json:"email" bson:"email" bigquery:"email"`
 }
 
 func (x *Contact) Reset() {
@@ -478,30 +480,29 @@ func (x *Contact) GetEmail() string {
 	return ""
 }
 
-// LoginSecurity 登录安全
 type LoginSecurity struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	// 异常登录锁
-	// @gotags: bson:"exception_lock" json:"exception_lock"
-	ExceptionLock bool `protobuf:"varint,1,opt,name=exception_lock,json=exceptionLock,proto3" json:"exception_lock" bson:"exception_lock"`
+	// @gotags: bson:"exception_lock" json:"exception_lock" bigquery:"exception_lock"
+	ExceptionLock bool `protobuf:"varint,1,opt,name=exception_lock,json=exceptionLock,proto3" json:"exception_lock" bson:"exception_lock" bigquery:"exception_lock"`
 	// 异常配置
-	// @gotags: bson:"exception_lock_config" json:"exception_lock_config"
-	ExceptionLockConfig *ExceptionLockConfig `protobuf:"bytes,2,opt,name=exception_lock_config,json=exceptionLockConfig,proto3" json:"exception_lock_config" bson:"exception_lock_config"`
+	// @gotags: bson:"exception_lock_config" json:"exception_lock_config" bigquery:"exception_lock_config"
+	ExceptionLockConfig *ExceptionLockConfig `protobuf:"bytes,2,opt,name=exception_lock_config,json=exceptionLockConfig,proto3" json:"exception_lock_config" bson:"exception_lock_config" bigquery:"exception_lock_config"`
 	// 重试锁
-	// @gotags: bson:"retry_lock" json:"retry_lock"
-	RetryLock bool `protobuf:"varint,3,opt,name=retry_lock,json=retryLock,proto3" json:"retry_lock" bson:"retry_lock"`
+	// @gotags: bson:"retry_lock" json:"retry_lock" bigquery:"retry_lock"
+	RetryLock bool `protobuf:"varint,3,opt,name=retry_lock,json=retryLock,proto3" json:"retry_lock" bson:"retry_lock" bigquery:"retry_lock"`
 	// 重试锁配置
-	// @gotags: bson:"retry_lock_config" json:"retry_lock_config"
-	RetryLockConfig *RetryLockConfig `protobuf:"bytes,4,opt,name=retry_lock_config,json=retryLockConfig,proto3" json:"retry_lock_config" bson:"retry_lock_config"`
+	// @gotags: bson:"retry_lock_config" json:"retry_lock_config" bigquery:"retry_lock_config"
+	RetryLockConfig *RetryLockConfig `protobuf:"bytes,4,opt,name=retry_lock_config,json=retryLockConfig,proto3" json:"retry_lock_config" bson:"retry_lock_config" bigquery:"retry_lock_config"`
 	// IP限制
-	// @gotags: bson:"ip_limite" json:"ip_limite"
-	IpLimite bool `protobuf:"varint,5,opt,name=ip_limite,json=ipLimite,proto3" json:"ip_limite" bson:"ip_limite"`
+	// @gotags: bson:"ip_limite" json:"ip_limite" bigquery:"ip_limite"
+	IpLimite bool `protobuf:"varint,5,opt,name=ip_limite,json=ipLimite,proto3" json:"ip_limite" bson:"ip_limite" bigquery:"ip_limite"`
 	// IP限制配置
-	// @gotags: bson:"ip_limite_config" json:"ip_limite_config"
-	IpLimiteConfig *IPLimiteConfig `protobuf:"bytes,6,opt,name=ip_limite_config,json=ipLimiteConfig,proto3" json:"ip_limite_config" bson:"ip_limite_config"`
+	// @gotags: bson:"ip_limite_config" json:"ip_limite_config" bigquery:"ip_limite_config"
+	IpLimiteConfig *IPLimiteConfig `protobuf:"bytes,6,opt,name=ip_limite_config,json=ipLimiteConfig,proto3" json:"ip_limite_config" bson:"ip_limite_config" bigquery:"ip_limite_config"`
 }
 
 func (x *LoginSecurity) Reset() {
@@ -578,18 +579,17 @@ func (x *LoginSecurity) GetIpLimiteConfig() *IPLimiteConfig {
 	return nil
 }
 
-// ExceptionLockConfig todo
 type ExceptionLockConfig struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	// 异地登录
-	// @gotags: bson:"other_place_login" json:"other_place_login"
-	OtherPlaceLogin bool `protobuf:"varint,1,opt,name=other_place_login,json=otherPlaceLogin,proto3" json:"other_place_login" bson:"other_place_login"`
+	// @gotags: bson:"other_place_login" json:"other_place_login" bigquery:"other_place_login"
+	OtherPlaceLogin bool `protobuf:"varint,1,opt,name=other_place_login,json=otherPlaceLogin,proto3" json:"other_place_login" bson:"other_place_login" bigquery:"other_place_login"`
 	// 未登录天数
-	// @gotags: bson:"not_login_days" json:"not_login_days"
-	NotLoginDays uint32 `protobuf:"varint,2,opt,name=not_login_days,json=notLoginDays,proto3" json:"not_login_days" bson:"not_login_days"`
+	// @gotags: bson:"not_login_days" json:"not_login_days" bigquery:"not_login_days"
+	NotLoginDays uint32 `protobuf:"varint,2,opt,name=not_login_days,json=notLoginDays,proto3" json:"not_login_days" bson:"not_login_days" bigquery:"not_login_days"`
 }
 
 func (x *ExceptionLockConfig) Reset() {
@@ -638,18 +638,17 @@ func (x *ExceptionLockConfig) GetNotLoginDays() uint32 {
 	return 0
 }
 
-// RetryLockConfig 重试锁配置
 type RetryLockConfig struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	// 重试限制
-	// @gotags: bson:"retry_limite" json:"retry_limite"
-	RetryLimite uint32 `protobuf:"varint,1,opt,name=retry_limite,json=retryLimite,proto3" json:"retry_limite" bson:"retry_limite"`
+	// @gotags: bson:"retry_limite" json:"retry_limite" bigquery:"retry_limite"
+	RetryLimite uint32 `protobuf:"varint,1,opt,name=retry_limite,json=retryLimite,proto3" json:"retry_limite" bson:"retry_limite" bigquery:"retry_limite"`
 	// 锁定时长
-	// @gotags: bson:"locked_minite" json:"locked_minite"
-	LockedMinite uint32 `protobuf:"varint,2,opt,name=locked_minite,json=lockedMinite,proto3" json:"locked_minite" bson:"locked_minite"`
+	// @gotags: bson:"locked_minite" json:"locked_minite" bigquery:"locked_minite"
+	LockedMinite uint32 `protobuf:"varint,2,opt,name=locked_minite,json=lockedMinite,proto3" json:"locked_minite" bson:"locked_minite" bigquery:"locked_minite"`
 }
 
 func (x *RetryLockConfig) Reset() {
@@ -698,18 +697,17 @@ func (x *RetryLockConfig) GetLockedMinite() uint32 {
 	return 0
 }
 
-// IPLimiteConfig todo
 type IPLimiteConfig struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	// 黑名单还是白名单
-	// @gotags: bson:"type" json:"type"
-	Type string `protobuf:"bytes,1,opt,name=type,proto3" json:"type" bson:"type"`
+	// @gotags: bson:"type" json:"type" bigquery:"type"
+	Type string `protobuf:"bytes,1,opt,name=type,proto3" json:"type" bson:"type" bigquery:"type"`
 	// ip列表
-	// @gotags: bson:"ip" json:"ip"
-	Ip []string `protobuf:"bytes,2,rep,name=ip,proto3" json:"ip" bson:"ip"`
+	// @gotags: bson:"ip" json:"ip" bigquery:"ip"
+	Ip []string `protobuf:"bytes,2,rep,name=ip,proto3" json:"ip" bson:"ip" bigquery:"ip"`
 }
 
 func (x *IPLimiteConfig) Reset() {
@@ -764,17 +762,17 @@ type CodeSetting struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 通知方式
-	// @gotags: `bson:"type" json:"type"`
-	NotifyType notify.NOTIFY_TYPE `protobuf:"varint,1,opt,name=notify_type,json=notifyType,proto3,enum=kade_chen.google_billing_console.notify.NOTIFY_TYPE" json:"type" bson:"type"`
+	// @gotags: `bson:"type" json:"type"` bigquery:"type"
+	NotifyType notify.NOTIFY_TYPE `protobuf:"varint,1,opt,name=notify_type,json=notifyType,proto3,enum=kade_chen.google_billing_console.notify.NOTIFY_TYPE" json:"type" bson:"type" bigquery:"type"`
 	// 验证码默认过期时间
-	// @gotags: bson:"expire_minutes" json:"expire_minutes" validate:"required"
-	ExpireMinutes uint32 `protobuf:"varint,2,opt,name=expire_minutes,json=expireMinutes,proto3" json:"expire_minutes" bson:"expire_minutes" validate:"required"`
+	// @gotags: bson:"expire_minutes" json:"expire_minutes" validate:"required" bigquery:"expire_minutes"
+	ExpireMinutes uint32 `protobuf:"varint,2,opt,name=expire_minutes,json=expireMinutes,proto3" json:"expire_minutes" bson:"expire_minutes" validate:"required" bigquery:"expire_minutes"`
 	// 邮件通知时的模板
-	// @gotags: bson:"mail_template" json:"mail_template"
-	MailTemplate string `protobuf:"bytes,3,opt,name=mail_template,json=mailTemplate,proto3" json:"mail_template" bson:"mail_template"`
+	// @gotags: bson:"mail_template" json:"mail_template" bigquery:"mail_template"
+	MailTemplate string `protobuf:"bytes,3,opt,name=mail_template,json=mailTemplate,proto3" json:"mail_template" bson:"mail_template" bigquery:"mail_template"`
 	// 短信通知时的云商模板ID
-	// @gotags: bson:"sms_template_id" json:"sms_template_id"
-	SmsTemplateId string `protobuf:"bytes,4,opt,name=sms_template_id,json=smsTemplateId,proto3" json:"sms_template_id" bson:"sms_template_id"`
+	// @gotags: bson:"sms_template_id" json:"sms_template_id" bigquery:"sms_template_id"
+	SmsTemplateId string `protobuf:"bytes,4,opt,name=sms_template_id,json=smsTemplateId,proto3" json:"sms_template_id" bson:"sms_template_id" bigquery:"sms_template_id"`
 }
 
 func (x *CodeSetting) Reset() {
@@ -837,50 +835,49 @@ func (x *CodeSetting) GetSmsTemplateId() string {
 	return ""
 }
 
-// PasswordSecurity 密码安全设置
 type PasswordConfig struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	// 开启本地用户名密码认证
-	// @gotags: bson:"enabled" json:"enabled"
-	Enabled bool `protobuf:"varint,12,opt,name=enabled,proto3" json:"enabled" bson:"enabled"`
+	// @gotags: bson:"enabled" json:"enabled" bigquery:"enabled"
+	Enabled bool `protobuf:"varint,12,opt,name=enabled,proto3" json:"enabled" bson:"enabled" bigquery:"enabled"`
 	// 密码长度
-	// @gotags: bson:"length" json:"length" validate:"required,min=8,max=64"
-	Length int32 `protobuf:"varint,1,opt,name=length,proto3" json:"length" bson:"length" validate:"required,min=8,max=64"`
+	// @gotags: bson:"length" json:"length" validate:"required,min=8,max=64" bigquery:"length"
+	Length int32 `protobuf:"varint,1,opt,name=length,proto3" json:"length" bson:"length" validate:"required,min=8,max=64" bigquery:"length"`
 	// 包含数字 比如 1234
-	// @gotags: bson:"include_number" json:"include_number"
-	IncludeNumber bool `protobuf:"varint,2,opt,name=include_number,json=includeNumber,proto3" json:"include_number" bson:"include_number"`
+	// @gotags: bson:"include_number" json:"include_number" bigquery:"include_number"
+	IncludeNumber bool `protobuf:"varint,2,opt,name=include_number,json=includeNumber,proto3" json:"include_number" bson:"include_number" bigquery:"include_number"`
 	// 包含小写字母 比如 abcd
-	// @gotags: bson:"include_lower_letter" json:"include_lower_letter"
-	IncludeLowerLetter bool `protobuf:"varint,3,opt,name=include_lower_letter,json=includeLowerLetter,proto3" json:"include_lower_letter" bson:"include_lower_letter"`
+	// @gotags: bson:"include_lower_letter" json:"include_lower_letter" bigquery:"include_lower_letter"
+	IncludeLowerLetter bool `protobuf:"varint,3,opt,name=include_lower_letter,json=includeLowerLetter,proto3" json:"include_lower_letter" bson:"include_lower_letter" bigquery:"include_lower_letter"`
 	// 包含大写字母 比如 ABCD
-	// @gotags: bson:"include_upper_letter" json:"include_upper_letter"
-	IncludeUpperLetter bool `protobuf:"varint,4,opt,name=include_upper_letter,json=includeUpperLetter,proto3" json:"include_upper_letter" bson:"include_upper_letter"`
+	// @gotags: bson:"include_upper_letter" json:"include_upper_letter" bigquery:"include_upper_letter"
+	IncludeUpperLetter bool `protobuf:"varint,4,opt,name=include_upper_letter,json=includeUpperLetter,proto3" json:"include_upper_letter" bson:"include_upper_letter" bigquery:"include_upper_letter"`
 	// 包含特殊字符 比如 !"£*
-	// @gotags: bson:"include_symbols" json:"include_symbols"
-	IncludeSymbols bool `protobuf:"varint,5,opt,name=include_symbols,json=includeSymbols,proto3" json:"include_symbols" bson:"include_symbols"`
+	// @gotags: bson:"include_symbols" json:"include_symbols" bigquery:"include_symbols"
+	IncludeSymbols bool `protobuf:"varint,5,opt,name=include_symbols,json=includeSymbols,proto3" json:"include_symbols" bson:"include_symbols" bigquery:"include_symbols"`
 	// 排除相似字符, 比如 i1jIo0
-	// @gotags: bson:"include_similar" json:"include_similar"
-	ExcludeSimilar bool `protobuf:"varint,6,opt,name=exclude_similar,json=excludeSimilar,proto3" json:"include_similar" bson:"include_similar"`
+	// @gotags: bson:"include_similar" json:"include_similar" bigquery:"include_similar"
+	ExcludeSimilar bool `protobuf:"varint,6,opt,name=exclude_similar,json=excludeSimilar,proto3" json:"include_similar" bson:"include_similar" bigquery:"include_similar"`
 	// 排除不容易记忆的特殊字符, 比如 <>{}[]()/|\`
-	// @gotags: bson:"exclude_ambiguous" json:"exclude_ambiguous"
-	ExcludeAmbiguous bool `protobuf:"varint,7,opt,name=exclude_ambiguous,json=excludeAmbiguous,proto3" json:"exclude_ambiguous" bson:"exclude_ambiguous"`
+	// @gotags: bson:"exclude_ambiguous" json:"exclude_ambiguous" bigquery:"exclude_ambiguous"
+	ExcludeAmbiguous bool `protobuf:"varint,7,opt,name=exclude_ambiguous,json=excludeAmbiguous,proto3" json:"exclude_ambiguous" bson:"exclude_ambiguous" bigquery:"exclude_ambiguous"`
 	// 手动指定密码允许的字符集合
-	// @gotags: bson:"character_set" json:"character_set"
-	CharacterSet string `protobuf:"bytes,8,opt,name=character_set,json=characterSet,proto3" json:"character_set" bson:"character_set"`
+	// @gotags: bson:"character_set" json:"character_set" bigquery:"character_set"
+	CharacterSet string `protobuf:"bytes,8,opt,name=character_set,json=characterSet,proto3" json:"character_set" bson:"character_set" bigquery:"character_set"`
 	// 重复限制
 	// @gotags: bson:"repeate_limite" json:"repeate_limite"
-	// validate:"required,min=1,max=24"
+	// validate:"required,min=1,max=24" bigquery:"repeate_limite"
 	RepeateLimite uint32 `protobuf:"varint,9,opt,name=repeate_limite,json=repeateLimite,proto3" json:"repeate_limite" bson:"repeate_limite"`
 	// 密码过期时间, 密码过期后要求用户重置密码
 	// @gotags: bson:"password_expired_days" json:"password_expired_days"
-	// validate:"required,min=0,max=365"
+	// validate:"required,min=0,max=365" bigquery:"password_expired_days"
 	PasswordExpiredDays uint32 `protobuf:"varint,10,opt,name=password_expired_days,json=passwordExpiredDays,proto3" json:"password_expired_days" bson:"password_expired_days"`
 	// 密码过期前多少天开始提醒
 	// @gotags: bson:"before_expired_remind_days"
-	// json:"before_expired_remind_days" validate:"required,min=0,max=365"
+	// json:"before_expired_remind_days" validate:"required,min=0,max=365" bigquery:"before_expired_remind_days"
 	BeforeExpiredRemindDays uint32 `protobuf:"varint,11,opt,name=before_expired_remind_days,json=beforeExpiredRemindDays,proto3" json:"before_expired_remind_days,omitempty" bson:"before_expired_remind_days"`
 }
 
@@ -1006,11 +1003,11 @@ type DomainSet struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 总数量
-	// @gotags: bson:"total" json:"total"
-	Total int64 `protobuf:"varint,1,opt,name=total,proto3" json:"total" bson:"total"`
+	// @gotags: bson:"total" json:"total" bigquery:"total"
+	Total int64 `protobuf:"varint,1,opt,name=total,proto3" json:"total" bson:"total" bigquery:"total"`
 	// 数据项
-	// @gotags: bson:"items" json:"items"
-	Items []*Domain `protobuf:"bytes,2,rep,name=items,proto3" json:"items" bson:"items"`
+	// @gotags: bson:"items" json:"items" bigquery:"items"
+	Items []*Domain `protobuf:"bytes,2,rep,name=items,proto3" json:"items" bson:"items" bigquery:"items"`
 }
 
 func (x *DomainSet) Reset() {
@@ -1087,19 +1084,19 @@ var file_google_billing_console_apps_domain_pb_domain_proto_rawDesc = []byte{
 	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x33, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2d, 0x62,
 	0x69, 0x6c, 0x6c, 0x69, 0x6e, 0x67, 0x2d, 0x63, 0x6f, 0x6e, 0x73, 0x6f, 0x6c, 0x65, 0x2f, 0x61,
 	0x70, 0x70, 0x73, 0x2f, 0x6e, 0x6f, 0x74, 0x69, 0x66, 0x79, 0x2f, 0x70, 0x62, 0x2f, 0x73, 0x65,
-	0x74, 0x74, 0x69, 0x6e, 0x67, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x9d, 0x01, 0x0a, 0x06,
-	0x44, 0x6f, 0x6d, 0x61, 0x69, 0x6e, 0x12, 0x41, 0x0a, 0x04, 0x6d, 0x65, 0x74, 0x61, 0x18, 0x01,
+	0x74, 0x74, 0x69, 0x6e, 0x67, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xad, 0x01, 0x0a, 0x06,
+	0x44, 0x6f, 0x6d, 0x61, 0x69, 0x6e, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x41, 0x0a, 0x04, 0x6d, 0x65, 0x74, 0x61, 0x18, 0x02,
 	0x20, 0x01, 0x28, 0x0b, 0x32, 0x2d, 0x2e, 0x6b, 0x61, 0x64, 0x65, 0x5f, 0x63, 0x68, 0x65, 0x6e,
 	0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x5f, 0x62, 0x69, 0x6c, 0x6c, 0x69, 0x6e, 0x67, 0x5f,
 	0x63, 0x6f, 0x6e, 0x73, 0x6f, 0x6c, 0x65, 0x2e, 0x64, 0x6f, 0x6d, 0x61, 0x69, 0x6e, 0x2e, 0x4d,
 	0x65, 0x74, 0x61, 0x52, 0x04, 0x6d, 0x65, 0x74, 0x61, 0x12, 0x50, 0x0a, 0x04, 0x73, 0x70, 0x65,
-	0x63, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x3c, 0x2e, 0x6b, 0x61, 0x64, 0x65, 0x5f, 0x63,
+	0x63, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x3c, 0x2e, 0x6b, 0x61, 0x64, 0x65, 0x5f, 0x63,
 	0x68, 0x65, 0x6e, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x5f, 0x62, 0x69, 0x6c, 0x6c, 0x69,
 	0x6e, 0x67, 0x5f, 0x63, 0x6f, 0x6e, 0x73, 0x6f, 0x6c, 0x65, 0x2e, 0x64, 0x6f, 0x6d, 0x61, 0x69,
 	0x6e, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x44, 0x6f, 0x6d, 0x61, 0x69, 0x6e, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x04, 0x73, 0x70, 0x65, 0x63, 0x22, 0x6d, 0x0a, 0x04, 0x4d,
-	0x65, 0x74, 0x61, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x02, 0x69, 0x64, 0x12, 0x1b, 0x0a, 0x09, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x5f, 0x61, 0x74,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x04, 0x73, 0x70, 0x65, 0x63, 0x22, 0x5d, 0x0a, 0x04, 0x4d,
+	0x65, 0x74, 0x61, 0x12, 0x1b, 0x0a, 0x09, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x5f, 0x61, 0x74,
 	0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x08, 0x63, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41, 0x74,
 	0x12, 0x1b, 0x0a, 0x09, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x5f, 0x61, 0x74, 0x18, 0x03, 0x20,
 	0x01, 0x28, 0x03, 0x52, 0x08, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x74, 0x12, 0x1b, 0x0a,

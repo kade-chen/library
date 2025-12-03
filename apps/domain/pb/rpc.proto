@@ -13,17 +13,18 @@ service RPC {
   // 查询域列表
   rpc QueryDoamin(QueryDomainRequest) returns (DomainSet);
 }
-
 // DescribeDomainRequest 查询domain详情请求
 message DescribeDomainRequest {
     // 查询方式
-    // @gotags: json:"describe_by"
+    // @gotags: json:"describe_by" bigquery:"describe_by"
     DESCRIBE_BY describe_by = 1;
+
     // 通过Id查询
-    // @gotags: json:"id"
+    // @gotags: json:"id" bigquery:"id"
     string id = 2;
+
     // 通过名称查询
-    // @gotags: json:"name"
+    // @gotags: json:"name" bigquery:"name"
     string name = 3;
 }
 
@@ -37,16 +38,23 @@ enum DESCRIBE_BY {
 message QueryDomainRequest {
     // 分页参数
     PageRequest page = 1;
+
     // Domain 相关Id
-    // @gotags: json:"ids" 
+    // @gotags: json:"ids" bigquery:"ids"
     repeated string ids = 2;
+
     // Domain 相关Name
-    // @gotags: json:"names" 
+    // @gotags: json:"names" bigquery:"names"
     repeated string names = 3;
 }
 
 message PageRequest {
+    // @gotags: bigquery:"page_size"
     uint64 page_size = 1;
+
+    // @gotags: bigquery:"page_number"
     uint64 page_number = 2;
+
+    // @gotags: bigquery:"offset"
     int64 offset = 3;
 }

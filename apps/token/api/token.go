@@ -2,9 +2,9 @@ package api
 
 import (
 	"github.com/emicklei/go-restful/v3"
+	"github.com/kade-chen/google-billing-console/apps/token"
 	"github.com/kade-chen/library/exception"
 	"github.com/kade-chen/library/http/restful/response"
-	"github.com/kade-chen/google-billing-console/apps/token"
 )
 
 func (h *tokenHandler) IssueToken(r *restful.Request, w *restful.Response) {

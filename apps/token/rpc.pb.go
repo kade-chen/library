@@ -74,13 +74,11 @@ type ValicateTokenRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 令牌
-	//
-	//	@gotags: json:"access_token"
-	AccessToken string `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3" json:"access_token"`
-	// 令牌
-	//
-	//	@gotags: json:"access_token_name"
-	ACCESS_TOKEN_NAME string `protobuf:"bytes,2,opt,name=ACCESS_TOKEN_NAME,json=ACCESSTOKENNAME,proto3" json:"access_token_name"`
+	// @gotags: json:"access_token" bigquery:"access_token"
+	AccessToken string `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3" json:"access_token" bigquery:"access_token"`
+	// 令牌名称
+	// @gotags: json:"access_token_name" bigquery:"access_token_name"
+	ACCESS_TOKEN_NAME string `protobuf:"bytes,2,opt,name=ACCESS_TOKEN_NAME,json=ACCESSTOKENNAME,proto3" json:"access_token_name" bigquery:"access_token_name"`
 }
 
 func (x *ValicateTokenRequest) Reset() {
@@ -136,11 +134,11 @@ type VerifyCodeRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 用户名
-	// @gotags: json:"username" validate:"required"
-	Username string `protobuf:"bytes,1,opt,name=username,proto3" json:"username" validate:"required"`
+	// @gotags: json:"username" validate:"required" bigquery:"username"
+	Username string `protobuf:"bytes,1,opt,name=username,proto3" json:"username" validate:"required" bigquery:"username"`
 	// 验证码
-	// @gotags: json:"code" validate:"required"
-	Code string `protobuf:"bytes,2,opt,name=code,proto3" json:"code" validate:"required"`
+	// @gotags: json:"code" validate:"required" bigquery:"code"
+	Code string `protobuf:"bytes,2,opt,name=code,proto3" json:"code" validate:"required" bigquery:"code"`
 }
 
 func (x *VerifyCodeRequest) Reset() {
@@ -195,14 +193,14 @@ type RevolkTokenRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 令牌
-	// @gotags: json:"access_token"
-	AccessToken string `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3" json:"access_token"`
+	// @gotags: json:"access_token" bigquery:"access_token"
+	AccessToken string `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3" json:"access_token" bigquery:"access_token"`
 	// 刷新令牌
-	// @gotags: json:"refresh_token"
-	RefreshToken string `protobuf:"bytes,5,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token"`
+	// @gotags: json:"refresh_token" bigquery:"refresh_token"
+	RefreshToken string `protobuf:"bytes,5,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token" bigquery:"refresh_token"`
 	// 令牌名字
-	// @gotags: json:"access_token_name"
-	ACCESS_TOKEN_NAME string `protobuf:"bytes,2,opt,name=ACCESS_TOKEN_NAME,json=ACCESSTOKENNAME,proto3" json:"access_token_name"`
+	// @gotags: json:"access_token_name" bigquery:"access_token_name"
+	ACCESS_TOKEN_NAME string `protobuf:"bytes,2,opt,name=ACCESS_TOKEN_NAME,json=ACCESSTOKENNAME,proto3" json:"access_token_name" bigquery:"access_token_name"`
 }
 
 func (x *RevolkTokenRequest) Reset() {

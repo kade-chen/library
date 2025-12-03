@@ -26,14 +26,14 @@ type NotifySetting struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 邮箱配置
-	// @gotags: bson:"mail_config" json:"mail_config"
-	MailConfig *MailConfig `protobuf:"bytes,1,opt,name=mail_config,json=mailConfig,proto3" json:"mail_config" bson:"mail_config"`
+	// @gotags: bson:"mail_config" json:"mail_config" bigquery:"mail_config"
+	MailConfig *MailConfig `protobuf:"bytes,1,opt,name=mail_config,json=mailConfig,proto3" json:"mail_config" bson:"mail_config" bigquery:"mail_config"`
 	// 短信配置
-	// @gotags: bson:"sms_config" json:"sms_config"
-	SmsConfig *SmsConfig `protobuf:"bytes,2,opt,name=sms_config,json=smsConfig,proto3" json:"sms_config" bson:"sms_config"`
+	// @gotags: bson:"sms_config" json:"sms_config" bigquery:"sms_config"
+	SmsConfig *SmsConfig `protobuf:"bytes,2,opt,name=sms_config,json=smsConfig,proto3" json:"sms_config" bson:"sms_config" bigquery:"sms_config"`
 	// 语音通知配置
-	// @gotags: bson:"voice_config" json:"voice_config"
-	VoiceConfig *VoiceConfig `protobuf:"bytes,3,opt,name=voice_config,json=voiceConfig,proto3" json:"voice_config" bson:"voice_config"`
+	// @gotags: bson:"voice_config" json:"voice_config" bigquery:"voice_config"
+	VoiceConfig *VoiceConfig `protobuf:"bytes,3,opt,name=voice_config,json=voiceConfig,proto3" json:"voice_config" bson:"voice_config" bigquery:"voice_config"`
 }
 
 func (x *NotifySetting) Reset() {

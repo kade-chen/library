@@ -26,23 +26,23 @@ type WechatWorkConfig struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 开启企业微信认证
-	// @gotags: bson:"enabled" json:"enabled"
-	Enabled bool `protobuf:"varint,6,opt,name=enabled,proto3" json:"enabled" bson:"enabled"`
+	// @gotags: bson:"enabled" json:"enabled" bigquery:"enabled"
+	Enabled bool `protobuf:"varint,6,opt,name=enabled,proto3" json:"enabled" bson:"enabled" bigquery:"enabled"`
 	// 企业微信企业Id, Oauth2.0应用获取应用Token时需要
-	// @gotags: bson:"corp_id" json:"corp_id" env:"WECHAT_WORK_CORP_ID"
-	CorpId string `protobuf:"bytes,1,opt,name=corp_id,json=corpId,proto3" json:"corp_id" bson:"corp_id" env:"WECHAT_WORK_CORP_ID"`
+	// @gotags: bson:"corp_id" json:"corp_id" env:"WECHAT_WORK_CORP_ID" bigquery:"corp_id"
+	CorpId string `protobuf:"bytes,1,opt,name=corp_id,json=corpId,proto3" json:"corp_id" bson:"corp_id" env:"WECHAT_WORK_CORP_ID" bigquery:"corp_id"`
 	// 企业微信应用Id, Oauth2.0时 也叫client_id
-	// @gotags: bson:"agent_id" json:"agent_id" env:"WECHAT_WORK_CLIENT_ID"
-	AgentId string `protobuf:"bytes,2,opt,name=agent_id,json=agentId,proto3" json:"agent_id" bson:"agent_id" env:"WECHAT_WORK_CLIENT_ID"`
+	// @gotags: bson:"agent_id" json:"agent_id" env:"WECHAT_WORK_CLIENT_ID" bigquery:"agent_id"
+	AgentId string `protobuf:"bytes,2,opt,name=agent_id,json=agentId,proto3" json:"agent_id" bson:"agent_id" env:"WECHAT_WORK_CLIENT_ID" bigquery:"agent_id"`
 	// 企业微信应用凭证, Oauth2.0时 也叫client_secret
-	// @gotags: bson:"app_secret" json:"app_secret" env:"WECHAT_WORK_CLIENT_SECRET"
-	AppSecret string `protobuf:"bytes,3,opt,name=app_secret,json=appSecret,proto3" json:"app_secret" bson:"app_secret" env:"WECHAT_WORK_CLIENT_SECRET"`
+	// @gotags: bson:"app_secret" json:"app_secret" env:"WECHAT_WORK_CLIENT_SECRET" bigquery:"app_secret"
+	AppSecret string `protobuf:"bytes,3,opt,name=app_secret,json=appSecret,proto3" json:"app_secret" bson:"app_secret" env:"WECHAT_WORK_CLIENT_SECRET" bigquery:"app_secret"`
 	// Oauth2.0时, 应用服务地址页面
-	// @gotags: bson:"redirect_uri" json:"redirect_uri" env:"WECHAT_WORK_REDIRECT_URI"
-	RedirectUri string `protobuf:"bytes,4,opt,name=redirect_uri,json=redirectUri,proto3" json:"redirect_uri" bson:"redirect_uri" env:"WECHAT_WORK_REDIRECT_URI"`
+	// @gotags: bson:"redirect_uri" json:"redirect_uri" env:"WECHAT_WORK_REDIRECT_URI" bigquery:"redirect_uri"
+	RedirectUri string `protobuf:"bytes,4,opt,name=redirect_uri,json=redirectUri,proto3" json:"redirect_uri" bson:"redirect_uri" env:"WECHAT_WORK_REDIRECT_URI" bigquery:"redirect_uri"`
 	// 企业微信应用凭证(缓存使用)
-	// @gotags: bson:"access_token" json:"access_token"
-	AccessToken *WechatWorkAccessToken `protobuf:"bytes,5,opt,name=access_token,json=accessToken,proto3" json:"access_token" bson:"access_token"`
+	// @gotags: bson:"access_token" json:"access_token" bigquery:"access_token"
+	AccessToken *WechatWorkAccessToken `protobuf:"bytes,5,opt,name=access_token,json=accessToken,proto3" json:"access_token" bson:"access_token" bigquery:"access_token"`
 }
 
 func (x *WechatWorkConfig) Reset() {
@@ -125,11 +125,11 @@ type WechatWorkAccessToken struct {
 	unknownFields protoimpl.UnknownFields
 
 	// 应用服务访问凭证
-	// @gotags: bson:"access_token" json:"access_token" env:"WECHAT_WORK_ACCESS_TOKEN"
-	AccessToken string `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3" json:"access_token" bson:"access_token" env:"WECHAT_WORK_ACCESS_TOKEN"`
+	// @gotags: bson:"access_token" json:"access_token" env:"WECHAT_WORK_ACCESS_TOKEN" bigquery:"access_token"
+	AccessToken string `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3" json:"access_token" bson:"access_token" env:"WECHAT_WORK_ACCESS_TOKEN" bigquery:"access_token"`
 	// 凭证过期时间
-	// @gotags: bson:"expires_in" json:"expires_in"
-	ExpiresIn int64 `protobuf:"varint,2,opt,name=expires_in,json=expiresIn,proto3" json:"expires_in" bson:"expires_in"`
+	// @gotags: bson:"expires_in" json:"expires_in" bigquery:"expires_in"
+	ExpiresIn int64 `protobuf:"varint,2,opt,name=expires_in,json=expiresIn,proto3" json:"expires_in" bson:"expires_in" bigquery:"expires_in"`
 }
 
 func (x *WechatWorkAccessToken) Reset() {

@@ -35,7 +35,7 @@ func (s *service) QueryByDateProjectSKUsAll(ctx context.Context, config *model.P
 		{Name: "PartitionStartTime", Value: partitionStartTime},
 		{Name: "PartitionEndTime", Value: partitionEndTime},
 	}
-	
+
 	s.log.Info().Msgf("trances_id=%s, Retrieving project_ids......", ctx.Value("trances_id"))
 	if len(config.ProjectIDs) > 0 {
 		// 指定projectt
