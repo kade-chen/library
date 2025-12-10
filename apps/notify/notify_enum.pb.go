@@ -4,7 +4,6 @@
 package notify
 
 import (
-	"bytes"
 	"fmt"
 	"strings"
 )
@@ -36,13 +35,13 @@ func (t PROVIDER) IsIn(targets ...PROVIDER) bool {
 	return false
 }
 
-// MarshalJSON todo
-func (t PROVIDER) MarshalJSON() ([]byte, error) {
-	b := bytes.NewBufferString(`"`)
-	b.WriteString(strings.ToUpper(t.String()))
-	b.WriteString(`"`)
-	return b.Bytes(), nil
-}
+// // MarshalJSON todo
+// func (t PROVIDER) MarshalJSON() ([]byte, error) {
+// 	b := bytes.NewBufferString(`"`)
+// 	b.WriteString(strings.ToUpper(t.String()))
+// 	b.WriteString(`"`)
+// 	return b.Bytes(), nil
+// }
 
 // UnmarshalJSON todo
 func (t *PROVIDER) UnmarshalJSON(b []byte) error {
@@ -81,13 +80,13 @@ func (t NOTIFY_TYPE) IsIn(targets ...NOTIFY_TYPE) bool {
 	return false
 }
 
-// MarshalJSON todo
-func (t NOTIFY_TYPE) MarshalJSON() ([]byte, error) {
-	b := bytes.NewBufferString(`"`)
-	b.WriteString(strings.ToUpper(t.String()))
-	b.WriteString(`"`)
-	return b.Bytes(), nil
-}
+// // MarshalJSON todo
+// func (t NOTIFY_TYPE) MarshalJSON() ([]byte, error) {
+// 	b := bytes.NewBufferString(`"`)
+// 	b.WriteString(strings.ToUpper(t.String()))
+// 	b.WriteString(`"`)
+// 	return b.Bytes(), nil
+// }
 
 // UnmarshalJSON todo
 func (t *NOTIFY_TYPE) UnmarshalJSON(b []byte) error {

@@ -24,7 +24,8 @@ func init() {
 }
 
 type service struct {
-	col *bigquery.Client
+	bq_client *bigquery.Client
+	bq_table  *bigquery.Table
 	domain.UnimplementedRPCServer
 	ioc.ObjectImpl
 	log *zerolog.Logger
@@ -41,7 +42,7 @@ func (i *service) Priority() int {
 func (s *service) Init() error {
 
 	s.log = logs.Sub(domain.AppName)
-	s.col = ioc.Config().Get(configs.AppName).(*impl.Service).BQ
+	s.bq_client = ioc.Config().Get(configs.AppName).(*impl.Service).BQ
 	err := s.bqInit(context.Background())
 	if err != nil {
 		return err
@@ -52,7 +53,7 @@ func (s *service) Init() error {
 }
 
 func (s *service) bqInit(ctx context.Context) error {
-	dataset := s.col.Dataset(ioc.Config().Get(configs.AppName).(*impl.Service).GoogleBillingConsoleDataset)
+	dataset := s.bq_client.Dataset(ioc.Config().Get(configs.AppName).(*impl.Service).GoogleBillingConsoleDataset)
 	_, err := dataset.Metadata(ctx)
 	if err != nil {
 		// 如果不存在，则创建
@@ -72,6 +73,11 @@ func (s *service) bqInit(ctx context.Context) error {
 
 	// ---- 1. 自动从结构体推断 schema ----
 	schema, err := bigquery.InferSchema(domain.Domain{})
+	// 使用示例
+	makeSchemaNullable(schema)               // 先把所有字段置 NULLABLE
+	setFieldRequired(schema, []string{"id"}) // 指定字段为 REQUIRED
+	// setFieldRequired(schema, []string{"id", "meta.create_at"}) // 指定字段为 REQUIRED
+
 	if err != nil {
 		s.log.Error().Msgf("infer schema failed, ERROR: %v", err)
 		return exception.NewIocRegisterFailed("infer schema failed, ERROR: %v", err)
@@ -106,6 +112,7 @@ func (s *service) bqInit(ctx context.Context) error {
 			return exception.NewIocRegisterFailed("failed to get table metadata, ERROR: %v", err)
 		}
 	}
+	s.bq_table = table
 	s.log.Info().Msg("Table already exists, continue...")
 	return nil
 }
@@ -116,3 +123,29 @@ func (s *service) datasetisNotFound(err error) bool {
 	}
 	return false
 }
+
+// 针对特定字段设置 NULLABLE
+func makeSchemaNullable(schema bigquery.Schema) {
+	for _, field := range schema {
+		field.Required = false // 设置为 NULLABLE
+		if field.Type == bigquery.RecordFieldType && field.Schema != nil {
+			makeSchemaNullable(field.Schema) // 递归嵌套字段
+		}
+	}
+}
+
+// 针对特定字段设置 REQUIRED
+func setFieldRequired(schema bigquery.Schema, fieldNames []string) {
+	for _, field := range schema {
+		for _, name := range fieldNames {
+			if field.Name == name {
+				field.Required = true
+			}
+		}
+		if field.Type == bigquery.RecordFieldType && field.Schema != nil {
+			setFieldRequired(field.Schema, fieldNames) // 递归嵌套 STRUCT
+		}
+	}
+}
+
+//REPEATED 切片可以自动推断

@@ -6,6 +6,8 @@ import (
 	// "github.com/kade-chen/library/tools/hash"
 
 	"github.com/kade-chen/google-billing-console/apps/notify"
+	"github.com/kade-chen/library/exception"
+	"github.com/kade-chen/library/tools/hash"
 )
 
 const (
@@ -14,7 +16,7 @@ const (
 
 func NewDomain(req *CreateDomainRequest) (*Domain, error) {
 	if err := req.validate_strust(); err != nil {
-		return nil, err
+		return nil, exception.NewBadRequest("invalid request, ERROR: %s", err)
 	}
 
 	// 创建领域对象
@@ -23,7 +25,7 @@ func NewDomain(req *CreateDomainRequest) (*Domain, error) {
 		Spec: req,
 	}
 	d.Id = req.Name
-	// d.Meta.Id = hash.FnvHash(req.Name)
+	d.Id = hash.FnvHash(req.Name)
 	return d, nil
 }
 
@@ -38,12 +40,17 @@ func NewMeta() *Meta {
 // NewCreateDomainRequest todo
 func NewCreateDomainRequest() *CreateDomainRequest {
 	return &CreateDomainRequest{
-		PasswordConfig: NewDefaulPasswordSecurity(),
-		LoginSecurity:  NewDefaultLoginSecurity(),
-		CodeConfig:     NewDefaultCodeSetting(),
-		NotifyConfig:   notify.NewNotifySetting(),
-		FeishuSetting:  NewDefaultFeishuConfig(),
-		LdapSetting:    NewDefaultLDAPConfig(),
+		PasswordConfig:  NewDefaulPasswordSecurity(),
+		LoginSecurity:   NewDefaultLoginSecurity(),
+		CodeConfig:      NewDefaultCodeSetting(),
+		NotifyConfig:    notify.NewNotifySetting(),
+		FeishuSetting:   NewDefaultFeishuConfig(),
+		LdapSetting:     NewDefaultLDAPConfig(),
+		DingdingSetting: &DingDingConfig{},
+		Contack:         &Contact{},
+		WechatWorkSetting: &WechatWorkConfig{
+			AccessToken: &WechatWorkAccessToken{},
+		},
 	}
 }
 

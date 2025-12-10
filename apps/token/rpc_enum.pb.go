@@ -4,7 +4,6 @@
 package token
 
 import (
-	"bytes"
 	"fmt"
 	"strings"
 )
@@ -36,13 +35,13 @@ func (t DESCRIBY_BY) IsIn(targets ...DESCRIBY_BY) bool {
 	return false
 }
 
-// MarshalJSON todo
-func (t DESCRIBY_BY) MarshalJSON() ([]byte, error) {
-	b := bytes.NewBufferString(`"`)
-	b.WriteString(strings.ToUpper(t.String()))
-	b.WriteString(`"`)
-	return b.Bytes(), nil
-}
+// // MarshalJSON todo
+// func (t DESCRIBY_BY) MarshalJSON() ([]byte, error) {
+// 	b := bytes.NewBufferString(`"`)
+// 	b.WriteString(strings.ToUpper(t.String()))
+// 	b.WriteString(`"`)
+// 	return b.Bytes(), nil
+// }
 
 // UnmarshalJSON todo
 func (t *DESCRIBY_BY) UnmarshalJSON(b []byte) error {

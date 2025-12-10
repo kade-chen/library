@@ -868,17 +868,14 @@ type PasswordConfig struct {
 	// @gotags: bson:"character_set" json:"character_set" bigquery:"character_set"
 	CharacterSet string `protobuf:"bytes,8,opt,name=character_set,json=characterSet,proto3" json:"character_set" bson:"character_set" bigquery:"character_set"`
 	// 重复限制
-	// @gotags: bson:"repeate_limite" json:"repeate_limite"
-	// validate:"required,min=1,max=24" bigquery:"repeate_limite"
-	RepeateLimite uint32 `protobuf:"varint,9,opt,name=repeate_limite,json=repeateLimite,proto3" json:"repeate_limite" bson:"repeate_limite"`
+	// @gotags: bson:"repeate_limite" json:"repeate_limite" validate:"required,min=1,max=24" bigquery:"repeate_limite"
+	RepeateLimite uint32 `protobuf:"varint,9,opt,name=repeate_limite,json=repeateLimite,proto3" json:"repeate_limite" bson:"repeate_limite" validate:"required,min=1,max=24" bigquery:"repeate_limite"`
 	// 密码过期时间, 密码过期后要求用户重置密码
-	// @gotags: bson:"password_expired_days" json:"password_expired_days"
-	// validate:"required,min=0,max=365" bigquery:"password_expired_days"
-	PasswordExpiredDays uint32 `protobuf:"varint,10,opt,name=password_expired_days,json=passwordExpiredDays,proto3" json:"password_expired_days" bson:"password_expired_days"`
+	// @gotags: bson:"password_expired_days" json:"password_expired_days" validate:"required,min=0,max=365" bigquery:"password_expired_days"
+	PasswordExpiredDays uint32 `protobuf:"varint,10,opt,name=password_expired_days,json=passwordExpiredDays,proto3" json:"password_expired_days" bson:"password_expired_days" validate:"required,min=0,max=365" bigquery:"password_expired_days"`
 	// 密码过期前多少天开始提醒
-	// @gotags: bson:"before_expired_remind_days"
-	// json:"before_expired_remind_days" validate:"required,min=0,max=365" bigquery:"before_expired_remind_days"
-	BeforeExpiredRemindDays uint32 `protobuf:"varint,11,opt,name=before_expired_remind_days,json=beforeExpiredRemindDays,proto3" json:"before_expired_remind_days,omitempty" bson:"before_expired_remind_days"`
+	// @gotags: bson:"before_expired_remind_days" json:"before_expired_remind_days" validate:"required,min=0,max=365" bigquery:"before_expired_remind_days"
+	BeforeExpiredRemindDays uint32 `protobuf:"varint,11,opt,name=before_expired_remind_days,json=beforeExpiredRemindDays,proto3" json:"before_expired_remind_days" bson:"before_expired_remind_days" validate:"required,min=0,max=365" bigquery:"before_expired_remind_days"`
 }
 
 func (x *PasswordConfig) Reset() {

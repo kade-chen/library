@@ -137,6 +137,14 @@ func (h *ApiHandler) byServiceHandler(r *restful.Request, w *restful.Response) {
 		response.Failed(w, err)
 		return
 	}
+	err = csv.WriteStructToCSV("output.csv", projectCost)
+	if err != nil {
+		h.log.Error().Msgf("shengchengcsv fiald %v", err)
+		response.Failed(w, err)
+		return
+	}
+
+	fmt.Println("写入完成")
 	h.log.Info().Msgf("trances_id=%s, The User calling the interface Successful for InvoiceMonthByServiceAPI ✅", trancesID)
 	response.Success(w, projectCost)
 	// return

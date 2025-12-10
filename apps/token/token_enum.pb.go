@@ -4,7 +4,6 @@
 package token
 
 import (
-	"bytes"
 	"fmt"
 	"strings"
 )
@@ -36,13 +35,13 @@ func (t GRANT_TYPE) IsIn(targets ...GRANT_TYPE) bool {
 	return false
 }
 
-// MarshalJSON todo
-func (t GRANT_TYPE) MarshalJSON() ([]byte, error) {
-	b := bytes.NewBufferString(`"`)
-	b.WriteString(strings.ToUpper(t.String()))
-	b.WriteString(`"`)
-	return b.Bytes(), nil
-}
+// // MarshalJSON todo
+// func (t GRANT_TYPE) MarshalJSON() ([]byte, error) {
+// 	b := bytes.NewBufferString(`"`)
+// 	b.WriteString(strings.ToUpper(t.String()))
+// 	b.WriteString(`"`)
+// 	return b.Bytes(), nil
+// }
 
 // UnmarshalJSON todo
 func (t *GRANT_TYPE) UnmarshalJSON(b []byte) error {
@@ -81,13 +80,13 @@ func (t TOKEN_TYPE) IsIn(targets ...TOKEN_TYPE) bool {
 	return false
 }
 
-// MarshalJSON todo
-func (t TOKEN_TYPE) MarshalJSON() ([]byte, error) {
-	b := bytes.NewBufferString(`"`)
-	b.WriteString(strings.ToUpper(t.String()))
-	b.WriteString(`"`)
-	return b.Bytes(), nil
-}
+// // MarshalJSON todo
+// func (t TOKEN_TYPE) MarshalJSON() ([]byte, error) {
+// 	b := bytes.NewBufferString(`"`)
+// 	b.WriteString(strings.ToUpper(t.String()))
+// 	b.WriteString(`"`)
+// 	return b.Bytes(), nil
+// }
 
 // UnmarshalJSON todo
 func (t *TOKEN_TYPE) UnmarshalJSON(b []byte) error {
@@ -126,13 +125,13 @@ func (t PLATFORM) IsIn(targets ...PLATFORM) bool {
 	return false
 }
 
-// MarshalJSON todo
-func (t PLATFORM) MarshalJSON() ([]byte, error) {
-	b := bytes.NewBufferString(`"`)
-	b.WriteString(strings.ToUpper(t.String()))
-	b.WriteString(`"`)
-	return b.Bytes(), nil
-}
+// // MarshalJSON todo
+// func (t PLATFORM) MarshalJSON() ([]byte, error) {
+// 	b := bytes.NewBufferString(`"`)
+// 	b.WriteString(strings.ToUpper(t.String()))
+// 	b.WriteString(`"`)
+// 	return b.Bytes(), nil
+// }
 
 // UnmarshalJSON todo
 func (t *PLATFORM) UnmarshalJSON(b []byte) error {
@@ -171,13 +170,13 @@ func (t BLOCK_TYPE) IsIn(targets ...BLOCK_TYPE) bool {
 	return false
 }
 
-// MarshalJSON todo
-func (t BLOCK_TYPE) MarshalJSON() ([]byte, error) {
-	b := bytes.NewBufferString(`"`)
-	b.WriteString(strings.ToUpper(t.String()))
-	b.WriteString(`"`)
-	return b.Bytes(), nil
-}
+// // MarshalJSON todo
+// func (t BLOCK_TYPE) MarshalJSON() ([]byte, error) {
+// 	b := bytes.NewBufferString(`"`)
+// 	b.WriteString(strings.ToUpper(t.String()))
+// 	b.WriteString(`"`)
+// 	return b.Bytes(), nil
+// }
 
 // UnmarshalJSON todo
 func (t *BLOCK_TYPE) UnmarshalJSON(b []byte) error {

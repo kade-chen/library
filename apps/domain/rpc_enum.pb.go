@@ -4,7 +4,6 @@
 package domain
 
 import (
-	"bytes"
 	"fmt"
 	"strings"
 )
@@ -37,12 +36,12 @@ func (t DESCRIBE_BY) IsIn(targets ...DESCRIBE_BY) bool {
 }
 
 // MarshalJSON todo
-func (t DESCRIBE_BY) MarshalJSON() ([]byte, error) {
-	b := bytes.NewBufferString(`"`)
-	b.WriteString(strings.ToUpper(t.String()))
-	b.WriteString(`"`)
-	return b.Bytes(), nil
-}
+// func (t DESCRIBE_BY) MarshalJSON() ([]byte, error) {
+// 	b := bytes.NewBufferString(`"`)
+// 	b.WriteString(strings.ToUpper(t.String()))
+// 	b.WriteString(`"`)
+// 	return b.Bytes(), nil
+// }
 
 // UnmarshalJSON todo
 func (t *DESCRIBE_BY) UnmarshalJSON(b []byte) error {

@@ -14,16 +14,20 @@ import (
 )
 
 var (
-	ctx  context.Context
+	ctx  = context.Background()
 	impl domain.Service
 )
 
 func TestCreateDomain(t *testing.T) {
-	// req := domain.NewCreateDomainRequest()
-	// req.Name = "wondercloud.com"
-	// req.Description = "test domain"
-	// ins, _ := impl.CreateDomain(ctx, req)
-	// fmt.Println(format.ToJSON(ins))
+	req := domain.NewCreateDomainRequest()
+	req.Name = "wondercloud.com"
+	req.Description = "test domain"
+	ins, err := impl.CreateDomain(ctx, req)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(format.ToJSON(ins))
 }
 
 func TestDescribeDomain(t *testing.T) {
