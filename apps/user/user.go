@@ -5,6 +5,7 @@ import (
 
 	"github.com/kade-chen/library/exception"
 	"github.com/kade-chen/library/tools/format"
+	structpb "google.golang.org/protobuf/types/known/structpb"
 )
 
 func NewUser(req *CreateUserRequest) (*User, error) {
@@ -12,7 +13,13 @@ func NewUser(req *CreateUserRequest) (*User, error) {
 		u := &User{
 			Meta: &Meta{},
 			Spec: &CreateUserRequest{
-				Labels:     map[string]string{},
+				// Labels:          map[string]string{},
+				Labels: &structpb.Struct{
+					Fields: map[string]*structpb.Value{
+						"key1": structpb.NewStringValue("value1"),
+						"key2": structpb.NewNumberValue(123),
+					},
+				},
 				Feishu:     &Feishu{},
 				Dingding:   &DingDing{},
 				Wechatwork: &WechatWork{},
@@ -28,10 +35,11 @@ func NewUser(req *CreateUserRequest) (*User, error) {
 		// 1.generate password strust
 		password, err := NewHashPassword(req.Password)
 		if err != nil {
-			return nil, exception.NewBadRequest(err.Error())
+			return nil, exception.NewBadRequest("generate password strust failed, ERROR: %v", err.Error())
 		}
 		// 2.generate user strust
 		u := &User{
+			Id: req.Username + "@" + req.Domain,
 			Meta: &Meta{
 				// Id:       req.Username + "-" + xid.New().String(),
 				// Id:       req.Username + "@" + req.Domain,

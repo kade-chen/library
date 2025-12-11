@@ -10,6 +10,7 @@ import (
 	_ "github.com/kade-chen/google-billing-console/apps/user/impl"
 	"github.com/kade-chen/library/ioc"
 	"github.com/kade-chen/library/tools/format"
+	"google.golang.org/protobuf/types/known/structpb"
 )
 
 var (
@@ -20,34 +21,65 @@ var (
 // create user
 func TestCreateUser(t *testing.T) {
 	u, err := impl.CreateUser(ctx, &user.CreateUserRequest{
-		Username: "kade",
+		Username: "top3",
 		Password: "123456",
 		Domain:   "wondercloud.com",
-		Type:     user.TYPE_SUB,
+		Type:     user.TYPE_SUPPER,
+		Labels: &structpb.Struct{
+			Fields: map[string]*structpb.Value{
+				"cc": structpb.NewStringValue("value1"),
+				"bb": structpb.NewNumberValue(123),
+			},
+		},
 	})
 	if err != nil {
 		t.Error(err)
 	}
 	fmt.Println(format.ToJSON(u))
 }
+func TestDescribeUser(t *testing.T) {
+	username := "kade@wondercloud.com"
+	req := user.NewDescriptUserRequestByName(username)
+	req.DescribeBy = user.DESCRIBE_BY_USER_ID
+	a, err := impl.DescribeUser(ctx, req)
+	if err != nil {
+		t.Error(err)
+	}
+	// fmt.Println(a.Spec.Labels.Fields["key1"].GetStringValue())
+	fmt.Println(format.ToJSON(a))
+	// t.Log(a.Tojson1())
+}
 
-// query user
-func TestQueryUser(t *testing.T) {
+// list user
+func TestListUser(t *testing.T) {
 	req := user.NewQueryUserRequest(nil)
-	var myType user.TYPE = user.TYPE_SUB
-	req.Type = &myType
+	// var myType user.TYPE = user.TYPE_SUB
+	// req.Type = &myType
+	req.Domain = "wondercloud.com"
+	// req.UserIds = []string{"top@wondercloud.com","kade@wondercloud.com"}
+	// req.Keywords = "kade"
+	// req.Labels = &structpb.Struct{
+	// 	Fields: map[string]*structpb.Value{
+	// 		"cc": structpb.NewStringValue("value1"),
+	// 		"key2": structpb.NewNumberValue(123),
+	// 	},
+	// }
+	//总数
+	req.Page.PageSize = 2
+	//跳过多少个数据
+	req.Page.Offset = 1
 	a, err := impl.ListUser(ctx, req)
 	if err != nil {
 		t.Error(err)
 	}
-	fmt.Println(a)
+	fmt.Println(format.ToJSON(a))
 	// t.Log(a.Tojson1())
 }
 
 // delete user
 func TestDeleteUser(t *testing.T) {
 	req := user.NewDeleteUserRequest()
-	req.UserIds = []string{"oo@kade-domain"}
+	req.UserIds = []string{"top1@wondercloud.com","top3@wondercloud.com", "top2@wondercloud.com"}
 	a, err := impl.DeleteUser(ctx, req)
 	if err != nil {
 		t.Error(err)

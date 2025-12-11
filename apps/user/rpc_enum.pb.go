@@ -44,11 +44,11 @@ func (t DESCRIBE_BY) IsIn(targets ...DESCRIBE_BY) bool {
 // }
 
 // UnmarshalJSON todo
-func (t *DESCRIBE_BY) UnmarshalJSON(b []byte) error {
-	ins, err := ParseDESCRIBE_BYFromString(string(b))
-	if err != nil {
-		return err
-	}
-	*t = ins
-	return nil
-}
+// func (t *DESCRIBE_BY) UnmarshalJSON(b []byte) error {
+// 	ins, err := ParseDESCRIBE_BYFromString(string(b))
+// 	if err != nil {
+// 		return err
+// 	}
+// 	*t = ins
+// 	return nil
+// }

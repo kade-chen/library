@@ -84,7 +84,7 @@ gen: ## protobuf 编译
 	@protoc -I=.. --go_out=. --go_opt=module=${PKG} --go-grpc_out=. --go-grpc_opt=module=${PKG} ../google-billing-console/apps/*/pb/*.proto
 	@go fmt ./...
 	@protoc-go-inject-tag -input=apps/*/*.pb.go
-	@kade-library enum -p -m apps/*/*.pb.go
+# 	@kade-library enum -p -m apps/*/*.pb.go
 
 
 help: ## Display this help screen

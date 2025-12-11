@@ -1,15 +1,24 @@
 package user
 
 import (
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"fmt"
+	"strings"
+
+	"cloud.google.com/go/bigquery"
+	structpb "google.golang.org/protobuf/types/known/structpb"
 )
 
 // CreateUserRequest
 func NewCreateUserRequest() *CreateUserRequest {
 	return &CreateUserRequest{
-		Domain:          "kade-domain",
-		Labels:          map[string]string{},
+		Domain: "kade-domain",
+		// Labels:          map[string]string{},
+		Labels: &structpb.Struct{
+			Fields: map[string]*structpb.Value{
+				"key1": structpb.NewStringValue("value1"),
+				"key2": structpb.NewNumberValue(123),
+			},
+		},
 		Feishu:          &Feishu{},
 		Dingding:        &DingDing{},
 		Wechatwork:      &WechatWork{},
@@ -25,8 +34,13 @@ func NewQueryUserRequestq() *QueryUserRequest {
 			PageSize:   uint64(20),
 			PageNumber: uint64(1),
 		},
-		SkipItems:    false,
-		Labels:       map[string]string{},
+		SkipItems: false,
+		Labels: &structpb.Struct{
+			Fields: map[string]*structpb.Value{
+				"key1": structpb.NewStringValue("value1"),
+				"key2": structpb.NewNumberValue(123),
+			},
+		},
 		UserIds:      []string{},
 		ExtraUserIds: []string{},
 	}
@@ -37,9 +51,14 @@ func NewQueryUserRequest(req *QueryUserRequest) *QueryUserRequest {
 	if req == nil {
 		return &QueryUserRequest{
 			// Page:         NewPageRequest(20, 1),
-			Page:         &PageRequest{},
-			SkipItems:    false,
-			Labels:       map[string]string{},
+			Page:      &PageRequest{},
+			SkipItems: false,
+			Labels: &structpb.Struct{
+				Fields: map[string]*structpb.Value{
+					// "key1": structpb.NewStringValue("value1"),
+					// "key2": structpb.NewNumberValue(123),
+				},
+			},
 			UserIds:      []string{},
 			ExtraUserIds: []string{},
 		}
@@ -51,61 +70,113 @@ func NewQueryUserRequest(req *QueryUserRequest) *QueryUserRequest {
 func NewQueryUserDeleteRequest() *QueryUserRequest {
 	return &QueryUserRequest{
 		// Page:         NewPageRequest(20, 1),
-		Page:         &PageRequest{},
-		SkipItems:    false,
-		Labels:       map[string]string{},
+		Page:      &PageRequest{},
+		SkipItems: false,
+		Labels:    &structpb.Struct{
+			// Fields: map[string]*structpb.Value{
+			// 	"key1": structpb.NewStringValue("value1"),
+			// 	"key2": structpb.NewNumberValue(123),
+			// },
+		},
 		UserIds:      []string{},
 		ExtraUserIds: []string{},
 	}
 }
 
-func (r *QueryUserRequest) FindFilter() bson.M {
-	filter := bson.M{}
+func (r *QueryUserRequest) PageSQL() (string, []bigquery.QueryParameter) {
+	conditions := []string{}
+	params := []bigquery.QueryParameter{}
 
+	// LIMIT
+	if r.Page.PageSize > 0 {
+		conditions = append(conditions, " LIMIT @limit")
+		params = append(params,
+			bigquery.QueryParameter{Name: "limit", Value: int64(r.Page.PageSize)},
+		)
+	}
+
+	// OFFSET
+	if r.Page.Offset > 0 {
+		conditions = append(conditions, " OFFSET @offset")
+		params = append(params,
+			bigquery.QueryParameter{Name: "offset", Value: int64(r.Page.Offset)},
+		)
+	}
+	return strings.Join(conditions, " "), params
+}
+
+func (r *QueryUserRequest) WhereSQL() (string, []bigquery.QueryParameter) {
+	conditions := []string{}
+	params := []bigquery.QueryParameter{}
+
+	// domain
 	if r.Domain != "" {
-		filter["domain"] = r.Domain
+		conditions = append(conditions, "spec.domain = @domain")
+		params = append(params, bigquery.QueryParameter{Name: "domain", Value: r.Domain})
 	}
+
+	// provider
 	if r.Provider != nil {
-		filter["provider"] = r.Provider
+		conditions = append(conditions, "spec.provider = @provider")
+		params = append(params, bigquery.QueryParameter{Name: "provider", Value: int64(*r.Provider)})
 	}
+
+	// type
 	if r.Type != nil {
-		filter["type"] = r.Type
+		conditions = append(conditions, "spec.type = @type")
+		params = append(params, bigquery.QueryParameter{Name: "type", Value: int64(*r.Type)})
 	}
+
+	// userIds
 	if len(r.UserIds) > 0 {
-		filter["_id"] = bson.M{"$in": r.UserIds}
+		conditions = append(conditions, "id IN UNNEST(@user_ids)")
+		params = append(params, bigquery.QueryParameter{Name: "user_ids", Value: r.UserIds})
 	}
+
+	// username regex → REGEXP_CONTAINS
 	if r.Keywords != "" {
-		filter["username"] = bson.M{"$regex": r.Keywords, "$options": "im"}
+		conditions = append(conditions, "REGEXP_CONTAINS(spec.username, @keywords)")
+		params = append(params, bigquery.QueryParameter{Name: "keywords", Value: r.Keywords})
 	}
-	if r.Labels != nil {
-		for k, v := range r.Labels {
-			filter["labels."+k] = v
+
+	if len(r.Labels.Fields) > 0 {
+		// labels.x = y
+		// 只支持 JSON_EXTRACT_SCALAR，所以 v 必须是 string
+		if r.Labels != nil {
+			for k, v := range r.Labels.Fields {
+				paramName := "label_" + k
+				conditions = append(conditions,
+					fmt.Sprintf("JSON_VALUE(spec.labels, '$.%s') = @%s", k, paramName),
+				)
+				// ⬅⬅ BigQuery 参数必须是基本类型
+				params = append(params, bigquery.QueryParameter{
+					Name:  paramName,
+					Value: v.GetStringValue(),
+				})
+			}
 		}
 	}
 
+	// ExtraUserIds OR logic
 	if len(r.ExtraUserIds) > 0 {
-		filter = bson.M{"$or": bson.A{
-			filter,
-			bson.M{"_id": bson.M{"$in": r.ExtraUserIds}},
-		}}
+		left := "TRUE"
+		if len(conditions) > 0 {
+			left = "(" + strings.Join(conditions, " AND ") + ")"
+		}
+
+		right := "`_id` IN UNNEST(@extra_user_ids)"
+		params = append(params, bigquery.QueryParameter{Name: "extra_user_ids", Value: r.ExtraUserIds})
+
+		conditions = []string{
+			fmt.Sprintf("(%s OR %s)", left, right),
+		}
 	}
 
-	return filter
-}
-
-// QueryUserRequest Options
-func (r *QueryUserRequest) FindOptions() *options.FindOptions {
-	pageSize := int64(r.Page.PageSize)
-	skip := int64(r.Page.PageSize) * int64(r.Page.PageNumber-1)
-
-	// fmt.Println("--------", skip, pageSize)
-	return &options.FindOptions{
-		Sort: bson.D{
-			{Key: "create_at", Value: -1},
-		},
-		Limit: &pageSize,
-		Skip:  &skip,
+	if len(conditions) == 0 {
+		return "", params
 	}
+
+	return "WHERE " + strings.Join(conditions, " AND "), params
 }
 
 // NewDescriptUserRequestByName 查询详情请求

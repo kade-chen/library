@@ -44,14 +44,14 @@ func (t TYPE) IsIn(targets ...TYPE) bool {
 // }
 
 // UnmarshalJSON todo
-func (t *TYPE) UnmarshalJSON(b []byte) error {
-	ins, err := ParseTYPEFromString(string(b))
-	if err != nil {
-		return err
-	}
-	*t = ins
-	return nil
-}
+// func (t *TYPE) UnmarshalJSON(b []byte) error {
+// 	ins, err := ParseTYPEFromString(string(b))
+// 	if err != nil {
+// 		return err
+// 	}
+// 	*t = ins
+// 	return nil
+// }
 
 // ParsePROVIDERFromString Parse PROVIDER from string
 func ParsePROVIDERFromString(str string) (PROVIDER, error) {
@@ -89,14 +89,14 @@ func (t PROVIDER) IsIn(targets ...PROVIDER) bool {
 // }
 
 // UnmarshalJSON todo
-func (t *PROVIDER) UnmarshalJSON(b []byte) error {
-	ins, err := ParsePROVIDERFromString(string(b))
-	if err != nil {
-		return err
-	}
-	*t = ins
-	return nil
-}
+// func (t *PROVIDER) UnmarshalJSON(b []byte) error {
+// 	ins, err := ParsePROVIDERFromString(string(b))
+// 	if err != nil {
+// 		return err
+// 	}
+// 	*t = ins
+// 	return nil
+// }
 
 // ParseCREATE_FROMFromString Parse CREATE_FROM from string
 func ParseCREATE_FROMFromString(str string) (CREATE_FROM, error) {
@@ -134,14 +134,14 @@ func (t CREATE_FROM) IsIn(targets ...CREATE_FROM) bool {
 // }
 
 // UnmarshalJSON todo
-func (t *CREATE_FROM) UnmarshalJSON(b []byte) error {
-	ins, err := ParseCREATE_FROMFromString(string(b))
-	if err != nil {
-		return err
-	}
-	*t = ins
-	return nil
-}
+// func (t *CREATE_FROM) UnmarshalJSON(b []byte) error {
+// 	ins, err := ParseCREATE_FROMFromString(string(b))
+// 	if err != nil {
+// 		return err
+// 	}
+// 	*t = ins
+// 	return nil
+// }
 
 // ParseGenderFromString Parse Gender from string
 func ParseGenderFromString(str string) (Gender, error) {
@@ -179,11 +179,11 @@ func (t Gender) IsIn(targets ...Gender) bool {
 // }
 
 // UnmarshalJSON todo
-func (t *Gender) UnmarshalJSON(b []byte) error {
-	ins, err := ParseGenderFromString(string(b))
-	if err != nil {
-		return err
-	}
-	*t = ins
-	return nil
-}
+// func (t *Gender) UnmarshalJSON(b []byte) error {
+// 	ins, err := ParseGenderFromString(string(b))
+// 	if err != nil {
+// 		return err
+// 	}
+// 	*t = ins
+// 	return nil
+// }

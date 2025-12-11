@@ -6,6 +6,7 @@ option go_package = "github.com/kade-chen/google-billing-console/apps/user";
 
 import "google-billing-console/apps/user/pb/user.proto";
 import "google-billing-console/apps/user/pb/page.proto";
+import "google/protobuf/struct.proto";
 
 // Service 用户服务
 service RPC {
@@ -42,8 +43,11 @@ message QueryUserRequest {
   repeated string extra_user_ids = 7;
 
   // 根据标签过滤用户
+  // 用户标签
+  // @gotags: json:"labels" bson:"labels" bigquery:"labels"
+  google.protobuf.Struct labels = 6;
   // @gotags: json:"labels" bigquery:"labels"
-  map<string, string> labels = 6;
+  // map<string, string> labels = 6;
 
   // 是否获取数据
   // @gotags: json:"skip_items" bigquery:"skip_items"

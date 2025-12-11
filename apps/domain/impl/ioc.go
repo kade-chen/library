@@ -2,6 +2,7 @@ package impl
 
 import (
 	"context"
+	"fmt"
 
 	"cloud.google.com/go/bigquery"
 	"github.com/kade-chen/library/exception"
@@ -24,8 +25,9 @@ func init() {
 }
 
 type service struct {
-	bq_client *bigquery.Client
-	bq_table  *bigquery.Table
+	bq_client   *bigquery.Client
+	bq_table    *bigquery.Table
+	bqTableFull string
 	domain.UnimplementedRPCServer
 	ioc.ObjectImpl
 	log *zerolog.Logger
@@ -49,6 +51,12 @@ func (s *service) Init() error {
 	}
 
 	domain.RegisterRPCServer(grpc.Get().Server(), s)
+
+	projectID := ioc.Config().Get(configs.AppName).(*impl.Service).Default_Project_ID
+	dataset := ioc.Config().Get(configs.AppName).(*impl.Service).GoogleBillingConsoleDataset
+	table := ioc.Config().Get(configs.AppName).(*impl.Service).GoogleBillingConsoleDatasetTableDomain
+	s.bqTableFull = fmt.Sprintf("`%s.%s.%s`", projectID, dataset, table)
+
 	return err
 }
 
@@ -126,24 +134,24 @@ func (s *service) datasetisNotFound(err error) bool {
 
 // 针对特定字段设置 NULLABLE
 func makeSchemaNullable(schema bigquery.Schema) {
-	for _, field := range schema {
-		field.Required = false // 设置为 NULLABLE
-		if field.Type == bigquery.RecordFieldType && field.Schema != nil {
-			makeSchemaNullable(field.Schema) // 递归嵌套字段
+	for i := range schema {
+		schema[i].Required = false
+		if schema[i].Type == bigquery.RecordFieldType && schema[i].Schema != nil {
+			makeSchemaNullable(schema[i].Schema)
 		}
 	}
 }
 
 // 针对特定字段设置 REQUIRED
 func setFieldRequired(schema bigquery.Schema, fieldNames []string) {
-	for _, field := range schema {
+	for i := range schema {
 		for _, name := range fieldNames {
-			if field.Name == name {
-				field.Required = true
+			if schema[i].Name == name {
+				schema[i].Required = true
 			}
 		}
-		if field.Type == bigquery.RecordFieldType && field.Schema != nil {
-			setFieldRequired(field.Schema, fieldNames) // 递归嵌套 STRUCT
+		if schema[i].Type == bigquery.RecordFieldType && schema[i].Schema != nil {
+			setFieldRequired(schema[i].Schema, fieldNames)
 		}
 	}
 }
