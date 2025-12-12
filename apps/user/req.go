@@ -180,10 +180,11 @@ func (r *QueryUserRequest) WhereSQL() (string, []bigquery.QueryParameter) {
 }
 
 // NewDescriptUserRequestByName 查询详情请求
-func NewDescriptUserRequestByName(username string) *DescribeUserRequest {
+func NewDescriptUserRequestByName() *DescribeUserRequest {
 	return &DescribeUserRequest{
-		Username:   username,
-		DescribeBy: DESCRIBE_BY_USER_NAME,
+		// Id:         id,
+		// Username:   username,
+		// DescribeBy: DESCRIBE_BY_USER_NAME,
 	}
 }
 

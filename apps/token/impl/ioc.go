@@ -2,6 +2,8 @@ package impl
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	"cloud.google.com/go/bigquery"
 	"github.com/rs/zerolog"
@@ -23,7 +25,9 @@ func init() {
 }
 
 type service struct {
-	col *bigquery.Client
+	bq_client   *bigquery.Client
+	bq_table    *bigquery.Table
+	bqTableFull string
 	token.UnimplementedRPCServer
 	ioc.ObjectImpl
 	log *zerolog.Logger
@@ -37,7 +41,7 @@ type service struct {
 
 func (s *service) Init() error {
 	s.log = log.Sub(s.Name())
-	s.col = ioc.Config().Get(configs.AppName).(*impl.Service).BQ
+	s.bq_client = ioc.Config().Get(configs.AppName).(*impl.Service).BQ
 	err := s.bqInit(context.Background())
 	if err != nil {
 		return err
@@ -59,6 +63,10 @@ func (s *service) Init() error {
 	}
 
 	token.RegisterRPCServer(grpc.Get().Server(), s)
+	projectID := ioc.Config().Get(configs.AppName).(*impl.Service).Default_Project_ID
+	dataset := ioc.Config().Get(configs.AppName).(*impl.Service).GoogleBillingConsoleDataset
+	table := ioc.Config().Get(configs.AppName).(*impl.Service).GoogleBillingConsoleDatasetTableToken
+	s.bqTableFull = fmt.Sprintf("`%s.%s.%s`", projectID, dataset, table)
 	return nil
 }
 
@@ -67,7 +75,7 @@ func (service) Name() string {
 }
 
 func (s *service) bqInit(ctx context.Context) error {
-	dataset := s.col.Dataset(ioc.Config().Get(configs.AppName).(*impl.Service).GoogleBillingConsoleDataset)
+	dataset := s.bq_client.Dataset(ioc.Config().Get(configs.AppName).(*impl.Service).GoogleBillingConsoleDataset)
 	_, err := dataset.Metadata(ctx)
 	if err != nil {
 		// 如果不存在，则创建
@@ -87,6 +95,12 @@ func (s *service) bqInit(ctx context.Context) error {
 
 	// ---- 1. 自动从结构体推断 schema ----
 	schema, err := bigquery.InferSchema(token.Token{})
+	// 使用示例
+	makeSchemaNullable(schema)                         // 先把所有字段置 NULLABLE
+	setFieldRequired(schema, []string{"access_token"}) // 指定字段为 REQUIRED
+	// setFieldRequired(schema, []string{"id", "meta.create_at"}) // 指定字段为 REQUIRED
+	// 把 spec.labels 改成 JSON 字段
+	forceJSONField(schema, "meta")
 	if err != nil {
 		s.log.Error().Msgf("infer schema failed, ERROR: %v", err)
 		return exception.NewIocRegisterFailed("infer schema failed, ERROR: %v", err)
@@ -121,6 +135,7 @@ func (s *service) bqInit(ctx context.Context) error {
 			return exception.NewIocRegisterFailed("failed to get table metadata, ERROR: %v", err)
 		}
 	}
+	s.bq_table = table
 	s.log.Info().Msg("Table already exists, continue...")
 	return nil
 }
@@ -130,4 +145,51 @@ func (s *service) datasetisNotFound(err error) bool {
 		return gerr.Code == 404
 	}
 	return false
+}
+
+// 针对特定字段设置 NULLABLE
+func makeSchemaNullable(schema bigquery.Schema) {
+	for i := range schema {
+		schema[i].Required = false
+		if schema[i].Type == bigquery.RecordFieldType && schema[i].Schema != nil {
+			makeSchemaNullable(schema[i].Schema)
+		}
+	}
+}
+
+// 针对特定字段设置 REQUIRED
+func setFieldRequired(schema bigquery.Schema, fieldNames []string) {
+	for i := range schema {
+		for _, name := range fieldNames {
+			if schema[i].Name == name {
+				schema[i].Required = true
+			}
+		}
+		if schema[i].Type == bigquery.RecordFieldType && schema[i].Schema != nil {
+			setFieldRequired(schema[i].Schema, fieldNames)
+		}
+	}
+}
+
+//REPEATED 切片可以自动推断
+
+// map 特殊处理转成json，key-value
+func forceJSONField(schema bigquery.Schema, fullPath string) {
+	parts := strings.Split(fullPath, ".")
+
+	for i := range schema {
+		if schema[i].Name == parts[0] {
+			// 最后一级 → 当前字段改 JSON
+			if len(parts) == 1 {
+				schema[i].Type = bigquery.JSONFieldType
+				schema[i].Schema = nil // JSON 不能再有 schema
+				return
+			}
+
+			// 递归下一层
+			if schema[i].Type == bigquery.RecordFieldType {
+				forceJSONField(schema[i].Schema, strings.Join(parts[1:], "."))
+			}
+		}
+	}
 }

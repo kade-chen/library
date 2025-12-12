@@ -44,14 +44,14 @@ func (t GRANT_TYPE) IsIn(targets ...GRANT_TYPE) bool {
 // }
 
 // UnmarshalJSON todo
-func (t *GRANT_TYPE) UnmarshalJSON(b []byte) error {
-	ins, err := ParseGRANT_TYPEFromString(string(b))
-	if err != nil {
-		return err
-	}
-	*t = ins
-	return nil
-}
+// func (t *GRANT_TYPE) UnmarshalJSON(b []byte) error {
+// 	ins, err := ParseGRANT_TYPEFromString(string(b))
+// 	if err != nil {
+// 		return err
+// 	}
+// 	*t = ins
+// 	return nil
+// }
 
 // ParseTOKEN_TYPEFromString Parse TOKEN_TYPE from string
 func ParseTOKEN_TYPEFromString(str string) (TOKEN_TYPE, error) {
@@ -89,14 +89,14 @@ func (t TOKEN_TYPE) IsIn(targets ...TOKEN_TYPE) bool {
 // }
 
 // UnmarshalJSON todo
-func (t *TOKEN_TYPE) UnmarshalJSON(b []byte) error {
-	ins, err := ParseTOKEN_TYPEFromString(string(b))
-	if err != nil {
-		return err
-	}
-	*t = ins
-	return nil
-}
+// func (t *TOKEN_TYPE) UnmarshalJSON(b []byte) error {
+// 	ins, err := ParseTOKEN_TYPEFromString(string(b))
+// 	if err != nil {
+// 		return err
+// 	}
+// 	*t = ins
+// 	return nil
+// }
 
 // ParsePLATFORMFromString Parse PLATFORM from string
 func ParsePLATFORMFromString(str string) (PLATFORM, error) {
@@ -134,14 +134,14 @@ func (t PLATFORM) IsIn(targets ...PLATFORM) bool {
 // }
 
 // UnmarshalJSON todo
-func (t *PLATFORM) UnmarshalJSON(b []byte) error {
-	ins, err := ParsePLATFORMFromString(string(b))
-	if err != nil {
-		return err
-	}
-	*t = ins
-	return nil
-}
+// func (t *PLATFORM) UnmarshalJSON(b []byte) error {
+// 	ins, err := ParsePLATFORMFromString(string(b))
+// 	if err != nil {
+// 		return err
+// 	}
+// 	*t = ins
+// 	return nil
+// }
 
 // ParseBLOCK_TYPEFromString Parse BLOCK_TYPE from string
 func ParseBLOCK_TYPEFromString(str string) (BLOCK_TYPE, error) {
@@ -179,11 +179,11 @@ func (t BLOCK_TYPE) IsIn(targets ...BLOCK_TYPE) bool {
 // }
 
 // UnmarshalJSON todo
-func (t *BLOCK_TYPE) UnmarshalJSON(b []byte) error {
-	ins, err := ParseBLOCK_TYPEFromString(string(b))
-	if err != nil {
-		return err
-	}
-	*t = ins
-	return nil
-}
+// func (t *BLOCK_TYPE) UnmarshalJSON(b []byte) error {
+// 	ins, err := ParseBLOCK_TYPEFromString(string(b))
+// 	if err != nil {
+// 		return err
+// 	}
+// 	*t = ins
+// 	return nil
+// }

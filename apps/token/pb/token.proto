@@ -6,6 +6,7 @@ package kade_chen.google_billing_console.token;
 option go_package = "github.com/kade-chen/google-billing-console/apps/token";
 
 import "google-billing-console/apps/user/pb/user.proto";
+import "google/protobuf/struct.proto";
 
 message IssueTokenRequest {
   // 测试颁发
@@ -245,8 +246,9 @@ message Token {
   Location location = 18;
 
   // 其他信息
-  // @gotags: bson:"meta" json:"meta,omitempty" bigquery:"meta"
-  map<string, string> meta = 19;
+  // @gotags: json:"meta" bson:"meta" bigquery:"meta"
+  google.protobuf.Struct meta = 19;
+  // map<string, string> meta = 19;
 }
 
 enum PLATFORM {

@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"time"
 
+	"cloud.google.com/go/bigquery"
+	"github.com/kade-chen/google-billing-console/apps/configs"
+	"github.com/kade-chen/google-billing-console/apps/configs/impl"
 	"github.com/kade-chen/library/exception"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
+	"github.com/kade-chen/library/ioc"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -33,7 +35,7 @@ func NewHashPassword(password string) (*Password, error) {
 func (p *Password) CheckPassword(password string) error {
 	err := bcrypt.CompareHashAndPassword([]byte(p.Password), []byte(password))
 	if err != nil {
-		return exception.NewBadRequest("用户名或者密码不正确")
+		return exception.NewInternalServerError("user or password not error: %s", err.Error())
 	}
 
 	return nil
@@ -43,7 +45,7 @@ func (p *Password) CheckPassword(password string) error {
 // remindDays 提前多少天提醒用户修改密码
 // expiredDays 多少天后密码过期
 // BeforeExpiredRemindDays =10  password_expired_days=90
-func (p *Password) CheckPasswordExpired(remindDays, expiredDays uint, col *mongo.Collection, userID string) error {
+func (p *Password) CheckPasswordExpired(ctx context.Context, remindDays, expiredDays uint, bq *bigquery.Client, userID string) error {
 	// 永不过期
 	if expiredDays == 0 {
 		return nil
@@ -55,7 +57,7 @@ func (p *Password) CheckPasswordExpired(remindDays, expiredDays uint, col *mongo
 	ex := now.Sub(expiredAt).Hours() / 24
 	// 提前提醒10天
 	if 0 < -ex && -ex <= float64(remindDays) {
-		err := p.SetNeedReset(col, userID, "Password will expire in %f days, Please reset password", -ex)
+		err := p.SetNeedReset(ctx, bq, userID, "Password will expire in %f days, Please reset password", -ex)
 		return err
 	}
 
@@ -70,14 +72,38 @@ func (p *Password) CheckPasswordExpired(remindDays, expiredDays uint, col *mongo
 }
 
 // SetNeedReset 需要被重置
-func (p *Password) SetNeedReset(col *mongo.Collection, userID, format string, a ...interface{}) error {
+func (p *Password) SetNeedReset(ctx context.Context, bq *bigquery.Client, userID, format string, a ...interface{}) error {
+	sql := fmt.Sprintf(`UPDATE %s
+						SET password = (
+							SELECT AS STRUCT *
+							REPLACE (
+								TRUE AS need_reset,
+								@reason AS reset_reason,
+								@update_at AS update_at
+							)
+							FROM UNNEST([password])
+							)
+						WHERE id = @id;
+    `, fmt.Sprintf("`%s.%s.%s`", ioc.Config().Get(configs.AppName).(*impl.Service).Default_Project_ID, ioc.Config().Get(configs.AppName).(*impl.Service).GoogleBillingConsoleDataset, ioc.Config().Get(configs.AppName).(*impl.Service).GoogleBillingConsoleDatasetTableUser))
 
-	_, err := col.UpdateOne(context.TODO(), bson.M{"_id": userID}, bson.M{
-		"$set": bson.M{
-			"password.need_reset":   true,
-			"password.reset_reason": fmt.Sprintf(format, a...),
-			"password.update_at":    time.Now().Unix(),
-		},
-	})
-	return exception.NewPasswordExired("Update user password configuration failed, %v", err)
+	q := bq.Query(sql)
+	q.Parameters = []bigquery.QueryParameter{
+		{Name: "id", Value: userID},
+		{Name: "reason", Value: fmt.Sprintf(format, a...)},
+		{Name: "update_at", Value: time.Now().Unix()},
+	}
+
+	job, err := q.Run(ctx)
+	if err != nil {
+		return err
+	}
+
+	status, err := job.Wait(ctx)
+	if err != nil {
+		return err
+	}
+	if status.Err() != nil {
+		return status.Err()
+	}
+	return exception.NewPasswordExired("Update user password configuration failed, %v", nil)
 }

@@ -4,6 +4,8 @@ import (
 	"math/rand"
 	"strings"
 	"time"
+
+	structpb "google.golang.org/protobuf/types/known/structpb"
 )
 
 func NewToken(req *IssueTokenRequest) *Token {
@@ -26,7 +28,12 @@ func NewToken(req *IssueTokenRequest) *Token {
 			UserAgent:  &UserAgent{},
 			// ...其他配置
 		},
-		Meta: map[string]string{},
+		Meta: &structpb.Struct{
+			Fields: map[string]*structpb.Value{
+				// "cc": structpb.NewStringValue("value1"),
+				// "bb": structpb.NewNumberValue(123),
+			},
+		},
 	}
 	switch tk.GrantType {
 	case GRANT_TYPE_PRIVATE_TOKEN:

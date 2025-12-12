@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"cloud.google.com/go/bigquery"
 	"github.com/kade-chen/google-billing-console/apps/namespace"
 	"github.com/kade-chen/google-billing-console/apps/token"
 	"github.com/kade-chen/google-billing-console/apps/token/provider"
@@ -14,6 +15,7 @@ import (
 // 1.isseuer token
 func (s *service) issuer_token(ctx context.Context, req *token.IssueTokenRequest) (*token.Token, error) {
 	// 0.get issuer
+	s.log.Info().Msgf("The token issuance method is as follows: %s", req.GrantType)
 	issuer := provider.GetTokenIssuer(req.GrantType)
 
 	// 确保有provider
@@ -31,6 +33,7 @@ func (s *service) issuer_token(ctx context.Context, req *token.IssueTokenRequest
 
 	if !req.DryRun {
 		// 入库保存
+		s.log.Info().Msgf("The token is saved to the database: %s", tk.AccessToken)
 		if err := s.save(ctx, tk); err != nil {
 			return nil, err
 		}
@@ -79,41 +82,79 @@ func (s *service) blockOtherWebToken(ctx context.Context, tk *token.Token) error
 		return nil
 	}
 	//如果是web登陆，需要关闭之前的登录令牌
-	// if tk.Platform.Equal(token.PLATFORM_WEB) {
-	// 	filter := bson.D{
-	// 		{Key: "_id", Value: bson.D{{Key: "$ne", Value: tk.AccessToken}}},   // _id 不等于 tk.UserId
-	// 		{Key: "username", Value: bson.D{{Key: "$eq", Value: tk.Username}}}, // username 等于 tk.Username
-	// 		{Key: "domain", Value: bson.D{{Key: "$eq", Value: tk.Domain}}},     // domain 等于 tk.Domain
-	// 	}
-	// 	result, err := s.col.DeleteMany(context.Background(), filter)
-	// 	if err != nil {
-	// 		return err
-	// 	}
-	// 	// 输出删除的文档数量
-	// 	s.log.Info().Msgf("%d documents have been deleted", result.DeletedCount)
-	// }
+	if tk.Platform.Equal(token.PLATFORM_WEB) {
+		fmt.Println("111111-------")
+		sql := fmt.Sprintf(`
+								DELETE FROM %s WHERE access_token != @access_token
+								AND username = @username
+								AND domain = @domain
+							`, s.bqTableFull)
+		q := s.bq_client.Query(sql)
+		q.Parameters = []bigquery.QueryParameter{
+			{Name: "access_token", Value: tk.AccessToken},
+			{Name: "username", Value: tk.Username},
+			{Name: "domain", Value: tk.Domain},
+		}
 
+		// BigQuery DELETE 不返回行数据，通过 JobStatus 获取影响行数
+		job, err := q.Run(ctx)
+		if err != nil {
+			return fmt.Errorf("delete error: %v", err)
+		}
+
+		status, err := job.Wait(ctx)
+		if err != nil {
+			return fmt.Errorf("delete wait error: %v", err)
+		}
+
+		if status.Err() != nil {
+			return fmt.Errorf("delete job error: %v", status.Err())
+		}
+		// return nil
+	}
 	now := time.Now()
-	status := token.NewStatus()
-	status.IsBlock = true
-	status.BlockAt = now.UnixMilli()
-	status.BlockReason = fmt.Sprintf("你于 %s 从其他地方通过 %s 登录", now.Format(time.RFC3339), tk.GrantType)
-	status.BlockType = token.BLOCK_TYPE_OTHER_PLACE_LOGGED_IN
+	// status := token.NewStatus()
+	tk.Status.IsBlock = true
+	tk.Status.BlockAt = now.UnixMilli()
+	tk.Status.BlockReason = fmt.Sprintf("你于 %s 从其他地方通过 %s 登录", time.Now().Format(time.RFC3339), tk.GrantType)
+	tk.Status.BlockType = token.BLOCK_TYPE_OTHER_PLACE_LOGGED_IN
 
-	// rs, err := s.col.UpdateMany(
-	// 	ctx,
-	// 	bson.M{
-	// 		"platform": token.PLATFORM_WEB,
-	// 		"domain":   bson.M{"$eq": tk.Domain},
-	// 		"_id":      tk.AccessToken,
-	// 		// "issue_at":        bson.M{"$lt": tk.IssueAt}, // 使用 $lte 小于等于
-	// 		"status.is_block": false,
-	// 	},
-	// 	bson.M{"$set": bson.M{"status": status}}, // 更新 status 字段，设置为新的 status 值
-	// )
-	// if err != nil {
-	// 	return err
-	// }
+	q := fmt.Sprintf(`
+			UPDATE %s
+			SET status = (
+			SELECT AS STRUCT *
+			REPLACE (
+				TRUE AS is_block,
+				@block_at AS block_at,
+				@block_reason AS block_reason,
+				@block_type AS block_type
+			)
+			FROM UNNEST([status])
+			)
+			WHERE access_token = @access_token;
+		`, s.bqTableFull)
+
+	query := s.bq_client.Query(q)
+	query.Parameters = []bigquery.QueryParameter{
+		{Name: "block_at", Value: tk.Status.BlockAt},
+		{Name: "block_reason", Value: tk.Status.BlockReason},
+		{Name: "block_type", Value: int64(tk.Status.BlockType)},
+		{Name: "access_token", Value: tk.AccessToken},
+	}
+
+	job1, err := query.Run(ctx)
+	if err != nil {
+		return err
+	}
+
+	status1, err := job1.Wait(ctx)
+	if err != nil {
+		return err
+	}
+	if status1.Err() != nil {
+		return exception.NewInternalServerError("delete job error: %v", status1.Err())
+	}
+
 	// s.log.Debug().Msgf("block %d tokens", rs.ModifiedCount)
 	return nil
 }

@@ -13,7 +13,7 @@ import (
 func BigQueryStructInsert(ctx context.Context, bq_table *bigquery.Table, any any) error {
 	b, err := json.Marshal(any)
 	if err != nil {
-		return nil
+		return exception.NewInternalServerError("json marshal error, ERROR:%s", err.Error())
 	}
 	data := append(b, '\n')
 

@@ -71,6 +71,10 @@ message DescribeUserRequest {
   // 用户账号
   // @gotags: json:"username" bigquery:"username"
   string username = 3;
+
+  // Domain
+  // @gotags: json:"domain" bigquery:"domain"
+  string domain = 4;
 }
 
 enum DESCRIBE_BY {

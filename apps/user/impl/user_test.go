@@ -21,10 +21,10 @@ var (
 // create user
 func TestCreateUser(t *testing.T) {
 	u, err := impl.CreateUser(ctx, &user.CreateUserRequest{
-		Username: "top3",
+		Username: "kade3",
 		Password: "123456",
 		Domain:   "wondercloud.com",
-		Type:     user.TYPE_SUPPER,
+		// Type:     user.TYPE_SUPPER,
 		Labels: &structpb.Struct{
 			Fields: map[string]*structpb.Value{
 				"cc": structpb.NewStringValue("value1"),
@@ -38,9 +38,13 @@ func TestCreateUser(t *testing.T) {
 	fmt.Println(format.ToJSON(u))
 }
 func TestDescribeUser(t *testing.T) {
-	username := "kade@wondercloud.com"
-	req := user.NewDescriptUserRequestByName(username)
-	req.DescribeBy = user.DESCRIBE_BY_USER_ID
+	req := user.NewDescriptUserRequestByName()
+	// req.DescribeBy = user.DESCRIBE_BY_USER_ID
+	// req.Id = "kade@wondercloud.com"
+
+	req.DescribeBy = user.DESCRIBE_BY_USER_NAME
+	req.Domain = "wondercloud.com"
+	req.Username = "kade"
 	a, err := impl.DescribeUser(ctx, req)
 	if err != nil {
 		t.Error(err)
@@ -79,7 +83,7 @@ func TestListUser(t *testing.T) {
 // delete user
 func TestDeleteUser(t *testing.T) {
 	req := user.NewDeleteUserRequest()
-	req.UserIds = []string{"top1@wondercloud.com","top3@wondercloud.com", "top2@wondercloud.com"}
+	req.UserIds = []string{"top1@wondercloud.com", "top3@wondercloud.com", "top2@wondercloud.com"}
 	a, err := impl.DeleteUser(ctx, req)
 	if err != nil {
 		t.Error(err)

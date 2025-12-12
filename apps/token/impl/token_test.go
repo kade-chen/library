@@ -21,7 +21,7 @@ var (
 
 func Test_Issue_Token_PassWord(t *testing.T) {
 	req := token.NewIssueTokenRequest()
-	req.Username = "kade"
+	req.Username = "kade@wondercloud.com"
 	req.Password = "123456"
 	// req.GrantType = token.GRANT_TYPE_PRIVATE_TOKEN
 	tk, err := impl.IssueToken(ctx, req)
@@ -56,7 +56,7 @@ func Test_Revoke_Token(t *testing.T) {
 }
 
 func Test_Validate_Token(t *testing.T) {
-	req := token.NewValidateTokenRequest("BUxe2dhJpzk8PyRsapF6AA5U")
+	req := token.NewValidateTokenRequest("4wLIynrBzpHC8QovsddgE6Wm")
 	_, err := impl.ValicateToken(ctx, req)
 	if err != nil {
 		t.Fatal(err.Error())

@@ -20,9 +20,11 @@ var (
 
 func TestIssueToken(t *testing.T) {
 	// req := token.NewPasswordIssueTokenRequest("admin", "123456")
-	tk, err := impl.IssueToken(ctx, &token.IssueTokenRequest{Username: "kade", Password: "123456"})
+	tk, err := impl.IssueToken(ctx, &token.IssueTokenRequest{Username: "kade@wondercloud.com", Password: "123456"})
 	if err != nil {
 		fmt.Println(format.ToJSON(err))
+		t.Errorf("issue token failed: %v", err)
+		return
 	}
 	fmt.Println(tk.Json())
 }

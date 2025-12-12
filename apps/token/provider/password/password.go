@@ -3,6 +3,9 @@ package password
 import (
 	"context"
 
+	"cloud.google.com/go/bigquery"
+	"github.com/kade-chen/google-billing-console/apps/configs"
+	"github.com/kade-chen/google-billing-console/apps/configs/impl"
 	"github.com/kade-chen/google-billing-console/apps/domain"
 	"github.com/kade-chen/google-billing-console/apps/token"
 	"github.com/kade-chen/google-billing-console/apps/token/provider"
@@ -10,9 +13,7 @@ import (
 	"github.com/kade-chen/library/exception"
 	"github.com/kade-chen/library/ioc"
 	"github.com/kade-chen/library/ioc/config/log"
-	ioc_mongo "github.com/kade-chen/library/ioc/config/mongo"
 	"github.com/rs/zerolog"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
 var (
@@ -28,14 +29,14 @@ func init() {
 }
 
 type password struct {
-	user   user.Service
-	log    *zerolog.Logger
-	domain domain.Service
-	col    *mongo.Collection
+	bq_client *bigquery.Client
+	user      user.Service
+	log       *zerolog.Logger
+	domain    domain.Service
 }
 
 func (p *password) Init() error {
-	p.col = ioc_mongo.DB().Collection(user.AppName)
+	p.bq_client = ioc.Config().Get(configs.AppName).(*impl.Service).BQ
 	p.user = ioc.Controller().Get(user.AppName).(user.Service)
 	p.domain = ioc.Controller().Get(domain.AppName).(domain.Service)
 	p.log = log.Sub("issuer_password_token")
@@ -47,12 +48,11 @@ func (*password) GrantType() token.GRANT_TYPE {
 }
 
 func (p *password) IssueToken(ctx context.Context, req *token.IssueTokenRequest) (*token.Token, error) {
+	p.log.Info().Msg("The token issuance method is follows: PASSWORD")
 	u, err := p.validate(ctx, req.Username, req.Password)
 	if err != nil {
 		return nil, err
 	}
-	// fmt.Println("=-----", u)
-	p.log.Info().Msg("password token")
 	// 3. 颁发Token
 	tk := token.NewToken(req)
 	tk.Domain = u.Spec.Domain
@@ -65,19 +65,24 @@ func (p *password) IssueToken(ctx context.Context, req *token.IssueTokenRequest)
 }
 
 func (p *password) validate(ctx context.Context, username, password string) (*user.User, error) {
-
 	if username == "" || password == "" {
+		p.log.Error().Msg("username or password is empty")
 		return nil, AUTH_FALIED
 	}
 
 	//1.query user whether in the document
-	u, err := p.user.DescribeUser(ctx, user.NewDescriptUserRequestByName(username))
+	p.log.Info().Msgf("query user by username: %s", username)
+	p.log.Info().Msgf("query user by password: %s", password)
+	u, err := p.user.DescribeUser(ctx, &user.DescribeUserRequest{
+		DescribeBy: user.DESCRIBE_BY_USER_ID,
+		Id:         username,
+	})
 	if err != nil {
 		return nil, err
 	}
 	//2.verify password
 	if err := u.Password.CheckPassword(password); err != nil {
-		return nil, exception.NewBadRequest("user or password not error: %s", err.Error())
+		return nil, err
 	}
 
 	// 2.check whether the password has expried
@@ -103,8 +108,7 @@ func (p *password) validate(ctx context.Context, username, password string) (*us
 		// 主账号和管理员密码过期策略
 		expiredRemain, expiredDays = uint(u.Password.ExpiredRemind), uint(u.Password.ExpiredDays)
 	}
-
-	err = u.Password.CheckPasswordExpired(expiredRemain, expiredDays, p.col, u.Id)
+	err = u.Password.CheckPasswordExpired(ctx, expiredRemain, expiredDays, p.bq_client, u.Id)
 	if err != nil {
 		p.log.Error().Msgf("check password expired error: %s", err)
 		return nil, err

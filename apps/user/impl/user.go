@@ -62,12 +62,13 @@ func (s *service) DescribeUser(ctx context.Context, req *user.DescribeUserReques
 	case user.DESCRIBE_BY_USER_ID:
 		sql = fmt.Sprintf(`SELECT * FROM %s WHERE id = @id LIMIT 1`, s.bqTableFull)
 		params = []bigquery.QueryParameter{
-			{Name: "id", Value: req.Username},
+			{Name: "id", Value: req.Id},
 		}
 	case user.DESCRIBE_BY_USER_NAME:
-		sql = fmt.Sprintf(`SELECT * FROM %s WHERE spec.name = @name LIMIT 1`, s.bqTableFull)
+		sql = fmt.Sprintf(`SELECT * FROM %s WHERE spec.username = @name AND spec.domain = @domain LIMIT 1`, s.bqTableFull)
 		params = []bigquery.QueryParameter{
 			{Name: "name", Value: req.Username},
+			{Name: "domain", Value: req.Domain},
 		}
 	// case user.DESCRIBE_BY_FEISHU_USER_ID:
 	// 	queryStr = fmt.Sprintf(`
@@ -98,8 +99,8 @@ func (s *service) DescribeUser(ctx context.Context, req *user.DescribeUserReques
 	err = it.Next(&rowMap)
 	switch err {
 	case iterator.Done:
-		s.log.Error().Msg("domain not exist")
-		return nil, exception.NewNotFound("domain not exist")
+		s.log.Error().Msg("user not exist")
+		return nil, exception.NewNotFound("user not exist")
 	case nil:
 		// 2. 特殊处理 labels 字段
 		// BigQuery 的 JSON 类型在 Go 中会被读作 string，如果不处理直接转 JSON，
@@ -134,7 +135,7 @@ func (s *service) DescribeUser(ctx context.Context, req *user.DescribeUserReques
 			return nil, exception.NewInternalServerError("unmarshal to user error: %v", err)
 		}
 
-		s.log.Info().Msg("domain query successful")
+		s.log.Info().Msg("user query successful")
 		return row, nil
 	default:
 		return nil, exception.NewInternalServerError("iterator error: %v", err)
