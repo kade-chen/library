@@ -55,6 +55,12 @@ func (p *password) IssueToken(ctx context.Context, req *token.IssueTokenRequest)
 	}
 	// 3. 颁发Token
 	tk := token.NewToken(req)
+	// now := time.Now()
+	// status := token.NewStatus()
+	// tk.Status.IsBlock = false
+	// tk.Status.BlockAt = now.UnixMilli()
+	// tk.Status.BlockReason = fmt.Sprintf("你于 %s 从其他地方通过 %s 登录", time.Now().Format(time.RFC3339), tk.GrantType)
+	// tk.Status.BlockType = token.BLOCK_TYPE_OTHER_PLACE_LOGGED_IN
 	tk.Domain = u.Spec.Domain
 	tk.SharedUser = u.Spec.Shared
 	tk.Username = u.Spec.Username
@@ -72,7 +78,7 @@ func (p *password) validate(ctx context.Context, username, password string) (*us
 
 	//1.query user whether in the document
 	p.log.Info().Msgf("query user by username: %s", username)
-	p.log.Info().Msgf("query user by password: %s", password)
+	p.log.Info().Msgf("query user by password: %s", "******")
 	u, err := p.user.DescribeUser(ctx, &user.DescribeUserRequest{
 		DescribeBy: user.DESCRIBE_BY_USER_ID,
 		Id:         username,

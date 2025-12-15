@@ -32,15 +32,18 @@ func (s *service) issuer_token(ctx context.Context, req *token.IssueTokenRequest
 	tk.Namespace = namespace.DEFAULT_NAMESPACE
 
 	if !req.DryRun {
+		// 关闭之前的web登录
+		go func() {
+			if err := s.blockOtherWebToken(ctx, tk); err != nil {
+				s.log.Error().Msgf("blockOtherWebToken failed: %v", err)
+			}
+			s.log.Info().Msgf("The token is closed: %s", tk.AccessToken)
+		}()
 		// 入库保存
-		s.log.Info().Msgf("The token is saved to the database: %s", tk.AccessToken)
 		if err := s.save(ctx, tk); err != nil {
 			return nil, err
 		}
-		// 关闭之前的web登录
-		if err := s.blockOtherWebToken(ctx, tk); err != nil {
-			return nil, err
-		}
+		s.log.Info().Msgf("The token is saved to the database: %s", tk.AccessToken)
 	}
 
 	// 这里应该是返回生成的token和用户信息
@@ -83,7 +86,6 @@ func (s *service) blockOtherWebToken(ctx context.Context, tk *token.Token) error
 	}
 	//如果是web登陆，需要关闭之前的登录令牌
 	if tk.Platform.Equal(token.PLATFORM_WEB) {
-		fmt.Println("111111-------")
 		sql := fmt.Sprintf(`
 								DELETE FROM %s WHERE access_token != @access_token
 								AND username = @username
@@ -110,52 +112,8 @@ func (s *service) blockOtherWebToken(ctx context.Context, tk *token.Token) error
 		if status.Err() != nil {
 			return fmt.Errorf("delete job error: %v", status.Err())
 		}
-		// return nil
+		return nil
 	}
-	now := time.Now()
-	// status := token.NewStatus()
-	tk.Status.IsBlock = true
-	tk.Status.BlockAt = now.UnixMilli()
-	tk.Status.BlockReason = fmt.Sprintf("你于 %s 从其他地方通过 %s 登录", time.Now().Format(time.RFC3339), tk.GrantType)
-	tk.Status.BlockType = token.BLOCK_TYPE_OTHER_PLACE_LOGGED_IN
-
-	q := fmt.Sprintf(`
-			UPDATE %s
-			SET status = (
-			SELECT AS STRUCT *
-			REPLACE (
-				TRUE AS is_block,
-				@block_at AS block_at,
-				@block_reason AS block_reason,
-				@block_type AS block_type
-			)
-			FROM UNNEST([status])
-			)
-			WHERE access_token = @access_token;
-		`, s.bqTableFull)
-
-	query := s.bq_client.Query(q)
-	query.Parameters = []bigquery.QueryParameter{
-		{Name: "block_at", Value: tk.Status.BlockAt},
-		{Name: "block_reason", Value: tk.Status.BlockReason},
-		{Name: "block_type", Value: int64(tk.Status.BlockType)},
-		{Name: "access_token", Value: tk.AccessToken},
-	}
-
-	job1, err := query.Run(ctx)
-	if err != nil {
-		return err
-	}
-
-	status1, err := job1.Wait(ctx)
-	if err != nil {
-		return err
-	}
-	if status1.Err() != nil {
-		return exception.NewInternalServerError("delete job error: %v", status1.Err())
-	}
-
-	// s.log.Debug().Msgf("block %d tokens", rs.ModifiedCount)
 	return nil
 }
 

@@ -22,12 +22,7 @@ func NewToken(req *IssueTokenRequest) *Token {
 		Status:      &Status{
 			// IsBlock: false,
 		},
-		Location: &Location{
-
-			IpLocation: &IPLocation{},
-			UserAgent:  &UserAgent{},
-			// ...其他配置
-		},
+		Location: req.Location,
 		Meta: &structpb.Struct{
 			Fields: map[string]*structpb.Value{
 				// "cc": structpb.NewStringValue("value1"),

@@ -1,6 +1,8 @@
 package api
 
 import (
+	"fmt"
+
 	"github.com/emicklei/go-restful/v3"
 	"github.com/kade-chen/google-billing-console/apps/token"
 	"github.com/kade-chen/library/exception"
@@ -15,7 +17,7 @@ func (h *tokenHandler) IssueToken(r *restful.Request, w *restful.Response) {
 	}
 
 	// 补充用户的登录时的位置信息
-	// req.Location = token.NewNewLocationFromHttp(r.Request)
+	req.Location = token.NewNewLocationFromHttp(r.Request)
 	tk, err := h.service.IssueToken(r.Request.Context(), req)
 	if err != nil {
 		response.Failed(w, err)
@@ -49,17 +51,16 @@ func (h *tokenHandler) RevolkToken(r *restful.Request, w *restful.Response) {
 	}
 
 	//3.delete cooke the token for mongodb
-	ins, err := h.service.RevolkToken(r.Request.Context(), req)
+	ins, row, err := h.service.RevolkToken(r.Request.Context(), req)
 	if err != nil {
 		response.Failed(w, err)
 		return
 	}
-	//4.delete ui cookie
 	ins.DeleteCookie(w)
 	//5.log info
-	h.log.Info().Msgf("token revoke success, token: %s", ins.AccessToken)
+	// h.log.Info().Msgf("token revoke success, token: %s", ins.AccessToken)
 	//6.return
-	response.Success(w, ins)
+	response.Success(w, fmt.Sprintf("revolk token success. Number of rows affecred %d", row))
 }
 
 func (h *tokenHandler) Validate_Token(r *restful.Request, w *restful.Response) {

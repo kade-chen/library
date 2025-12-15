@@ -11,18 +11,12 @@ import (
 	"github.com/kade-chen/library/exception"
 	"google.golang.org/api/iterator"
 	"google.golang.org/protobuf/encoding/protojson"
-	// "go.mongodb.org/mongo-driver/mongo"
 )
 
 // query wether  the token  exists for mongdb
 func (s *service) get(ctx context.Context, id string) (*token.Token, error) {
 
-	sql := fmt.Sprintf(`
-		SELECT *
-		FROM %s
-		WHERE access_token = @access_token
-		LIMIT 1
-	`, s.bqTableFull)
+	sql := fmt.Sprintf(`SELECT * FROM %s WHERE access_token = @access_token LIMIT 1`, s.bqTableFull)
 
 	// 执行查询
 	q := s.bq_client.Query(sql)
@@ -91,19 +85,19 @@ func (s *service) save(ctx context.Context, tk *token.Token) error {
 	return nil
 }
 
-func (s *service) delete(ctx context.Context, ins *token.Token) error {
-	// if ins == nil || ins.AccessToken == "" {
-	// 	return fmt.Errorf("access tpken is nil")
-	// }
+func (s *service) delete(ctx context.Context, ins *token.Token) (*token.Token, int64, error) {
+	sql := fmt.Sprintf(`DELETE FROM %s WHERE access_token = @access_token `, s.bqTableFull)
+	if ins == nil || ins.AccessToken == "" {
+		return nil, 0, exception.NewInternalServerError("access token is nil")
+	}
 
-	// result, err := s.col.DeleteOne(ctx, bson.M{"_id": ins.AccessToken})
-	// if err != nil {
-	// 	return exception.NewInternalServerError("delete token(%s) error, %s", ins.AccessToken, err)
-	// }
+	parameters := []bigquery.QueryParameter{
+		{Name: "access_token", Value: ins.AccessToken},
+	}
+	row, err := tools.DeleteSQL(ctx, sql, s.bq_client, parameters)
+	if err != nil {
+		return nil, 0, err
+	}
 
-	// if result.DeletedCount == 0 {
-	// 	return exception.NewNotFound("book %s not found", ins.AccessToken)
-	// }
-
-	return nil
+	return ins, row, nil
 }

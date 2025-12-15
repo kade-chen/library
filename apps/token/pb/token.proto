@@ -116,9 +116,13 @@ message Location {
   UserAgent user_agent = 2;
 }
 message IPLocation {
-  // IP 地址
+  // 本地 IP 地址
   // @gotags: bson:"remote_ip" json:"remote_ip" bigquery:"remote_ip"
   string remote_ip = 1;
+
+  // 代理 IP 地址
+  // @gotags: bson:"proxy_ip" json:"proxy_ip" bigquery:"proxy_ip"
+  string proxy_ip = 2;
 
   // 国家
   // @gotags: bson:"country" json:"country" bigquery:"country"

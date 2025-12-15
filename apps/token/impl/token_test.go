@@ -45,18 +45,18 @@ func Test_Issue_Token(t *testing.T) {
 }
 
 func Test_Revoke_Token(t *testing.T) {
-	req := token.NewRevolkTokenRequest("gm8buLsAZoXc5pkRR34QQoj6", "")
+	req := token.NewRevolkTokenRequest("KZd8hoMYnFDBP25HXswDJKwJ", "")
 	req.ACCESS_TOKEN_NAME = "ACCESS_TOKEN_COOKIE_KEY"
-	tk, err := impl.RevolkToken(ctx, req)
+	tk, row, err := impl.RevolkToken(ctx, req)
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Log(tk)
+	t.Log(tk, row)
 	// t.Log(tk.Json())
 }
 
 func Test_Validate_Token(t *testing.T) {
-	req := token.NewValidateTokenRequest("4wLIynrBzpHC8QovsddgE6Wm")
+	req := token.NewValidateTokenRequest("KZd8hoMYnFDBP25HXswDJKwJ")
 	_, err := impl.ValicateToken(ctx, req)
 	if err != nil {
 		t.Fatal(err.Error())

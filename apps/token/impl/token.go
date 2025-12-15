@@ -30,7 +30,7 @@ func (s *service) ValicateToken(ctx context.Context, req *token.ValicateTokenReq
 	// 2.verify wether the token is expired
 	time, err := tk.CheckIssue_Token_expried(tk.IssueAt, tk.AccessExpiredAt, tk.AccessToken)
 	if err != nil {
-		return nil, exception.NewAccessTokenExpired("Token expried,Please login again")
+		return nil, err
 	}
 	// 3.print info log
 	s.log.Info().Msg(time)
@@ -38,21 +38,24 @@ func (s *service) ValicateToken(ctx context.Context, req *token.ValicateTokenReq
 }
 
 // remove Token
-func (s *service) RevolkToken(ctx context.Context, req *token.RevolkTokenRequest) (*token.Token, error) {
+func (s *service) RevolkToken(ctx context.Context, req *token.RevolkTokenRequest) (*token.Token, int64, error) {
 	//1.query wether the token exist
 	tk, err := s.get(ctx, req.AccessToken)
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 
 	//2.judge wether the refresh token is consistent
 	if req.ACCESS_TOKEN_NAME != "ACCESS_TOKEN_COOKIE_KEY" {
-		return nil, exception.NewBadRequest("ACCESS_TOKEN_COOKIE_KEY token name not find")
+		return nil, 0, exception.NewBadRequest("ACCESS_TOKEN_COOKIE_KEY token name not find")
 	}
 
 	//3.delete token
-	if err := s.delete(ctx, tk); err != nil {
-		return nil, err
+	ins, row, err := s.delete(ctx, tk)
+	if err != nil {
+		return nil, 0, err
 	}
-	return tk, nil
+	//4.delete ui cookie
+	s.log.Info().Msgf("revolk token success. Number of rows affecred %d", row)
+	return ins, row, nil
 }

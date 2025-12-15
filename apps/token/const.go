@@ -12,9 +12,9 @@ const (
 	ACCESS_TOKEN_HEADER_KEY = "Authorization"
 	// token也可以放到Cookie中, 只是cookie本身并不是太安全, 如果Authorization头没有才考虑从
 	// cookie中获取
-	ACCESS_TOKEN_COOKIE_KEY = "mcenter.access_token"
+	ACCESS_TOKEN_COOKIE_KEY = "google_billing_console.access_token"
 	// token也可以放到Query参数中, 只是Query参数不安全, 容易导致Token泄露, 一般只用于调试
-	ACCESS_TOKEN_QUERY_KEY = "mcenter_access_token"
+	ACCESS_TOKEN_QUERY_KEY = "google_billing_console_access_token"
 )
 
 const (
@@ -29,7 +29,7 @@ const (
 
 const (
 	CODE_HEADER_KEY = "X-MCENTER-CODE"
-	CODE_QUERY_KEY  = "mcenter_code"
+	CODE_QUERY_KEY  = "google_billing_console_code"
 )
 
 const (
