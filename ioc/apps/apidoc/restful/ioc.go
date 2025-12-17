@@ -3,6 +3,7 @@ package restful
 import (
 	restfulspec "github.com/emicklei/go-restful-openapi/v2"
 	"github.com/emicklei/go-restful/v3"
+	"github.com/go-openapi/spec"
 	"github.com/kade-chen/library/ioc"
 	"github.com/kade-chen/library/ioc/apps/apidoc"
 	"github.com/kade-chen/library/ioc/config/gorestful"
@@ -55,10 +56,18 @@ func (h *SwaggerApiDoc) Registry() {
 	ws := gorestful.InitRouter(h)
 
 	ws.Route(ws.GET("/").To(func(r *restful.Request, w *restful.Response) {
-		//2.restfulspec.BuildSwagger() 方法使用这个配置来生成对应的 Swagger 文档
 		swagger := restfulspec.BuildSwagger(h.SwaggerDocConfig())
+
+		// 🔥 关键一步：patch
+		patchSwagger(swagger)
+
 		w.WriteAsJson(swagger)
 	}))
+	// ws.Route(ws.GET("/").To(func(r *restful.Request, w *restful.Response) {
+	// 	//2.restfulspec.BuildSwagger() 方法使用这个配置来生成对应的 Swagger 文档
+	// 	swagger := restfulspec.BuildSwagger(h.SwaggerDocConfig())
+	// 	w.WriteAsJson(swagger)
+	// }))
 
 	ws.Route(ws.GET("/ui").To(h.SwaggerUI).
 		Doc("Swagger UI").
@@ -70,5 +79,23 @@ func (h *SwaggerApiDoc) Registry() {
 		h.log.Info().Msgf("Get the API Doc using http://%s%s", http.Get().Addr(), http.Get().ApiObjectPathPrefix(h))
 	} else {
 		h.log.Info().Msgf("Get the API Doc using http://%s%s", http.Get().Addr(), http.Get().ApiObjectAddr(h))
+	}
+}
+
+func patchSwagger(swagger *spec.Swagger) {
+	if swagger.Definitions == nil {
+		return
+	}
+
+	// 1. 删除 structpb 相关的非法定义
+	delete(swagger.Definitions, "structpb.isValue_Kind")
+	delete(swagger.Definitions, "structpb.Value")
+	delete(swagger.Definitions, "structpb.Struct")
+
+	// 2. 可选：兜底，把引用它们的地方统一改成 object
+	for _, def := range swagger.Definitions {
+		if def.SchemaProps.Type.Contains("object") {
+			continue
+		}
 	}
 }
