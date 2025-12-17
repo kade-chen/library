@@ -28,7 +28,7 @@ func (h *SwaggerApiDoc) SwaggerDocConfig() restfulspec.Config {
 
 func (h *SwaggerApiDoc) SwaggerUI(r *restful.Request, w *restful.Response) {
 	w.Header().Set("Content-Type", "text/html")
-	w.Write([]byte(fmt.Sprintf(apidoc.HTML_REDOC, "kade-path")))
+	w.Write([]byte(fmt.Sprintf(apidoc.HTML_REDOC, "http://localhost:8010/swagger.json")))
 }
 
 // func (h *SwaggerApiDoc) ApiDocPath() string {
