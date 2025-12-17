@@ -1,9 +1,12 @@
 package restful
 
 import (
-	"github.com/kade-chen/library/ioc/config/http"
+	"fmt"
+
 	restfulspec "github.com/emicklei/go-restful-openapi/v2"
 	"github.com/emicklei/go-restful/v3"
+	"github.com/kade-chen/library/ioc/apps/apidoc"
+	"github.com/kade-chen/library/ioc/config/http"
 )
 
 // API Doc config
@@ -22,3 +25,16 @@ func (h *SwaggerApiDoc) SwaggerDocConfig() restfulspec.Config {
 		},
 	}
 }
+
+func (h *SwaggerApiDoc) SwaggerUI(r *restful.Request, w *restful.Response) {
+	w.Header().Set("Content-Type", "text/html")
+	w.Write([]byte(fmt.Sprintf(apidoc.HTML_REDOC, "kade-path")))
+}
+
+// func (h *SwaggerApiDoc) ApiDocPath() string {
+// 	if application.Get().AppAddress != "" {
+// 		return application.Get().AppAddress + filepath.Join(http.Get().ApiObjectPathPrefix(h), h.JsonPath)
+// 	}
+
+// 	return http.Get().ApiObjectAddr(h) + h.JsonPath
+// }

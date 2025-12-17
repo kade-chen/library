@@ -1,17 +1,17 @@
 package restful
 
 import (
+	restfulspec "github.com/emicklei/go-restful-openapi/v2"
+	"github.com/emicklei/go-restful/v3"
 	"github.com/kade-chen/library/ioc"
 	"github.com/kade-chen/library/ioc/apps/apidoc"
 	"github.com/kade-chen/library/ioc/config/gorestful"
 	"github.com/kade-chen/library/ioc/config/http"
 	"github.com/kade-chen/library/ioc/config/log"
-	restfulspec "github.com/emicklei/go-restful-openapi/v2"
-	"github.com/emicklei/go-restful/v3"
 	"github.com/rs/zerolog"
 
-		// 开启apidoc 必须开启cors
-		_ "github.com/kade-chen/library/ioc/config/cors/gorestful"
+	// 开启apidoc 必须开启cors
+	_ "github.com/kade-chen/library/ioc/config/cors/gorestful"
 )
 
 func init() {
@@ -51,7 +51,7 @@ func (i *SwaggerApiDoc) Meta() ioc.ObjectMeta {
 }
 
 func (h *SwaggerApiDoc) Registry() {
-
+	tags := []string{"API 文档"}
 	ws := gorestful.InitRouter(h)
 
 	ws.Route(ws.GET("/").To(func(r *restful.Request, w *restful.Response) {
@@ -59,6 +59,12 @@ func (h *SwaggerApiDoc) Registry() {
 		swagger := restfulspec.BuildSwagger(h.SwaggerDocConfig())
 		w.WriteAsJson(swagger)
 	}))
+
+	ws.Route(ws.GET("/ui").To(h.SwaggerUI).
+		Doc("Swagger UI").
+		Metadata(restfulspec.KeyOpenAPITags, tags),
+	)
+	// h.log.Info().Msgf("Get the API UI using %s", h.ApiUIPath())
 
 	if h.Meta().CustomPathPrefix != "" {
 		h.log.Info().Msgf("Get the API Doc using http://%s%s", http.Get().Addr(), http.Get().ApiObjectPathPrefix(h))
