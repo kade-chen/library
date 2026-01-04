@@ -3,6 +3,7 @@ package impl
 import (
 	"context"
 	"fmt"
+	"sync"
 	"time"
 
 	"cloud.google.com/go/bigquery"
@@ -28,22 +29,35 @@ func (s *service) issuer_token(ctx context.Context, req *token.IssueTokenRequest
 	if err != nil {
 		return nil, err
 	}
+	access_token, _ := s.jwt.GeneratJwtAccessToken(int32(tk.Platform), tk.UserId, tk.IssueAt, tk.AccessExpiredAt, tk.Domain)
+	refresh_token, _ := s.jwt.GeneratJwtAccessToken(int32(tk.Platform), tk.UserId, tk.IssueAt, tk.RefreshExpiredAt, tk.Domain)
+	tk.AccessToken = access_token
+	tk.RefreshToken = refresh_token
+
 	// 2.默认放到domain default
 	tk.Namespace = namespace.DEFAULT_NAMESPACE
 
 	if !req.DryRun {
-		// 关闭之前的web登录
+		var wg sync.WaitGroup
+		wg.Add(1)
+
 		go func() {
+			defer wg.Done()
+
 			if err := s.blockOtherWebToken(ctx, tk); err != nil {
 				s.log.Error().Msgf("blockOtherWebToken failed: %v", err)
 			}
-			s.log.Info().Msgf("The token is closed: %s", tk.AccessToken)
 		}()
-		// 入库保存
+
+		// // ⏳ 主 goroutine 在这里等
+		// wg.Wait()
+
+		// 确保上面执行完，才继续
 		if err := s.save(ctx, tk); err != nil {
 			return nil, err
 		}
-		s.log.Info().Msgf("The token is saved to the database: %s", tk.AccessToken)
+		// ⏳ 主 goroutine 在这里等
+		wg.Wait()
 	}
 
 	// 这里应该是返回生成的token和用户信息
@@ -89,7 +103,11 @@ func (s *service) blockOtherWebToken(ctx context.Context, tk *token.Token) error
 		sql := fmt.Sprintf(`
 								DELETE FROM %s WHERE access_token != @access_token
 								AND username = @username
-								AND domain = @domain
+								AND EXISTS (
+									SELECT 1
+									FROM UNNEST(domain) d
+									WHERE d IN UNNEST(@domain)
+								)
 							`, s.bqTableFull)
 		q := s.bq_client.Query(sql)
 		q.Parameters = []bigquery.QueryParameter{
@@ -101,16 +119,16 @@ func (s *service) blockOtherWebToken(ctx context.Context, tk *token.Token) error
 		// BigQuery DELETE 不返回行数据，通过 JobStatus 获取影响行数
 		job, err := q.Run(ctx)
 		if err != nil {
-			return fmt.Errorf("delete error: %v", err)
+			return exception.NewInternalServerError("delete error: %v", err)
 		}
 
 		status, err := job.Wait(ctx)
 		if err != nil {
-			return fmt.Errorf("delete wait error: %v", err)
+			return exception.NewInternalServerError("delete wait error: %v", err)
 		}
 
 		if status.Err() != nil {
-			return fmt.Errorf("delete job error: %v", status.Err())
+			return exception.NewInternalServerError("delete job error: %v", status.Err())
 		}
 		return nil
 	}

@@ -149,7 +149,7 @@ func setFieldRequired(schema bigquery.Schema, fieldNames []string) {
 	}
 }
 
-//REPEATED 切片可以自动推断
+// REPEATED 切片可以自动推断
 
 // map 特殊处理转成json，key-value
 func forceJSONField(schema bigquery.Schema, fullPath string) {

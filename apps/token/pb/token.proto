@@ -70,6 +70,16 @@ message IssueTokenRequest {
   Location location = 14;
 }
 
+message UpdateTokenRequest {
+  // REFRESH 授权时, 刷新令牌
+  // @gotags: json:"refresh_token,omitempty" bigquery:"refresh_token"
+  string refresh_token = 1;
+
+  // PRIVATE_TOKEN 授权时, 访问令牌
+  // @gotags: json:"access_token,omitempty" bigquery:"access_token"
+  string access_token = 2;
+}
+
 // 授权类型
 enum GRANT_TYPE {
   // 用户密码授权
@@ -203,7 +213,8 @@ message Token {
 
   // 用户当前域
   // @gotags: bson:"domain" json:"domain" bigquery:"domain"
-  string domain = 8;
+  // string domain = 8;
+  repeated string domain = 8;
 
   // 用户名
   // @gotags: bson:"username" json:"username" bigquery:"username"
@@ -252,7 +263,6 @@ message Token {
   // 其他信息
   // @gotags: json:"meta" bson:"meta" bigquery:"meta"
   google.protobuf.Struct meta = 19;
-  // map<string, string> meta = 19;
 }
 
 enum PLATFORM {

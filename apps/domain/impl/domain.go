@@ -92,8 +92,8 @@ func (s *service) DescribeDomain(ctx context.Context, req *domain.DescribeDomain
 	err = it.Next(row)
 	switch err {
 	case iterator.Done:
-		s.log.Error().Msg("domain not exist")
-		return nil, exception.NewNotFound("domain not exist")
+		s.log.Error().Msgf("domain: %v not exist", req.Name)
+		return nil, exception.NewNotFound("domain: %v not exist", req.Name)
 	case nil:
 		// 成功查询，row 已是完整 domain
 		s.log.Info().Msg("domain query successful")

@@ -38,16 +38,20 @@ func NewSkuDataRequest() *SkuDataRequest {
 }
 
 type SkuDateCost struct {
-	UsageDate          bigquery.NullDate   `bigquery:"usage_date" json:"usage_date"`                   // DATE 可为 NULL
-	SkuDescription     bigquery.NullString `bigquery:"sku_description" json:"sku_description"`         // STRING 可为 NULL
-	ServiceDescription bigquery.NullString `bigquery:"service_description" json:"service_description"` // STRING 可为 NULL
-	SkuId              bigquery.NullString `bigquery:"sku_id" json:"sku_id"`                           // STRING 可为 NULL
-	Usage              bigquery.NullString `bigquery:"usage" json:"usage"`                             // FLOAT 可为 NULL
-	UsageDetails       bigquery.NullString `bigquery:"usage_details" json:"usage_details"`             // STRING 可为 NULL
+	UsageDate               bigquery.NullDate    `bigquery:"usage_date" json:"usage_date"`                                 // DATE 可为 NULL
+	SkuDescription          bigquery.NullString  `bigquery:"sku_description" json:"sku_description"`                       // STRING 可为 NULL
+	ServiceDescription      bigquery.NullString  `bigquery:"service_description" json:"service_description"`               // STRING 可为 NULL
+	SkuId                   bigquery.NullString  `bigquery:"sku_id" json:"sku_id"`                                         // STRING 可为 NULL
+	UsageAmount             bigquery.NullFloat64 `bigquery:"usage_amount" json:"usage_amount"`                             // FLOAT 可为 NULL
+	UsagePricingUnit        bigquery.NullString  `bigquery:"usage_pricing_unit" json:"usage_pricing_unit"`                 // STRING 可为 NULL
+	UsageAmountDetails      bigquery.NullFloat64 `bigquery:"usage_amount_details" json:"usage_amount_details"`             // STRING 可为 NULL
+	UsagePricingUnitDetails bigquery.NullString  `bigquery:"usage_pricing_unit_details" json:"usage_pricing_unit_details"` // STRING 可为 NULL
+	// Usage              bigquery.NullString `bigquery:"usage" json:"usage"`                             // FLOAT 可为 NULL
+	// UsageDetails       bigquery.NullString `bigquery:"usage_details" json:"usage_details"`             // STRING 可为 NULL
 	// InvoiceCost          bigquery.NullFloat64 `bigquery:"invoice_cost" json:"-"`                          // FLOAT 可为 NULL
 	// InvoiceCostAtListAbs bigquery.NullFloat64 `bigquery:"invoice_cost_at_list_abs" json:"-"`              // FLOAT 可为 NULL
 	// CostAtList           bigquery.NullFloat64 `bigquery:"cost_at_list" json:"-"`                          // FLOAT 可为 NULL
-	UsageCost         bigquery.NullFloat64 `bigquery:"Usage_Cost" json:"Usage_Cost"`                 // FLOAT 可为 NULL
+	UsageCost         bigquery.NullFloat64 `bigquery:"usage_cost" json:"usage_cost"`                 // FLOAT 可为 NULL
 	NegotiatedSavings bigquery.NullFloat64 `bigquery:"negotiated_savings" json:"negotiated_savings"` // FLOAT 可为 NULL
 	SavingsPrograms   bigquery.NullFloat64 `bigquery:"savings_programs" json:"savings_programs"`     // STRING 可为 NULL
 	OtherSavings      bigquery.NullFloat64 `bigquery:"other_savings" json:"other_savings"`           // FLOAT 可为 NULL
@@ -81,15 +85,19 @@ func NewSkuRequest() *SkuRequest {
 }
 
 type SkuCost struct {
-	SkuDescription     bigquery.NullString `bigquery:"sku_description" json:"sku_description"`         // STRING 可为 NULL
-	ServiceDescription bigquery.NullString `bigquery:"service_description" json:"service_description"` // STRING 可为 NULL
-	SkuId              bigquery.NullString `bigquery:"sku_id" json:"sku_id"`                           // STRING 可为 NULL
-	Usage              bigquery.NullString `bigquery:"usage" json:"usage"`                             // STRING 可为 NULL
-	UsageDetails       bigquery.NullString `bigquery:"usage_details" json:"usage_details"`             // STRING 可为 NULL
+	SkuDescription          bigquery.NullString  `bigquery:"sku_description" json:"sku_description"`                       // STRING 可为 NULL
+	ServiceDescription      bigquery.NullString  `bigquery:"service_description" json:"service_description"`               // STRING 可为 NULL
+	SkuId                   bigquery.NullString  `bigquery:"sku_id" json:"sku_id"`                                         // STRING 可为 NULL
+	UsageAmount             bigquery.NullFloat64 `bigquery:"usage_amount" json:"usage_amount"`                             // FLOAT 可为 NULL
+	UsagePricingUnit        bigquery.NullString  `bigquery:"usage_pricing_unit" json:"usage_pricing_unit"`                 // STRING 可为 NULL
+	UsageAmountDetails      bigquery.NullFloat64 `bigquery:"usage_amount_details" json:"usage_amount_details"`             // STRING 可为 NULL
+	UsagePricingUnitDetails bigquery.NullString  `bigquery:"usage_pricing_unit_details" json:"usage_pricing_unit_details"` // STRING 可为 NULL
+	// Usage              bigquery.NullString `bigquery:"usage" json:"usage"`                             // FLOAT 可为 NULL
+	// UsageDetails       bigquery.NullString `bigquery:"usage_details" json:"usage_details"`             // STRING 可为 NULL
 	// InvoiceCost          bigquery.NullFloat64 `bigquery:"invoice_cost" json:"-"`                          // FLOAT 可为 NULL
 	// InvoiceCostAtListAbs bigquery.NullFloat64 `bigquery:"invoice_cost_at_list_abs" json:"-"`              // FLOAT 可为 NULL
 	// CostAtList           bigquery.NullFloat64 `bigquery:"cost_at_list" json:"-"`                          // FLOAT 可为 NULL
-	UsageCost         bigquery.NullFloat64 `bigquery:"Usage_Cost" json:"Usage_Cost"`                 // FLOAT 可为 NULL
+	UsageCost         bigquery.NullFloat64 `bigquery:"usage_cost" json:"usage_cost"`                 // FLOAT 可为 NULL
 	NegotiatedSavings bigquery.NullFloat64 `bigquery:"negotiated_savings" json:"negotiated_savings"` // FLOAT 可为 NULL
 	SavingsPrograms   bigquery.NullFloat64 `bigquery:"savings_programs" json:"savings_programs"`     // STRING 可为 NULL
 	OtherSavings      bigquery.NullFloat64 `bigquery:"other_savings" json:"other_savings"`           // FLOAT 可为 NULL

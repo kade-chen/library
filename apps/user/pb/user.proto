@@ -62,7 +62,8 @@ message CreateUserRequest {
     string create_by = 13;
     // 域信息
     // @gotags: json:"domain" bson:"domain" validate:"required" bigquery:"domain"
-    string domain = 4;
+    // string domain = 4;
+    repeated string domain = 4;
     // 用户账号名称
     // @gotags: json:"username" bson:"username" validate:"required,lte=60" bigquery:"username"
     string username = 5;
@@ -74,7 +75,8 @@ message CreateUserRequest {
     string description = 7;
     // 用户标签
     // @gotags: json:"labels" bson:"labels" bigquery:"labels"
-    google.protobuf.Struct labels = 11;
+      // ✅ 推荐
+    google.protobuf.Struct labels = 11; 
     // map<string,string> labels = 11;
     // 用户飞书相关信息
     // @gotags: json:"feishu" bson:"feishu" bigquery:"feishu"

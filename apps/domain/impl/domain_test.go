@@ -20,7 +20,7 @@ var (
 
 func TestCreateDomain(t *testing.T) {
 	req := domain.NewCreateDomainRequest()
-	req.Name = "wondercloud.com"
+	req.Name = "test3.com"
 	req.Description = "test domain"
 	ins, err := impl.CreateDomain(ctx, req)
 	if err != nil {

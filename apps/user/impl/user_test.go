@@ -21,9 +21,9 @@ var (
 // create user
 func TestCreateUser(t *testing.T) {
 	u, err := impl.CreateUser(ctx, &user.CreateUserRequest{
-		Username: "kade3",
+		Username: "kade1@vandercloud.com",
 		Password: "123456",
-		Domain:   "wondercloud.com",
+		Domain:   []string{"vandercloud.com", "test.com", "test3.com"},
 		// Type:     user.TYPE_SUPPER,
 		Labels: &structpb.Struct{
 			Fields: map[string]*structpb.Value{
@@ -40,11 +40,11 @@ func TestCreateUser(t *testing.T) {
 func TestDescribeUser(t *testing.T) {
 	req := user.NewDescriptUserRequestByName()
 	// req.DescribeBy = user.DESCRIBE_BY_USER_ID
-	// req.Id = "kade@wondercloud.com"
+	// req.Id = "kadeqq11111"
 
 	req.DescribeBy = user.DESCRIBE_BY_USER_NAME
 	req.Domain = "wondercloud.com"
-	req.Username = "kade"
+	req.Username = "kadeqq11111"
 	a, err := impl.DescribeUser(ctx, req)
 	if err != nil {
 		t.Error(err)
@@ -59,7 +59,7 @@ func TestListUser(t *testing.T) {
 	req := user.NewQueryUserRequest(nil)
 	// var myType user.TYPE = user.TYPE_SUB
 	// req.Type = &myType
-	req.Domain = "wondercloud.com"
+	// req.Domain = []string{"vandercloud.com","wondercloud3.com"}
 	// req.UserIds = []string{"top@wondercloud.com","kade@wondercloud.com"}
 	// req.Keywords = "kade"
 	// req.Labels = &structpb.Struct{
@@ -69,7 +69,7 @@ func TestListUser(t *testing.T) {
 	// 	},
 	// }
 	//总数
-	req.Page.PageSize = 2
+	req.Page.PageSize = 10
 	//跳过多少个数据
 	req.Page.Offset = 1
 	a, err := impl.ListUser(ctx, req)
@@ -83,7 +83,7 @@ func TestListUser(t *testing.T) {
 // delete user
 func TestDeleteUser(t *testing.T) {
 	req := user.NewDeleteUserRequest()
-	req.UserIds = []string{"top1@wondercloud.com", "top3@wondercloud.com", "top2@wondercloud.com"}
+	req.UserIds = []string{"top1@wondercloud.com", "top3@wondercloud.com", "top2@wondercloud.com", "kade"}
 	a, err := impl.DeleteUser(ctx, req)
 	if err != nil {
 		t.Error(err)

@@ -24,7 +24,8 @@ message QueryUserRequest {
 
   // 用户所属Domain
   // @gotags: json:"domain" validate:"required" bigquery:"domain"
-  string domain = 2;
+  // string domain = 2;
+  repeated string domain = 2;
 
   // 账号提供方
   // @gotags: json:"provider" bigquery:"provider"

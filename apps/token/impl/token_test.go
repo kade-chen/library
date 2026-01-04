@@ -7,6 +7,7 @@ import (
 
 	"github.com/kade-chen/library/ioc"
 	// _ "github.com/kade-chen/mcenter/apps" //registry all impl/api
+	_ "github.com/kade-chen/google-billing-console/apps/auth/impl"
 	_ "github.com/kade-chen/google-billing-console/apps/domain/impl"
 	"github.com/kade-chen/google-billing-console/apps/token"
 	_ "github.com/kade-chen/google-billing-console/apps/token/impl"
@@ -56,8 +57,20 @@ func Test_Revoke_Token(t *testing.T) {
 }
 
 func Test_Validate_Token(t *testing.T) {
-	req := token.NewValidateTokenRequest("KZd8hoMYnFDBP25HXswDJKwJ")
+	req := token.NewValidateTokenRequest()
 	_, err := impl.ValicateToken(ctx, req)
+	if err != nil {
+		t.Fatal(err.Error())
+	}
+	// t.Log(err)
+	// t.Log(tk.Json())
+}
+
+func Test_Update_Token(t *testing.T) {
+	_, err := impl.UpdateToken(ctx, &token.UpdateTokenRequest{
+		AccessToken:  "123",
+		RefreshToken: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJwbGF0Zm9ybSI6MCwic2NvcGUiOlsicGxhdGZvcm0uYWRtaW4iXSwiaXNzIjoid29uZGVyY2xvdWQuY29tIiwic3ViIjoia2FkZUB3b25kZXJjbG91ZC5jb20iLCJhdWQiOlsiZGV2LmJpbGxpbmcud29uZGVyY2xvdWQuY29tIl0sImV4cCI6MTc2NTk2NzA0NywiaWF0IjoxNzY1OTY3MDA3LCJqdGkiOiJqQkJjMWRhUHlCSDhpRnZsMmtCcGdRIn0.QyzRUcaOxX_rJ06xRrzl1P94wa6hqJVn6weiI_9t2X9z9fxudAFVaGQb__z7jV8vq_4c5xUiC8gg6UIhSo6sZLJsLKb3itZ44SGavGOmOBTTdwQT7pXN_sWx-CXBhzKUahMPOa_23ZoEo54FLvH3ccbFG3YmeOaBN6bclJCE12H9hCnFdZ5SLlTCaLBh5hdWzMGaynl7xy7UNj3e2KhTOQMI0MNC-9yIeaxU25GBkB3FNhTx4kk30EvwLFao3VEYqvrQ6-dJ24TKTT1fEjMXzB5y9e8e91eifsQKJoa3hw2sUPiwZKx5HHoNXZ3YDeE2OfHbPtbZ3n1TKB9NmJr-Qw",
+	})
 	if err != nil {
 		t.Fatal(err.Error())
 	}

@@ -10,6 +10,7 @@ import (
 	"google.golang.org/api/googleapi"
 	"google.golang.org/api/iterator"
 
+	"github.com/kade-chen/google-billing-console/apps/auth"
 	"github.com/kade-chen/google-billing-console/apps/configs"
 	"github.com/kade-chen/google-billing-console/apps/configs/impl"
 	"github.com/kade-chen/google-billing-console/apps/token"
@@ -31,7 +32,7 @@ type service struct {
 	token.UnimplementedRPCServer
 	ioc.ObjectImpl
 	log *zerolog.Logger
-
+	jwt auth.Service
 	// policy  policy.Service
 	// ns      namespace.Service
 	// checker security.Checker
@@ -42,6 +43,7 @@ type service struct {
 func (s *service) Init() error {
 	s.log = log.Sub(s.Name())
 	s.bq_client = ioc.Config().Get(configs.AppName).(*impl.Service).BQ
+	s.jwt = ioc.Controller().Get(auth.AppName).(auth.Service)
 	err := s.bqInit(context.Background())
 	if err != nil {
 		return err

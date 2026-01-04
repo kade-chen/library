@@ -9,6 +9,7 @@ import (
 	"github.com/kade-chen/google-billing-console/apps/user"
 	tools "github.com/kade-chen/google-billing-console/tools/bigquery"
 	"github.com/kade-chen/library/exception"
+	"github.com/kade-chen/library/tools/format"
 	"golang.org/x/sync/errgroup"
 	"google.golang.org/api/iterator"
 )
@@ -20,7 +21,7 @@ func (s *service) CreateUser(ctx context.Context, req *user.CreateUserRequest) (
 	}
 	//
 	// 查询 SQL
-	sql := fmt.Sprintf(`SELECT id FROM %s WHERE spec.username="%s" AND spec.domain="%s" LIMIT 1`, s.bqTableFull, user.Spec.Username, user.Spec.Domain)
+	sql := fmt.Sprintf(`SELECT id FROM %s WHERE id="%s" LIMIT 1`, s.bqTableFull, user.Spec.Username)
 
 	bq := s.bq_client.Query(sql)
 	// 执行 SELECT 并返回结果迭代器
@@ -32,7 +33,7 @@ func (s *service) CreateUser(ctx context.Context, req *user.CreateUserRequest) (
 	switch err := it.Next(user); err {
 	case iterator.Done:
 		s.log.Warn().Msg("user not exist")
-		s.log.Info().Msgf("create %v user......", user.Spec.Username)
+		s.log.Info().Msgf("create %v user...... %v", user.Spec.Username, user.Password.Password)
 		// 创建用户
 		// 根据结构体自动创建row
 		err := tools.BigQueryStructInsert(ctx, s.bq_table, user)
@@ -65,7 +66,7 @@ func (s *service) DescribeUser(ctx context.Context, req *user.DescribeUserReques
 			{Name: "id", Value: req.Id},
 		}
 	case user.DESCRIBE_BY_USER_NAME:
-		sql = fmt.Sprintf(`SELECT * FROM %s WHERE spec.username = @name AND spec.domain = @domain LIMIT 1`, s.bqTableFull)
+		sql = fmt.Sprintf(`SELECT * FROM %s WHERE spec.username = @name AND @domain IN UNNEST(spec.domain) LIMIT 1`, s.bqTableFull)
 		params = []bigquery.QueryParameter{
 			{Name: "name", Value: req.Username},
 			{Name: "domain", Value: req.Domain},
@@ -240,8 +241,11 @@ func (s *service) DeleteUser(ctx context.Context, req *user.DeleteUserRequest) (
 	s.log.Info().Msgf("this is user ids to delete: %s", req.UserIds)
 	listusers, err := s.ListUser(ctx, queryReq)
 	if err != nil {
-		s.log.Error().Msgf("find user error, error is %s", err)
-		return nil, exception.NewInternalServerError("find user error, error is %s", err)
+		return nil, err
+	}
+	fmt.Println("this is listusers: ", format.ToJSON(listusers))
+	if listusers.Total <= 0 {
+		return nil, exception.NewBadRequest("user ids not exist")
 	}
 	usernames := []string{}
 	if len(req.UserIds) != int(listusers.Total) {

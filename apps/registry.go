@@ -9,6 +9,7 @@ import (
 	_ "github.com/kade-chen/google-billing-console/apps/user/impl"
 
 	//impl config
+	_ "github.com/kade-chen/google-billing-console/apps/auth/impl"
 	_ "github.com/kade-chen/google-billing-console/apps/configs/impl"
 
 	//api config

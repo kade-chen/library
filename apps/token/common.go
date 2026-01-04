@@ -10,11 +10,12 @@ import (
 
 func NewToken(req *IssueTokenRequest) *Token {
 	tk := &Token{
-		AccessToken:      NewAccessTokenAt(24),
-		AccessExpiredAt:  req.ExpiredAt,
-		RefreshToken:     NewAccessTokenAt(32),
-		RefreshExpiredAt: req.ExpiredAt * 4,
-		IssueAt:          time.Now().Unix(),
+		// AccessToken:      NewAccessTokenAt(24),
+		AccessExpiredAt: DEFAULT_ACCESS_TOKEN_EXPIRE_SECOND,
+		// RefreshToken:     NewAccessTokenAt(32),
+		RefreshExpiredAt: DEFAULT_REFRESH_TOKEN_EXPIRE_SECOND,
+		// RefreshExpiredAt: req.ExpiredAt * 168,
+		IssueAt: time.Now().Unix(),
 		// AccessToken:     req.AccessToken,
 		Description: req.Description,
 		GrantType:   req.GrantType,
@@ -69,9 +70,9 @@ func NewAccessTokenAt(lens int) string {
 	return temporarily
 }
 
-func NewValidateTokenRequest(accessToken string) *ValicateTokenRequest {
+func NewValidateTokenRequest() *ValicateTokenRequest {
 	return &ValicateTokenRequest{
-		AccessToken: accessToken,
+		// AccessToken: accessToken,
 	}
 }
 

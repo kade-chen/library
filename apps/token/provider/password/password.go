@@ -14,6 +14,7 @@ import (
 	"github.com/kade-chen/library/ioc"
 	"github.com/kade-chen/library/ioc/config/log"
 	"github.com/rs/zerolog"
+	"golang.org/x/sync/errgroup"
 )
 
 var (
@@ -61,12 +62,12 @@ func (p *password) IssueToken(ctx context.Context, req *token.IssueTokenRequest)
 	// tk.Status.BlockAt = now.UnixMilli()
 	// tk.Status.BlockReason = fmt.Sprintf("你于 %s 从其他地方通过 %s 登录", time.Now().Format(time.RFC3339), tk.GrantType)
 	// tk.Status.BlockType = token.BLOCK_TYPE_OTHER_PLACE_LOGGED_IN
+	// tk.Domain = u.Spec.Domain
 	tk.Domain = u.Spec.Domain
 	tk.SharedUser = u.Spec.Shared
 	tk.Username = u.Spec.Username
 	tk.UserType = u.Spec.Type
 	tk.UserId = u.Id
-
 	return tk, err
 }
 
@@ -97,13 +98,26 @@ func (p *password) validate(ctx context.Context, username, password string) (*us
 	case user.TYPE_SUB:
 		p.log.Info().Msg("sub account")
 		// 子账号过期策略
-		d, err := p.domain.DescribeDomain(ctx, domain.NewDescribeDomainRequestByName(u.Spec.Domain))
-		if err != nil {
+		g, ctx := errgroup.WithContext(ctx)
+		for _, v := range u.Spec.Domain {
+			domainName := v // ⚠️ 必须拷贝
+			g.Go(func() error {
+				d, err := p.domain.DescribeDomain(ctx, domain.NewDescribeDomainRequestByName(domainName))
+				if err != nil {
+					return err
+				}
+
+				ps := d.Spec.PasswordConfig
+
+				// ⚠️ 如果多个 domain 不同，这里“最后一个赢”
+				//BeforeExpiredRemindDays=10  password_expired_days=90
+				expiredRemain, expiredDays = uint(ps.BeforeExpiredRemindDays), uint(ps.PasswordExpiredDays)
+				return nil
+			})
+		}
+		if err := g.Wait(); err != nil {
 			return nil, err
 		}
-		ps := d.Spec.PasswordConfig
-		//BeforeExpiredRemindDays=10  password_expired_days=90
-		expiredRemain, expiredDays = uint(ps.BeforeExpiredRemindDays), uint(ps.PasswordExpiredDays)
 	case user.TYPE_PRIMARY:
 		p.log.Info().Msg("primary user")
 		return u, nil

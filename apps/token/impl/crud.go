@@ -13,7 +13,6 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 )
 
-// query wether  the token  exists for mongdb
 func (s *service) get(ctx context.Context, id string) (*token.Token, error) {
 
 	sql := fmt.Sprintf(`SELECT * FROM %s WHERE access_token = @access_token LIMIT 1`, s.bqTableFull)
@@ -23,7 +22,6 @@ func (s *service) get(ctx context.Context, id string) (*token.Token, error) {
 	q.Parameters = []bigquery.QueryParameter{
 		{Name: "access_token", Value: id},
 	}
-
 	it, err := q.Read(ctx)
 	if err != nil {
 		return nil, exception.NewInternalServerError("query error: %v", err)

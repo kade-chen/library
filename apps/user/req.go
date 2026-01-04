@@ -11,13 +11,13 @@ import (
 // CreateUserRequest
 func NewCreateUserRequest() *CreateUserRequest {
 	return &CreateUserRequest{
-		Domain: "kade-domain",
+		// Domain: "kade-domain",
 		// Labels:          map[string]string{},
 		Labels: &structpb.Struct{
-			Fields: map[string]*structpb.Value{
-				"key1": structpb.NewStringValue("value1"),
-				"key2": structpb.NewNumberValue(123),
-			},
+			// Fields: map[string]*structpb.Value{
+			// 	"key1": structpb.NewStringValue("value1"),
+			// 	"key2": structpb.NewNumberValue(123),
+			// },
 		},
 		Feishu:          &Feishu{},
 		Dingding:        &DingDing{},
@@ -52,6 +52,7 @@ func NewQueryUserRequest(req *QueryUserRequest) *QueryUserRequest {
 		return &QueryUserRequest{
 			// Page:         NewPageRequest(20, 1),
 			Page:      &PageRequest{},
+			Domain:    []string{},
 			SkipItems: false,
 			Labels: &structpb.Struct{
 				Fields: map[string]*structpb.Value{
@@ -110,8 +111,14 @@ func (r *QueryUserRequest) WhereSQL() (string, []bigquery.QueryParameter) {
 	params := []bigquery.QueryParameter{}
 
 	// domain
-	if r.Domain != "" {
-		conditions = append(conditions, "spec.domain = @domain")
+	if len(r.Domain) > 0 {
+		conditions = append(conditions, `
+        EXISTS (
+            SELECT 1
+            FROM UNNEST(spec.domain) d
+            WHERE d IN UNNEST(@domain)
+        )
+    `)
 		params = append(params, bigquery.QueryParameter{Name: "domain", Value: r.Domain})
 	}
 

@@ -59,7 +59,7 @@ func (i *proviatetoken) verityAccessToken(ctx context.Context, accessToken strin
 	}
 	// 1.判断凭证合法性
 	i.log.Info().Msg("Legitimacy of judgment for accessToken")
-	token, err := i.token.ValicateToken(ctx, token.NewValidateTokenRequest(accessToken))
+	token, err := i.token.ValicateToken(ctx, token.NewValidateTokenRequest())
 	if err != nil {
 		return nil, err
 	}
