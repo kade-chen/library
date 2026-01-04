@@ -2,6 +2,7 @@ package api
 
 import (
 	restfulspec "github.com/emicklei/go-restful-openapi"
+	"github.com/kade-chen/google-billing-console/apps/auth"
 	model "github.com/kade-chen/google-billing-console/apps/common/model/usagedate"
 	"github.com/kade-chen/google-billing-console/apps/usagedate"
 	"github.com/kade-chen/google-billing-console/apps/usagedate/impl/labelkey"
@@ -25,6 +26,7 @@ type ApiHandler struct {
 	service  usagedate.Service
 	sku      usagedate.SkuService
 	labelkey usagedate.LabelKeyService
+	jwt      auth.Service
 	// user_binding_roles *mongo.Collection
 	// role               *mongo.Collection
 	// policy policy.Service
@@ -41,7 +43,7 @@ func (u *ApiHandler) Init() error {
 	u.log.Debug().Msgf("---------%s API impl init successful---------", sku.AppName)
 	u.labelkey = ioc.Controller().Get(labelkey.AppName).(usagedate.LabelKeyService)
 	u.log.Debug().Msgf("---------%s API impl init successful---------", labelkey.AppName)
-
+	u.jwt = ioc.Controller().Get(auth.AppName).(auth.Service)
 	// db := ioc_mongo.DB()
 	// u.role = db.Collection("roles")
 	// u.stt = ioc.Controller().Get(stt.AppNameV1).(stt.Service)
@@ -94,6 +96,7 @@ func (u *ApiHandler) Registry() {
 		Reads(model.ProjectDataRequest{}).
 		Writes(model.ProjectDateCost{}).
 		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
+		Filter(u.jwt.Auth).
 		Returns(200, "OK", model.ProjectDateCost{}).
 		// Filter(middlewares.NewTokenAuther().Auth_Login).
 		Notes("里面包括指定service/sku等"))
@@ -119,6 +122,7 @@ func (u *ApiHandler) Registry() {
 		Reads(model.ProjectDataRequest{}).
 		Writes(model.ProjectCost{}).
 		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
+		Filter(u.jwt.Auth).
 		// Filter(middlewares.NewTokenAuther().Auth_Login).
 		Returns(200, "OK", model.ProjectCost{}).
 		Notes("里面包括指定service/sku等"))
@@ -144,6 +148,7 @@ func (u *ApiHandler) Registry() {
 		Reads(model.ServiceDataRequest{}).
 		Writes(model.ServiceDateCost{}).
 		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
+		Filter(u.jwt.Auth).
 		Returns(200, "OK", model.ServiceDateCost{}).
 		// Filter(middlewares.NewTokenAuther().Auth_Login).
 		Notes("里面包括指定service/sku等"))
@@ -169,6 +174,7 @@ func (u *ApiHandler) Registry() {
 		Reads(model.ServiceDataRequest{}).
 		Writes(model.ServiceCost{}).
 		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
+		Filter(u.jwt.Auth).
 		// Filter(middlewares.NewTokenAuther().Auth_Login).
 		Returns(200, "OK", model.ServiceCost{}).
 		Notes("里面包括指定service/sku等"))
@@ -194,6 +200,7 @@ func (u *ApiHandler) Registry() {
 		Reads(model.SkuDataRequest{}).
 		Writes(model.SkuDateCost{}).
 		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
+		Filter(u.jwt.Auth).
 		Returns(200, "OK", model.SkuDateCost{}).
 		// Filter(middlewares.NewTokenAuther().Auth_Login).
 		Notes("里面包括指定service/sku等"))
@@ -219,6 +226,7 @@ func (u *ApiHandler) Registry() {
 		Reads(model.SkuDataRequest{}).
 		Writes(model.SkuCost{}).
 		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
+		Filter(u.jwt.Auth).
 		// Filter(middlewares.NewTokenAuther().Auth_Login).
 		Returns(200, "OK", model.SkuCost{}).
 		Notes("里面包括指定service/sku等"))
@@ -231,6 +239,7 @@ func (u *ApiHandler) Registry() {
 		Reads(model.ProjectDataServiceSkusRequest{}).
 		Writes(model.ByDateProjectAllServicesSkusList{}).
 		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
+		Filter(u.jwt.Auth).
 		// Filter(middlewares.NewTokenAuther().Auth_Login).
 		Returns(200, "OK", model.ByDateProjectAllServicesSkusList{}).
 		Notes("基于project和指定日期，取所有服务sku"))
@@ -243,6 +252,7 @@ func (u *ApiHandler) Registry() {
 		Reads(model.ProjectDataServiceSkusRequest{}).
 		Writes(model.ByDateProjectAllServicesSkusList{}).
 		Metadata(restfulspec.KeyOpenAPITags, tags). //标签
+		Filter(u.jwt.Auth).
 		// Filter(middlewares.NewTokenAuther().Auth_Login).
 		Returns(200, "OK", model.ByDateProjectAllServicesSkusList{}).
 		Notes("基于project和指定日期，获取所有label和key"))
