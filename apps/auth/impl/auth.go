@@ -12,6 +12,7 @@ import (
 	"github.com/kade-chen/google-billing-console/apps/configs"
 	config "github.com/kade-chen/google-billing-console/apps/configs/impl"
 	"github.com/kade-chen/google-billing-console/apps/token"
+	"github.com/kade-chen/google-billing-console/tools/trances"
 	"github.com/kade-chen/library/exception"
 	"github.com/kade-chen/library/http/response"
 	"github.com/kade-chen/library/ioc"
@@ -19,7 +20,7 @@ import (
 )
 
 func (t *service) Auth(req *restful.Request, resp *restful.Response, chain *restful.FilterChain) {
-
+	t.auth.TrancesID = trances.NewTraceID()
 	auth := req.HeaderParameter("Authorization")
 	if !strings.HasPrefix(auth, "Bearer ") {
 		response.Failed(resp, exception.NewUnauthorized("missing bearer token"))
@@ -58,8 +59,9 @@ func (t *service) Auth(req *restful.Request, resp *restful.Response, chain *rest
 	})
 	if err != nil {
 		// 处理 token 验证错误
-		t.log.Error().Msgf("The %s is expired or not found", tokenStr)
-		Redirect_Url(resp, err, t.log)
+		t.log.Error().Msgf("The %s is expired or not found, ERROR: %v", tokenStr, err)
+		response.Failed(resp, exception.NewUnauthorized("The %v is expired or not found", tokenStr))
+		// Redirect_Url(resp, err, t.log)
 		return
 	}
 
@@ -88,8 +90,9 @@ func (t *service) parseToken() (*authModel.TokenAuthMiddleware, error) {
 	if jwttoken != nil {
 		if claims, ok := jwttoken.Claims.(*authModel.TokenAuthMiddleware); ok && claims.ExpiresAt != nil {
 			claims.JwtToken = t.auth.JwtToken
-			t.log.Info().Msgf("ID: %v, Issuer: %v, Audience: %v, Platform: %v, Scope: %v, Subject:%v, Token: %v, Expiration Status: %v, Expiration Time: %v",
-				claims.ID, claims.Issuer, claims.Audience, token.PLATFORM(int32(claims.Platform)), claims.Scope, claims.Subject, t.auth.JwtToken, claims.ExpiresAt.Time.Before(time.Now()), claims.ExpiresAt.Time)
+			claims.TrancesID = t.auth.TrancesID
+			t.log.Info().Msgf("ID: %v, TraceID: %v, Issuer: %v, Audience: %v, Platform: %v, Scope: %v, Subject:%v, Token: %v, Expiration Status: %v, Expiration Time: %v",
+				claims.ID, claims.TrancesID, claims.Issuer, claims.Audience, token.PLATFORM(int32(claims.Platform)), claims.Scope, claims.Subject, t.auth.JwtToken, claims.ExpiresAt.Time.Before(time.Now()), claims.ExpiresAt.Time)
 		}
 	}
 

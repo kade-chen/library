@@ -44,14 +44,14 @@ func (t PROVIDER) IsIn(targets ...PROVIDER) bool {
 // }
 
 // UnmarshalJSON todo
-func (t *PROVIDER) UnmarshalJSON(b []byte) error {
-	ins, err := ParsePROVIDERFromString(string(b))
-	if err != nil {
-		return err
-	}
-	*t = ins
-	return nil
-}
+// func (t *PROVIDER) UnmarshalJSON(b []byte) error {
+// 	ins, err := ParsePROVIDERFromString(string(b))
+// 	if err != nil {
+// 		return err
+// 	}
+// 	*t = ins
+// 	return nil
+// }
 
 // ParseNOTIFY_TYPEFromString Parse NOTIFY_TYPE from string
 func ParseNOTIFY_TYPEFromString(str string) (NOTIFY_TYPE, error) {
@@ -89,11 +89,11 @@ func (t NOTIFY_TYPE) IsIn(targets ...NOTIFY_TYPE) bool {
 // }
 
 // UnmarshalJSON todo
-func (t *NOTIFY_TYPE) UnmarshalJSON(b []byte) error {
-	ins, err := ParseNOTIFY_TYPEFromString(string(b))
-	if err != nil {
-		return err
-	}
-	*t = ins
-	return nil
-}
+// func (t *NOTIFY_TYPE) UnmarshalJSON(b []byte) error {
+// 	ins, err := ParseNOTIFY_TYPEFromString(string(b))
+// 	if err != nil {
+// 		return err
+// 	}
+// 	*t = ins
+// 	return nil
+// }

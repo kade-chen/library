@@ -42,6 +42,25 @@ func TestDescribeDomain(t *testing.T) {
 	// t.Log(ins.ToJson())
 }
 
+func TestListDomains(t *testing.T) {
+	// req := domain.NewDescribeDomainRequestByName(domain.DEFAULT_DOMAIN)
+	req := domain.NewListDomainRequest(&domain.ListDomainRequest{
+		Page:  &domain.PageRequest{},
+		Names: []string{"wondercloud.com", "test322.com"},
+	})
+	//总数
+	// req.Page.PageSize = 10
+	// //跳过多少个数据wa
+	// req.Page.Offset = 0
+	ins, err := impl.ListDoamin(ctx, req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	// t.Log(ins)
+	fmt.Println(format.ToJSON(ins))
+	// t.Log(ins.ToJson())
+}
+
 func init() {
 	req := ioc.NewLoadConfigRequest()
 	req.ConfigFile.Enabled = true

@@ -13,6 +13,7 @@ import (
 	_ "github.com/kade-chen/google-billing-console/apps/configs/impl"
 
 	//api config
+	_ "github.com/kade-chen/google-billing-console/apps/domain/api"
 	_ "github.com/kade-chen/google-billing-console/apps/invoice/api"
 	_ "github.com/kade-chen/google-billing-console/apps/token/api"
 	_ "github.com/kade-chen/google-billing-console/apps/usagedate/api"

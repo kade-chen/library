@@ -11,7 +11,7 @@ service RPC {
   // 查询域
   rpc DescribeDomain(DescribeDomainRequest) returns (Domain);
   // 查询域列表
-  rpc QueryDoamin(QueryDomainRequest) returns (DomainSet);
+  rpc ListDoamin(ListDomainRequest) returns (DomainSet);
 }
 // DescribeDomainRequest 查询domain详情请求
 message DescribeDomainRequest {
@@ -35,7 +35,7 @@ enum DESCRIBE_BY {
     NAME = 1;
 }
 
-message QueryDomainRequest {
+message ListDomainRequest {
     // 分页参数
     PageRequest page = 1;
 

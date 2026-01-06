@@ -20,7 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	RPC_DescribeDomain_FullMethodName = "/kade_chen.google_billing_console.domain.RPC/DescribeDomain"
-	RPC_QueryDoamin_FullMethodName    = "/kade_chen.google_billing_console.domain.RPC/QueryDoamin"
+	RPC_ListDoamin_FullMethodName     = "/kade_chen.google_billing_console.domain.RPC/ListDoamin"
 )
 
 // RPCClient is the client API for RPC service.
@@ -30,7 +30,7 @@ type RPCClient interface {
 	// 查询域
 	DescribeDomain(ctx context.Context, in *DescribeDomainRequest, opts ...grpc.CallOption) (*Domain, error)
 	// 查询域列表
-	QueryDoamin(ctx context.Context, in *QueryDomainRequest, opts ...grpc.CallOption) (*DomainSet, error)
+	ListDoamin(ctx context.Context, in *ListDomainRequest, opts ...grpc.CallOption) (*DomainSet, error)
 }
 
 type rPCClient struct {
@@ -50,9 +50,9 @@ func (c *rPCClient) DescribeDomain(ctx context.Context, in *DescribeDomainReques
 	return out, nil
 }
 
-func (c *rPCClient) QueryDoamin(ctx context.Context, in *QueryDomainRequest, opts ...grpc.CallOption) (*DomainSet, error) {
+func (c *rPCClient) ListDoamin(ctx context.Context, in *ListDomainRequest, opts ...grpc.CallOption) (*DomainSet, error) {
 	out := new(DomainSet)
-	err := c.cc.Invoke(ctx, RPC_QueryDoamin_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, RPC_ListDoamin_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -66,7 +66,7 @@ type RPCServer interface {
 	// 查询域
 	DescribeDomain(context.Context, *DescribeDomainRequest) (*Domain, error)
 	// 查询域列表
-	QueryDoamin(context.Context, *QueryDomainRequest) (*DomainSet, error)
+	ListDoamin(context.Context, *ListDomainRequest) (*DomainSet, error)
 	mustEmbedUnimplementedRPCServer()
 }
 
@@ -77,8 +77,8 @@ type UnimplementedRPCServer struct {
 func (UnimplementedRPCServer) DescribeDomain(context.Context, *DescribeDomainRequest) (*Domain, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeDomain not implemented")
 }
-func (UnimplementedRPCServer) QueryDoamin(context.Context, *QueryDomainRequest) (*DomainSet, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method QueryDoamin not implemented")
+func (UnimplementedRPCServer) ListDoamin(context.Context, *ListDomainRequest) (*DomainSet, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListDoamin not implemented")
 }
 func (UnimplementedRPCServer) mustEmbedUnimplementedRPCServer() {}
 
@@ -111,20 +111,20 @@ func _RPC_DescribeDomain_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
-func _RPC_QueryDoamin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryDomainRequest)
+func _RPC_ListDoamin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListDomainRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RPCServer).QueryDoamin(ctx, in)
+		return srv.(RPCServer).ListDoamin(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: RPC_QueryDoamin_FullMethodName,
+		FullMethod: RPC_ListDoamin_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RPCServer).QueryDoamin(ctx, req.(*QueryDomainRequest))
+		return srv.(RPCServer).ListDoamin(ctx, req.(*ListDomainRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -141,8 +141,8 @@ var RPC_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _RPC_DescribeDomain_Handler,
 		},
 		{
-			MethodName: "QueryDoamin",
-			Handler:    _RPC_QueryDoamin_Handler,
+			MethodName: "ListDoamin",
+			Handler:    _RPC_ListDoamin_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

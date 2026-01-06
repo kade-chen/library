@@ -21,7 +21,7 @@ var (
 // create user
 func TestCreateUser(t *testing.T) {
 	u, err := impl.CreateUser(ctx, &user.CreateUserRequest{
-		Username: "kade1@vandercloud.com",
+		Username: "kelly@vandercloud.com",
 		Password: "123456",
 		Domain:   []string{"vandercloud.com", "test.com", "test3.com"},
 		// Type:     user.TYPE_SUPPER,

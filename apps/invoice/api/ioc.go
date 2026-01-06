@@ -2,13 +2,13 @@ package api
 
 import (
 	restfulspec "github.com/emicklei/go-restful-openapi"
+	"github.com/kade-chen/google-billing-console/apps/auth"
 	model "github.com/kade-chen/google-billing-console/apps/common/model/invoice"
 	"github.com/kade-chen/google-billing-console/apps/invoice"
 	"github.com/kade-chen/google-billing-console/apps/invoice/impl/labelkey"
 	"github.com/kade-chen/google-billing-console/apps/invoice/impl/project"
 	"github.com/kade-chen/google-billing-console/apps/invoice/impl/services"
 	"github.com/kade-chen/google-billing-console/apps/invoice/impl/sku"
-	"github.com/kade-chen/google-billing-console/apps/auth"
 	"github.com/kade-chen/library/ioc"
 	"github.com/kade-chen/library/ioc/config/gorestful"
 	logs "github.com/kade-chen/library/ioc/config/log"
@@ -26,7 +26,7 @@ type ApiHandler struct {
 	service  invoice.Service
 	sku      invoice.SkuService
 	labelkey invoice.LabelKeyService
-	jwt     auth.Service
+	jwt      auth.Service
 	// user_binding_roles *mongo.Collection
 	// role               *mongo.Collection
 	// policy policy.Service

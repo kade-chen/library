@@ -58,6 +58,7 @@ func Test_Revoke_Token(t *testing.T) {
 
 func Test_Validate_Token(t *testing.T) {
 	req := token.NewValidateTokenRequest()
+	req.AccessToken="KZd8hoMYnFDBP25HXswDJKwJ"
 	_, err := impl.ValicateToken(ctx, req)
 	if err != nil {
 		t.Fatal(err.Error())

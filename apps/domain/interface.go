@@ -3,7 +3,7 @@ package domain
 import "context"
 
 const (
-	AppName = "domain"
+	AppName = "organizations"
 )
 
 type Service interface {

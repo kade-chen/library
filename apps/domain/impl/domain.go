@@ -2,12 +2,14 @@ package impl
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 
 	"cloud.google.com/go/bigquery"
 	"github.com/kade-chen/google-billing-console/apps/domain"
 	tools "github.com/kade-chen/google-billing-console/tools/bigquery"
 	"github.com/kade-chen/library/exception"
+	"golang.org/x/sync/errgroup"
 	"google.golang.org/api/iterator"
 )
 
@@ -101,4 +103,70 @@ func (s *service) DescribeDomain(ctx context.Context, req *domain.DescribeDomain
 	default:
 		return nil, exception.NewInternalServerError("iterator error: %v", err)
 	}
+}
+
+func (s *service) ListDoamin(ctx context.Context, req *domain.ListDomainRequest) (*domain.DomainSet, error) {
+	r := domain.NewListDomainRequest(req)
+	whereSQL, whereParams := r.WhereSQL()
+	pageSQL, pageParams := r.PageSQL()
+	params := append(whereParams, pageParams...)
+
+	sql := fmt.Sprintf(`SELECT * FROM %s %s ORDER BY meta.create_at ASC %s`, s.bqTableFull, whereSQL, pageSQL)
+	set := domain.NewDomainSet()
+
+	g, ctx := errgroup.WithContext(ctx)
+	// --------------------------
+	// 1. 并发查询列表
+	// --------------------------
+	g.Go(func() error {
+		var rowCount int64
+		q := s.bq_client.Query(sql)
+		q.Parameters = params
+
+		it, err := q.Read(ctx)
+		if err != nil {
+			s.log.Error().Msgf("query domain list error: %v", err)
+			return exception.NewInternalServerError("query domain error: %v", err)
+		}
+
+		for {
+			rowMap := make(map[string]bigquery.Value)
+			err := it.Next(&rowMap)
+
+			if err == iterator.Done {
+				s.log.Info().Msgf("query domain list done")
+				break
+			}
+			if err != nil {
+				s.log.Error().Msgf("query domain list error: %v", err)
+				return exception.NewInternalServerError("query domain list error: %v", err)
+			}
+			// ---- 转 user.User ----
+			rowBytes, err := json.Marshal(rowMap)
+			if err != nil {
+				s.log.Error().Msgf("marshal map error: %v", err)
+				return exception.NewInternalServerError("marshal map error: %v", err)
+			}
+			row := &domain.Domain{}
+			if err := json.Unmarshal(rowBytes, row); err != nil {
+				s.log.Error().Msgf("unmarshal to domain error: %v", err)
+				return exception.NewInternalServerError("unmarshal to domain error: %v", err)
+			}
+			// row.Desensitization()
+			set.Add(row)
+			rowCount++
+		}
+		set.Total = rowCount
+		return nil
+	})
+
+	// --------------------------
+	// 等待两个 goroutine 完成
+	// --------------------------
+	if err := g.Wait(); err != nil {
+		s.log.Error().Msgf("query domain error: %v", err)
+		return nil, exception.NewInternalServerError("%v", err)
+	}
+
+	return set, nil
 }
