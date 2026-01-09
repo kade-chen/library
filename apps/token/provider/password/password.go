@@ -106,6 +106,10 @@ func (p *password) validate(ctx context.Context, username, password string) (*us
 		if err != nil {
 			return nil, err
 		}
+		if OrganizationSet.Total == 0 {
+			p.log.Error().Msgf("organization: %v not found", u.Spec.Organization)
+			return nil, exception.NewInternalServerError("organization not found OR user not in organization")
+		}
 		if OrganizationSet.Total != int64(len(u.Spec.Organization)) {
 			// 用返回结果重新构造 Organization 列表
 			orgs := make([]string, 0, len(OrganizationSet.Items))
