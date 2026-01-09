@@ -11,7 +11,7 @@ import (
 	"github.com/kade-chen/library/ioc"
 )
 
-func (t *service) ValicateToken(jwtToken string) (*authModel.TokenAuthMiddleware, error) {
+func (t *service) ValicateToken(traceID, jwtToken string) (*authModel.TokenAuthMiddleware, error) {
 	// 使用 jwt 库解析 tokenStr，目标是解析到 Claims 结构体中
 	jwttoken, err := jwt.ParseWithClaims(jwtToken, &authModel.TokenAuthMiddleware{}, func(token *jwt.Token) (interface{}, error) {
 		// 安全校验：防止 alg 被篡改
@@ -25,12 +25,15 @@ func (t *service) ValicateToken(jwtToken string) (*authModel.TokenAuthMiddleware
 		jwt.WithAudience("dev.billing.wondercloud.com"),
 		jwt.WithIssuer("wondercloud.com"),
 	)
-
+	// fmt.Println(format.ToJSON(jwttoken.Claims.(*authModel.TokenAuthMiddleware)))
 	if jwttoken != nil {
 		// fmt.Println(format.ToJSON(jwttoken.Claims))
 		if claims, ok := jwttoken.Claims.(*authModel.TokenAuthMiddleware); ok && claims.ExpiresAt != nil {
 			claims.JwtToken = jwtToken
-			t.log.Info().Msgf("ID: %v, Issuer: %v, Audience: %v, Platform: %v, Scope: %v, Subject:%v, Token: %v, Expiration Status: %v, Expiration Time: %v", claims.ID, claims.Issuer, claims.Audience, token.PLATFORM(int32(claims.Platform)), claims.Scope, claims.Subject, jwtToken, claims.ExpiresAt.Time.Before(time.Now()), claims.ExpiresAt.Time)
+			claims.TrancesID = traceID
+			// t.log.Info().Msgf("ID: %v, Issuer: %v, Audience: %v, Platform: %v, Scope: %v, Subject:%v, Token: %v, Expiration Status: %v, Expiration Time: %v", claims.ID, claims.Issuer, claims.Audience, token.PLATFORM(int32(claims.Platform)), claims.Scope, claims.Subject, jwtToken, claims.ExpiresAt.Time.Before(time.Now()), claims.ExpiresAt.Time)
+			t.log.Info().Msgf("ID: %v, TraceID: %v, Organizations: %v, Issuer: %v, Audience: %v, Platform: %v, Scope: %v, Subject:%v, Token: %v, Expiration Status: %v, Expiration Time: %v",
+				claims.ID, claims.TrancesID, claims.Organizations, claims.Issuer, claims.Audience, token.PLATFORM(int32(claims.Platform)), claims.Scope, claims.Subject, jwtToken, claims.ExpiresAt.Time.Before(time.Now()), claims.ExpiresAt.Time)
 		}
 	}
 

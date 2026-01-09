@@ -11,16 +11,16 @@ import (
 	"github.com/kade-chen/library/ioc"
 )
 
-func (t *service) JwtRefreshAccessToken(platform int32, subject string, expiredAt int64, domains []string) (accesstoken string, err error) {
+func (t *service) JwtRefreshAccessToken(platform int32, subject string, expiredAt int64, organizations []string) (accesstoken string, err error) {
 	id, err := tools.NewJwtId()
 	if err != nil {
 		return "", err
 	}
 
 	claims := authModel.TokenAuthMiddleware{
-		Platform: int32(platform),
-		Scope:    []string{"platform.admin"},
-		Domains:  domains,
+		Platform:      int32(platform),
+		Scope:         []string{"platform.admin"},
+		Organizations: organizations,
 		// Type: TokenTypeRefresh,
 		RegisteredClaims: jwt.RegisteredClaims{
 			Issuer:    "wondercloud.com",

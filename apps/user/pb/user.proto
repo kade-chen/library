@@ -61,9 +61,9 @@ message CreateUserRequest {
     // @gotags: json:"create_by" bson:"create_by" bigquery:"create_by"
     string create_by = 13;
     // 域信息
-    // @gotags: json:"domain" bson:"domain" validate:"required" bigquery:"domain"
-    // string domain = 4;
-    repeated string domain = 4;
+    // @gotags: json:"organization" bson:"organization" validate:"required" bigquery:"organization"
+    // string organization = 4;
+    repeated string organization = 4;
     // 用户账号名称
     // @gotags: json:"username" bson:"username" validate:"required,lte=60" bigquery:"username"
     string username = 5;

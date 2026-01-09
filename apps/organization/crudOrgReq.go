@@ -1,4 +1,4 @@
-package domain
+package organization
 
 import (
 	"github.com/go-playground/validator/v10"
@@ -11,20 +11,20 @@ var (
 )
 
 // verity that the request is valid
-func (req *CreateDomainRequest) validate_strust() error {
+func (req *CreateOrganizationRequest) validate_strust() error {
 	return validate.Struct(req)
 }
 
 // verity that the request is valid
-func (req *DescribeDomainRequest) Validate() error {
+func (req *DescribeOrganizationRequest) Validate() error {
 	switch req.DescribeBy {
 	case DESCRIBE_BY_ID:
 		if req.Id == "" {
-			return exception.NewBadRequest("domain id required")
+			return exception.NewBadRequest("Organization id required")
 		}
 	case DESCRIBE_BY_NAME:
 		if req.Name == "" {
-			return exception.NewBadRequest("domain name required")
+			return exception.NewBadRequest("Organization name required")
 		}
 	}
 

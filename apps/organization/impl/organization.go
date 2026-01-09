@@ -6,53 +6,53 @@ import (
 	"fmt"
 
 	"cloud.google.com/go/bigquery"
-	"github.com/kade-chen/google-billing-console/apps/domain"
+	"github.com/kade-chen/google-billing-console/apps/organization"
 	tools "github.com/kade-chen/google-billing-console/tools/bigquery"
 	"github.com/kade-chen/library/exception"
 	"golang.org/x/sync/errgroup"
 	"google.golang.org/api/iterator"
 )
 
-func (s *service) CreateDomain(ctx context.Context, req *domain.CreateDomainRequest) (*domain.Domain, error) {
-	domain, err := domain.NewDomain(req)
+func (s *service) CreateOrganization(ctx context.Context, req *organization.CreateOrganizationRequest) (*organization.Organization, error) {
+	Organization, err := organization.NewOrganization(req)
 	if err != nil {
 		return nil, err
 	}
 	// 查询 SQL
-	queryStr := fmt.Sprintf(`SELECT id FROM %s WHERE id = '%s'`, s.bqTableFull, domain.Id)
+	queryStr := fmt.Sprintf(`SELECT id FROM %s WHERE id = '%s'`, s.bqTableFull, Organization.Id)
 
 	bq := s.bq_client.Query(queryStr)
 
 	// 执行 SELECT 并返回结果迭代器
 	it, err := bq.Read(ctx)
 	if err != nil {
-		return domain, exception.NewInternalServerError("query read error: %v", err)
+		return Organization, exception.NewInternalServerError("query read error: %v", err)
 	}
 
 	// 读取一行（你的场景应该只返回 1 行）
-	switch err := it.Next(domain); err {
+	switch err := it.Next(Organization); err {
 	case iterator.Done:
-		s.log.Warn().Msg("domain not exist")
-		s.log.Info().Msgf("create %v domain......", domain.Spec.Name)
-		// 创建domain
+		s.log.Warn().Msg("Organization not exist")
+		s.log.Info().Msgf("create %v Organization......", Organization.Spec.SubOrganization)
+		// 创建Organization
 		// 根据结构体自动创建row
-		err := tools.BigQueryStructInsert(ctx, s.bq_table, domain)
+		err := tools.BigQueryStructInsert(ctx, s.bq_table, Organization)
 		if err != nil {
 			return nil, err
 		}
-		s.log.Info().Msgf("create %v domain successful", domain.Spec.Name)
+		s.log.Info().Msgf("create %v Organization successful", Organization.Spec.SubOrganization)
 		// 没有查到
-		return domain, nil
+		return Organization, nil
 	case nil:
-		s.log.Info().Msgf("domain %v already exist, Do not create duplicates.", domain.Spec.Name)
+		s.log.Info().Msgf("Organization %v already exist, Do not create duplicates.", Organization.Spec.SubOrganization)
 		return nil, nil
 	default:
 		s.log.Error().Msgf("iterator error: %v", err)
-		return domain, exception.NewInternalServerError("iterator error: %v", err)
+		return Organization, exception.NewInternalServerError("iterator error: %v", err)
 	}
 }
 
-func (s *service) DescribeDomain(ctx context.Context, req *domain.DescribeDomainRequest) (*domain.Domain, error) {
+func (s *service) DescribeOrganization(ctx context.Context, req *organization.DescribeOrganizationRequest) (*organization.Organization, error) {
 	if err := req.Validate(); err != nil {
 		return nil, err
 	}
@@ -64,13 +64,13 @@ func (s *service) DescribeDomain(ctx context.Context, req *domain.DescribeDomain
 	)
 
 	switch req.DescribeBy {
-	case domain.DESCRIBE_BY_ID:
+	case organization.DESCRIBE_BY_ID:
 		queryStr = fmt.Sprintf(`SELECT * FROM %s WHERE id = @id LIMIT 1`, s.bqTableFull)
 		params = []bigquery.QueryParameter{
 			{Name: "id", Value: req.Id},
 		}
-	case domain.DESCRIBE_BY_NAME:
-		queryStr = fmt.Sprintf(`SELECT * FROM %s WHERE spec.name = @name LIMIT 1`, s.bqTableFull)
+	case organization.DESCRIBE_BY_NAME:
+		queryStr = fmt.Sprintf(`SELECT * FROM %s WHERE spec.sub_organization = @name LIMIT 1`, s.bqTableFull)
 		params = []bigquery.QueryParameter{
 			{Name: "name", Value: req.Name},
 		}
@@ -88,31 +88,31 @@ func (s *service) DescribeDomain(ctx context.Context, req *domain.DescribeDomain
 	}
 
 	// ⚠ 注意：row 必须完整匹配 BigQuery 表字段
-	// 你可以直接用 domain.Domain（推荐）
-	row := &domain.Domain{}
+	// 你可以直接用 Organization.Organization（推荐）
+	row := &organization.Organization{}
 
 	err = it.Next(row)
 	switch err {
 	case iterator.Done:
-		s.log.Error().Msgf("domain: %v not exist", req.Name)
-		return nil, exception.NewNotFound("domain: %v not exist", req.Name)
+		s.log.Error().Msgf("Organization: %v not exist", req.Name)
+		return nil, exception.NewNotFound("Organization: %v not exist", req.Name)
 	case nil:
-		// 成功查询，row 已是完整 domain
-		s.log.Info().Msg("domain query successful")
+		// 成功查询，row 已是完整 Organization
+		s.log.Info().Msg("Organization query successful")
 		return row, nil
 	default:
 		return nil, exception.NewInternalServerError("iterator error: %v", err)
 	}
 }
 
-func (s *service) ListDoamin(ctx context.Context, req *domain.ListDomainRequest) (*domain.DomainSet, error) {
-	r := domain.NewListDomainRequest(req)
+func (s *service) ListOrganizations(ctx context.Context, req *organization.ListOrganizationRequest) (*organization.OrganizationSet, error) {
+	r := organization.NewListOrganizationRequest(req)
 	whereSQL, whereParams := r.WhereSQL()
 	pageSQL, pageParams := r.PageSQL()
 	params := append(whereParams, pageParams...)
 
 	sql := fmt.Sprintf(`SELECT * FROM %s %s ORDER BY meta.create_at ASC %s`, s.bqTableFull, whereSQL, pageSQL)
-	set := domain.NewDomainSet()
+	set := organization.NewOrganizationSet()
 
 	g, ctx := errgroup.WithContext(ctx)
 	// --------------------------
@@ -125,8 +125,8 @@ func (s *service) ListDoamin(ctx context.Context, req *domain.ListDomainRequest)
 
 		it, err := q.Read(ctx)
 		if err != nil {
-			s.log.Error().Msgf("query domain list error: %v", err)
-			return exception.NewInternalServerError("query domain error: %v", err)
+			s.log.Error().Msgf("query Organization list error: %v", err)
+			return exception.NewInternalServerError("query Organization error: %v", err)
 		}
 
 		for {
@@ -134,12 +134,12 @@ func (s *service) ListDoamin(ctx context.Context, req *domain.ListDomainRequest)
 			err := it.Next(&rowMap)
 
 			if err == iterator.Done {
-				s.log.Info().Msgf("query domain list done")
+				s.log.Info().Msgf("query Organization list done")
 				break
 			}
 			if err != nil {
-				s.log.Error().Msgf("query domain list error: %v", err)
-				return exception.NewInternalServerError("query domain list error: %v", err)
+				s.log.Error().Msgf("query Organization list error: %v", err)
+				return exception.NewInternalServerError("query Organization list error: %v", err)
 			}
 			// ---- 转 user.User ----
 			rowBytes, err := json.Marshal(rowMap)
@@ -147,10 +147,10 @@ func (s *service) ListDoamin(ctx context.Context, req *domain.ListDomainRequest)
 				s.log.Error().Msgf("marshal map error: %v", err)
 				return exception.NewInternalServerError("marshal map error: %v", err)
 			}
-			row := &domain.Domain{}
+			row := &organization.Organization{}
 			if err := json.Unmarshal(rowBytes, row); err != nil {
-				s.log.Error().Msgf("unmarshal to domain error: %v", err)
-				return exception.NewInternalServerError("unmarshal to domain error: %v", err)
+				s.log.Error().Msgf("unmarshal to Organization error: %v", err)
+				return exception.NewInternalServerError("unmarshal to Organization error: %v", err)
 			}
 			// row.Desensitization()
 			set.Add(row)
@@ -164,7 +164,7 @@ func (s *service) ListDoamin(ctx context.Context, req *domain.ListDomainRequest)
 	// 等待两个 goroutine 完成
 	// --------------------------
 	if err := g.Wait(); err != nil {
-		s.log.Error().Msgf("query domain error: %v", err)
+		s.log.Error().Msgf("query Organization error: %v", err)
 		return nil, exception.NewInternalServerError("%v", err)
 	}
 

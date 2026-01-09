@@ -15,8 +15,8 @@ message Code {
   string code = 2;
 
   // 用户域
-  // @gotags: json:"domain" validate:"required" bigquery:"domain"
-  string domain = 3;
+  // @gotags: json:"organization" validate:"required" bigquery:"organization"
+  string organization = 3;
 
   // 用户名称
   // @gotags: json:"username" validate:"required" bigquery:"username"

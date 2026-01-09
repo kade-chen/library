@@ -35,7 +35,7 @@ func (t DESCRIBE_BY) IsIn(targets ...DESCRIBE_BY) bool {
 	return false
 }
 
-// MarshalJSON todo
+// // MarshalJSON todo
 // func (t DESCRIBE_BY) MarshalJSON() ([]byte, error) {
 // 	b := bytes.NewBufferString(`"`)
 // 	b.WriteString(strings.ToUpper(t.String()))
@@ -43,7 +43,7 @@ func (t DESCRIBE_BY) IsIn(targets ...DESCRIBE_BY) bool {
 // 	return b.Bytes(), nil
 // }
 
-// UnmarshalJSON todo
+// // UnmarshalJSON todo
 // func (t *DESCRIBE_BY) UnmarshalJSON(b []byte) error {
 // 	ins, err := ParseDESCRIBE_BYFromString(string(b))
 // 	if err != nil {

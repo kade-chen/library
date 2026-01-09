@@ -14,11 +14,11 @@ import (
 
 	"github.com/kade-chen/google-billing-console/apps/configs"
 	"github.com/kade-chen/google-billing-console/apps/configs/impl"
-	"github.com/kade-chen/google-billing-console/apps/domain"
+	"github.com/kade-chen/google-billing-console/apps/organization"
 	"github.com/rs/zerolog"
 )
 
-var _ domain.Service = (*service)(nil)
+var _ organization.Service = (*service)(nil)
 
 func init() {
 	ioc.Controller().Registry(&service{})
@@ -28,13 +28,13 @@ type service struct {
 	bq_client   *bigquery.Client
 	bq_table    *bigquery.Table
 	bqTableFull string
-	domain.UnimplementedRPCServer
+	organization.UnimplementedRPCServer
 	ioc.ObjectImpl
 	log *zerolog.Logger
 }
 
 func (*service) Name() string {
-	return domain.AppName
+	return organization.AppName
 }
 
 func (i *service) Priority() int {
@@ -43,18 +43,18 @@ func (i *service) Priority() int {
 
 func (s *service) Init() error {
 
-	s.log = logs.Sub(domain.AppName)
+	s.log = logs.Sub(organization.AppName)
 	s.bq_client = ioc.Config().Get(configs.AppName).(*impl.Service).BQ
 	err := s.bqInit(context.Background())
 	if err != nil {
 		return err
 	}
 
-	domain.RegisterRPCServer(grpc.Get().Server(), s)
+	organization.RegisterRPCServer(grpc.Get().Server(), s)
 
 	projectID := ioc.Config().Get(configs.AppName).(*impl.Service).Default_Project_ID
 	dataset := ioc.Config().Get(configs.AppName).(*impl.Service).GoogleBillingConsoleDataset
-	table := ioc.Config().Get(configs.AppName).(*impl.Service).GoogleBillingConsoleDatasetTableDomain
+	table := ioc.Config().Get(configs.AppName).(*impl.Service).GoogleBillingConsoleDatasetTableOrganization
 	s.bqTableFull = fmt.Sprintf("`%s.%s.%s`", projectID, dataset, table)
 
 	return err
@@ -80,7 +80,7 @@ func (s *service) bqInit(ctx context.Context) error {
 	}
 
 	// ---- 1. 自动从结构体推断 schema ----
-	schema, err := bigquery.InferSchema(domain.Domain{})
+	schema, err := bigquery.InferSchema(organization.Organization{})
 	// 使用示例
 	makeSchemaNullable(schema)               // 先把所有字段置 NULLABLE
 	setFieldRequired(schema, []string{"id"}) // 指定字段为 REQUIRED
@@ -91,13 +91,13 @@ func (s *service) bqInit(ctx context.Context) error {
 		return exception.NewIocRegisterFailed("infer schema failed, ERROR: %v", err)
 	}
 
-	table := dataset.Table(ioc.Config().Get(configs.AppName).(*impl.Service).GoogleBillingConsoleDatasetTableDomain)
+	table := dataset.Table(ioc.Config().Get(configs.AppName).(*impl.Service).GoogleBillingConsoleDatasetTableOrganization)
 
 	// ---- 2. 判断 table 是否存在 ----
 	_, err = table.Metadata(ctx)
 	if err != nil {
 		if err == iterator.Done || s.datasetisNotFound(err) {
-			s.log.Warn().Msgf("Table: %v not found, creating...", ioc.Config().Get(configs.AppName).(*impl.Service).GoogleBillingConsoleDatasetTableDomain)
+			s.log.Warn().Msgf("Table: %v not found, creating...", ioc.Config().Get(configs.AppName).(*impl.Service).GoogleBillingConsoleDatasetTableOrganization)
 
 			// ---- 3. 创建 table ----
 			err = table.Create(ctx, &bigquery.TableMetadata{

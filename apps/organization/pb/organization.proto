@@ -1,17 +1,17 @@
 syntax = "proto3";
 
-package kade_chen.google_billing_console.domain;
+package kade_chen.google_billing_console.organization;
 
-option go_package = "github.com/kade-chen/google-billing-console/apps/domain";
+option go_package = "github.com/kade-chen/google-billing-console/apps/organization";
 
-import "google-billing-console/apps/domain/pb/ldap.proto";
-import "google-billing-console/apps/domain/pb/feishu.proto";
-import "google-billing-console/apps/domain/pb/dingding.proto";
-import "google-billing-console/apps/domain/pb/wechat_work.proto";
+import "google-billing-console/apps/organization/pb/ldap.proto";
+import "google-billing-console/apps/organization/pb/feishu.proto";
+import "google-billing-console/apps/organization/pb/dingding.proto";
+import "google-billing-console/apps/organization/pb/wechat_work.proto";
 import "google-billing-console/apps/notify/pb/notify.proto";
 import "google-billing-console/apps/notify/pb/setting.proto";
 
-message Domain {
+message Organization {
     // 对象Id
   // @gotags: bson:"id" json:"id" bigquery:"id"
   string id = 1;
@@ -20,7 +20,7 @@ message Domain {
   Meta meta = 2;
   // 创建信息
   // @gotags: bson:",inline" json:"spec" bigquery:"spec"
-  CreateDomainRequest spec = 3;
+  CreateOrganizationRequest spec = 3;
 }
 
 message Meta {
@@ -38,16 +38,31 @@ message Meta {
   string update_by = 4;
 }
 
-message CreateDomainRequest {
+message CreateOrganizationRequest {
   // 域状态, 是否需要冻结该域, 冻结时, 该域下面所有用户禁止登录
   // @gotags: bson:"enabled" json:"enabled" bigquery:"enabled"
   bool enabled = 1;
   // 归属人
   // @gotags: bson:"owner" json:"owner" bigquery:"owner"
   string owner = 2;
-  // 全称
-  // @gotags: bson:"name" json:"name"  validate:"required" bigquery:"name"
-  string name = 3;
+  // 顶级组织
+  // @gotags: bson:"root_organization" json:"root_organization"  bigquery:"root_organization"
+  string root_organization = 22;
+  // 组织
+  // @gotags: bson:"sub_organization" json:"sub_organization"  validate:"required" bigquery:"sub_organization"
+  string sub_organization = 3;
+  // 公司名
+  // @gotags: bson:"company_name" json:"company_name"  bigquery:"company_name"
+  string company_name = 23;
+  // 组织id，用于拼接bq表名
+  // @gotags: bson:"organization_id" json:"organization_id"  bigquery:"organization_id"
+  string organization_id = 24;
+  // project列表，组织下的project
+  // @gotags: bson:"project_id" json:"project_id"  bigquery:"project_id"
+  repeated string project_id = 25;
+  // 组织联系邮箱
+  // @gotags: bson:"organization_contact_emails" json:"organization_contact_emails"  bigquery:"organization_contact_emails"
+  repeated string organization_contact_emails = 26;
   // 公司LOGO图片的URL
   // @gotags: bson:"logo_path" json:"logo_path" bigquery:"logo_path"
   string logo_path = 4;
@@ -218,11 +233,11 @@ message PasswordConfig {
   uint32 before_expired_remind_days = 11;
 }
 
-message DomainSet {
+message OrganizationSet {
   // 总数量
   // @gotags: bson:"total" json:"total" bigquery:"total"
   int64 total = 1;
   // 数据项
   // @gotags: bson:"items" json:"items" bigquery:"items"
-  repeated Domain items = 2;
+  repeated Organization items = 2;
 }

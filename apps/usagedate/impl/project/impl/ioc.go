@@ -31,7 +31,7 @@ type service struct {
 	// policy  policy.Service
 	// ns      namespace.Service
 	// checker security.Checker
-	// domain  domain.Service
+	// organization  organization.Service
 	// notify  notify.Service
 }
 

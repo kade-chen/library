@@ -4,7 +4,7 @@ import (
 	restfulspec "github.com/emicklei/go-restful-openapi"
 	"github.com/kade-chen/google-billing-console/apps/auth"
 	model "github.com/kade-chen/google-billing-console/apps/common/model/usagedate"
-	"github.com/kade-chen/google-billing-console/apps/domain"
+	"github.com/kade-chen/google-billing-console/apps/organization"
 	"github.com/kade-chen/google-billing-console/apps/usagedate"
 	"github.com/kade-chen/library/ioc"
 	"github.com/kade-chen/library/ioc/config/gorestful"
@@ -20,18 +20,18 @@ type ApiHandler struct {
 	ioc.ObjectImpl
 	log    *zerolog.Logger
 	jwt    auth.Service
-	domian domain.Service
+	domian organization.Service
 	// user_binding_roles *mongo.Collection
 	// role               *mongo.Collection
 	// policy policy.Service
 }
 
 func (u *ApiHandler) Init() error {
-	u.log = logs.Sub(domain.AppName)
+	u.log = logs.Sub(organization.AppName)
 	u.log.Debug().Msgf("---------%s API begin init.......---------", usagedate.AppName)
 	u.jwt = ioc.Controller().Get(auth.AppName).(auth.Service)
 	// u.role = db.Collection("roles")
-	u.domian = ioc.Controller().Get(domain.AppName).(domain.Service)
+	u.domian = ioc.Controller().Get(organization.AppName).(organization.Service)
 	// u.policy = ioc.Controller().Get(policy.AppName).(policy.Service)
 	// u.user_binding_roles = db.Collection("user_binding_roles")
 	u.Registry()
@@ -40,7 +40,7 @@ func (u *ApiHandler) Init() error {
 }
 
 func (u *ApiHandler) Name() string {
-	return domain.AppName
+	return organization.AppName
 }
 
 func (u *ApiHandler) Version() string {

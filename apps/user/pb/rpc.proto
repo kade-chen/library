@@ -22,10 +22,10 @@ message QueryUserRequest {
   // @gotags: json:"page" bigquery:"page"
   PageRequest page = 1;
 
-  // 用户所属Domain
-  // @gotags: json:"domain" validate:"required" bigquery:"domain"
-  // string domain = 2;
-  repeated string domain = 2;
+  // 用户所属organization
+  // @gotags: json:"organization" validate:"required" bigquery:"organization"
+  // string organization = 2;
+  repeated string organization = 2;
 
   // 账号提供方
   // @gotags: json:"provider" bigquery:"provider"
@@ -73,9 +73,9 @@ message DescribeUserRequest {
   // @gotags: json:"username" bigquery:"username"
   string username = 3;
 
-  // Domain
-  // @gotags: json:"domain" bigquery:"domain"
-  string domain = 4;
+  // organization
+  // @gotags: json:"organization" bigquery:"organization"
+  string organization = 4;
 }
 
 enum DESCRIBE_BY {

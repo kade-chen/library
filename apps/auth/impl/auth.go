@@ -2,7 +2,6 @@ package impl
 
 import (
 	"errors"
-	"net/http"
 	"strings"
 	"time"
 
@@ -16,7 +15,6 @@ import (
 	"github.com/kade-chen/library/exception"
 	"github.com/kade-chen/library/http/response"
 	"github.com/kade-chen/library/ioc"
-	"github.com/rs/zerolog"
 )
 
 func (t *service) Auth(req *restful.Request, resp *restful.Response, chain *restful.FilterChain) {
@@ -28,8 +26,7 @@ func (t *service) Auth(req *restful.Request, resp *restful.Response, chain *rest
 		return
 	}
 
-	tokenStr := strings.TrimPrefix(auth, "Bearer ")
-	t.auth.JwtToken = tokenStr
+	t.auth.JwtToken = strings.TrimPrefix(auth, "Bearer ")
 	claims, err := t.parseToken()
 	if err != nil {
 		switch {
@@ -55,12 +52,12 @@ func (t *service) Auth(req *restful.Request, resp *restful.Response, chain *rest
 
 	// 3.wether the token is exist
 	_, err = t.tk.ValicateToken(req.Request.Context(), &token.ValicateTokenRequest{
-		AccessToken: tokenStr,
+		AccessToken: t.auth.JwtToken,
 	})
 	if err != nil {
 		// 处理 token 验证错误
-		t.log.Error().Msgf("The %s is expired or not found, ERROR: %v", tokenStr, err)
-		response.Failed(resp, exception.NewUnauthorized("The %v is expired or not found", tokenStr))
+		t.log.Error().Msgf("The %s is expired or not found, ERROR: %v", t.auth.JwtToken, err)
+		response.Failed(resp, exception.NewUnauthorized("The %v is expired or not found", t.auth.JwtToken))
 		// Redirect_Url(resp, err, t.log)
 		return
 	}
@@ -86,13 +83,13 @@ func (t *service) parseToken() (*authModel.TokenAuthMiddleware, error) {
 		jwt.WithAudience("dev.billing.wondercloud.com"),
 		jwt.WithIssuer("wondercloud.com"),
 	)
-
+	// Claims := jwttoken.Claims.(*authModel.TokenAuthMiddleware)
 	if jwttoken != nil {
 		if claims, ok := jwttoken.Claims.(*authModel.TokenAuthMiddleware); ok && claims.ExpiresAt != nil {
 			claims.JwtToken = t.auth.JwtToken
 			claims.TrancesID = t.auth.TrancesID
-			t.log.Info().Msgf("ID: %v, TraceID: %v, Issuer: %v, Audience: %v, Platform: %v, Scope: %v, Subject:%v, Token: %v, Expiration Status: %v, Expiration Time: %v",
-				claims.ID, claims.TrancesID, claims.Issuer, claims.Audience, token.PLATFORM(int32(claims.Platform)), claims.Scope, claims.Subject, t.auth.JwtToken, claims.ExpiresAt.Time.Before(time.Now()), claims.ExpiresAt.Time)
+			t.log.Info().Msgf("ID: %v, TraceID: %v, Organizations: %v, Issuer: %v, Audience: %v, Platform: %v, Scope: %v, Subject:%v, Token: %v, Expiration Status: %v, Expiration Time: %v",
+				claims.ID, claims.TrancesID, claims.Organizations, claims.Issuer, claims.Audience, token.PLATFORM(int32(claims.Platform)), claims.Scope, claims.Subject, claims.JwtToken, claims.ExpiresAt.Time.Before(time.Now()), claims.ExpiresAt.Time)
 		}
 	}
 
@@ -105,9 +102,9 @@ func (t *service) parseToken() (*authModel.TokenAuthMiddleware, error) {
 	return jwttoken.Claims.(*authModel.TokenAuthMiddleware), nil
 }
 
-func Redirect_Url(resp *restful.Response, err error, t *zerolog.Logger) {
-	redirectURL := "http://localhost:5173/login?error=" + err.Error()
-	resp.AddHeader("Location", redirectURL)
-	resp.WriteHeader(http.StatusFound) // 302
-	t.Warn().Msg("302 to login page")
-}
+// func Redirect_Url(resp *restful.Response, err error, t *zerolog.Logger) {
+// 	redirectURL := "http://localhost:5173/login?error=" + err.Error()
+// 	resp.AddHeader("Location", redirectURL)
+// 	resp.WriteHeader(http.StatusFound) // 302
+// 	t.Warn().Msg("302 to login page")
+// }

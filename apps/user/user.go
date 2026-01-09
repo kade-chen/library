@@ -40,11 +40,11 @@ func NewUser(req *CreateUserRequest) (*User, error) {
 		req.Password = password.Password
 		// 2.generate user strust
 		u := &User{
-			// Id: req.Username + "@" + req.Domain,
+			// Id: req.Username + "@" + req.organization,
 			Id: req.Username,
 			Meta: &Meta{
 				// Id:       req.Username + "-" + xid.New().String(),
-				// Id:       req.Username + "@" + req.Domain,
+				// Id:       req.Username + "@" + req.organization,
 				CreateAt: time.Now().Unix(),
 			},
 			Spec:     req,

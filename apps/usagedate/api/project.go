@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/emicklei/go-restful/v3"
+	authModel "github.com/kade-chen/google-billing-console/apps/common/model/auth"
 	model "github.com/kade-chen/google-billing-console/apps/common/model/usagedate"
 	"github.com/kade-chen/google-billing-console/tools/trances"
 	"github.com/kade-chen/library/exception"
@@ -9,11 +10,7 @@ import (
 )
 
 func (h *ApiHandler) byDatePojectHandler(r *restful.Request, w *restful.Response) {
-	// 生成唯一请求ID
-	trancesID := trances.NewTraceID()
-
-	// 注入 trances_id 到 context
-	r.Request = trances.NewTraceIDToRequest(r.Request, trancesID)
+	trancesID := r.Attribute("claims").(*authModel.TokenAuthMiddleware).TrancesID
 
 	h.log.Info().Msgf("trances_id=%s, The User begins calling the interface UsageDateByDatePojectAPI", trancesID)
 

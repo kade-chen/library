@@ -29,12 +29,12 @@ func (s *service) issuer_token(ctx context.Context, req *token.IssueTokenRequest
 	if err != nil {
 		return nil, err
 	}
-	access_token, _ := s.jwt.GeneratJwtAccessToken(int32(tk.Platform), tk.UserId, tk.IssueAt, tk.AccessExpiredAt, tk.Domain)
-	refresh_token, _ := s.jwt.GeneratJwtAccessToken(int32(tk.Platform), tk.UserId, tk.IssueAt, tk.RefreshExpiredAt, tk.Domain)
+	access_token, _ := s.jwt.GeneratJwtAccessToken(int32(tk.Platform), tk.UserId, tk.IssueAt, tk.AccessExpiredAt, tk.Organization)
+	refresh_token, _ := s.jwt.GeneratJwtAccessToken(int32(tk.Platform), tk.UserId, tk.IssueAt, tk.RefreshExpiredAt, tk.Organization)
 	tk.AccessToken = access_token
 	tk.RefreshToken = refresh_token
 
-	// 2.默认放到domain default
+	// 2.默认放到Organization default
 	tk.Namespace = namespace.DEFAULT_NAMESPACE
 
 	if !req.DryRun {
@@ -79,7 +79,7 @@ func (s *service) blockOtherWebToken(ctx context.Context, tk *token.Token) error
 		// 	ctx,
 		// 	bson.M{
 		// 		"platform": token.PLATFORM_WEB,
-		// 		"domain":   bson.M{"$eq": tk.Domain},
+		// 		"Organization":   bson.M{"$eq": tk.Organization},
 		// 		"_id":      tk.AccessToken,
 		// 		// "issue_at":        bson.M{"$lt": tk.IssueAt}, // 使用 $lte 小于等于
 		// 		"status.is_block": false,
@@ -105,15 +105,15 @@ func (s *service) blockOtherWebToken(ctx context.Context, tk *token.Token) error
 								AND username = @username
 								AND EXISTS (
 									SELECT 1
-									FROM UNNEST(domain) d
-									WHERE d IN UNNEST(@domain)
+									FROM UNNEST(organization) d
+									WHERE d IN UNNEST(@organization)
 								)
 							`, s.bqTableFull)
 		q := s.bq_client.Query(sql)
 		q.Parameters = []bigquery.QueryParameter{
 			{Name: "access_token", Value: tk.AccessToken},
 			{Name: "username", Value: tk.Username},
-			{Name: "domain", Value: tk.Domain},
+			{Name: "organization", Value: tk.Organization},
 		}
 
 		// BigQuery DELETE 不返回行数据，通过 JobStatus 获取影响行数

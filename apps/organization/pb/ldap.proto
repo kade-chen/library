@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package kade_chen.google_billing_console.domain;
+package kade_chen.google_billing_console.organization;
 
-option go_package = "github.com/kade-chen/google-billing-console/apps/domain";
+option go_package = "github.com/kade-chen/google-billing-console/apps/organization";
 
 
 message LdapConfig {

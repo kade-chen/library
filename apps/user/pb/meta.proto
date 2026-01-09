@@ -25,8 +25,8 @@ message Meta {
 
 message Scope {
     // 对象所在域
-    // @gotags: bson:"domain" json:"domain" bigquery:"domain"
-    string domain = 1;
+    // @gotags: bson:"organization" json:"organization" bigquery:"organization"
+    string organization = 1;
 
     // 对象所在空间
     // @gotags: bson:"namespace" json:"namespace" bigquery:"namespace"

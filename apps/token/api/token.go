@@ -11,6 +11,7 @@ import (
 	model "github.com/kade-chen/google-billing-console/apps/common/model/token"
 	"github.com/kade-chen/google-billing-console/apps/token"
 	tools "github.com/kade-chen/google-billing-console/tools/time"
+	"github.com/kade-chen/google-billing-console/tools/trances"
 	"github.com/kade-chen/library/exception"
 	"github.com/kade-chen/library/http/restful/response"
 )
@@ -63,6 +64,7 @@ func (h *tokenHandler) RevolkToken(r *restful.Request, w *restful.Response) {
 }
 
 func (h *tokenHandler) Validate_Token(r *restful.Request, w *restful.Response) {
+	traceID := trances.NewTraceID()
 	h.log.Info().Msg("validate token")
 	req := token.NewValidateTokenRequest()
 	if err := r.ReadEntity(req); err != nil {
@@ -70,7 +72,7 @@ func (h *tokenHandler) Validate_Token(r *restful.Request, w *restful.Response) {
 		return
 	}
 	//3.validate token
-	ins, err := h.jwt.ValicateToken(req.AccessToken)
+	ins, err := h.jwt.ValicateToken(traceID, req.AccessToken)
 	if err != nil {
 		switch {
 		case errors.Is(err, jwt.ErrTokenExpired):
@@ -97,7 +99,7 @@ func (h *tokenHandler) Validate_Token(r *restful.Request, w *restful.Response) {
 }
 
 func (h *tokenHandler) Refresh_Token(r *restful.Request, w *restful.Response) {
-
+	trancesID := trances.NewTraceID()
 	//1.获取cookis
 	refresh_token, err := r.Request.Cookie("CCK")
 	if err != nil {
@@ -110,7 +112,7 @@ func (h *tokenHandler) Refresh_Token(r *restful.Request, w *restful.Response) {
 		return
 	}
 	//2.验证refresh_token是否过期
-	tokenAuthMiddleware, err := h.jwt.ValicateToken(refresh_token.Value)
+	tokenAuthMiddleware, err := h.jwt.ValicateToken(trancesID, refresh_token.Value)
 	if err != nil {
 		switch {
 		case errors.Is(err, jwt.ErrTokenExpired):
@@ -132,7 +134,7 @@ func (h *tokenHandler) Refresh_Token(r *restful.Request, w *restful.Response) {
 	// fmt.Println("000000", endtime)
 	// _ = tokenAuthMiddleware.ExpiresAt
 	//3.获取access_token
-	jwtToken, err := h.jwt.JwtRefreshAccessToken(tokenAuthMiddleware.Platform, tokenAuthMiddleware.Subject, endtime, tokenAuthMiddleware.Domains)
+	jwtToken, err := h.jwt.JwtRefreshAccessToken(tokenAuthMiddleware.Platform, tokenAuthMiddleware.Subject, endtime, tokenAuthMiddleware.Organizations)
 	if err != nil {
 		response.Failed(w, err)
 		return

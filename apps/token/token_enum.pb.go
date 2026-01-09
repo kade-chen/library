@@ -43,7 +43,7 @@ func (t GRANT_TYPE) IsIn(targets ...GRANT_TYPE) bool {
 // 	return b.Bytes(), nil
 // }
 
-// UnmarshalJSON todo
+// // UnmarshalJSON todo
 // func (t *GRANT_TYPE) UnmarshalJSON(b []byte) error {
 // 	ins, err := ParseGRANT_TYPEFromString(string(b))
 // 	if err != nil {
@@ -88,7 +88,7 @@ func (t TOKEN_TYPE) IsIn(targets ...TOKEN_TYPE) bool {
 // 	return b.Bytes(), nil
 // }
 
-// UnmarshalJSON todo
+// // UnmarshalJSON todo
 // func (t *TOKEN_TYPE) UnmarshalJSON(b []byte) error {
 // 	ins, err := ParseTOKEN_TYPEFromString(string(b))
 // 	if err != nil {
@@ -133,7 +133,7 @@ func (t PLATFORM) IsIn(targets ...PLATFORM) bool {
 // 	return b.Bytes(), nil
 // }
 
-// UnmarshalJSON todo
+// // UnmarshalJSON todo
 // func (t *PLATFORM) UnmarshalJSON(b []byte) error {
 // 	ins, err := ParsePLATFORMFromString(string(b))
 // 	if err != nil {
@@ -178,7 +178,7 @@ func (t BLOCK_TYPE) IsIn(targets ...BLOCK_TYPE) bool {
 // 	return b.Bytes(), nil
 // }
 
-// UnmarshalJSON todo
+// // UnmarshalJSON todo
 // func (t *BLOCK_TYPE) UnmarshalJSON(b []byte) error {
 // 	ins, err := ParseBLOCK_TYPEFromString(string(b))
 // 	if err != nil {

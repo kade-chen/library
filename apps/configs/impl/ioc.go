@@ -25,18 +25,18 @@ func init() {
 
 type Service struct {
 	ioc.ObjectImpl
-	BQ                                     *bigquery.Client
-	log                                    *zerolog.Logger
-	Default_Project_ID                     string          `toml:"default_project_id" json:"default_project_id" yaml:"default_project_id"`
-	Default_Service_Account_Name           string          `toml:"default_service_account_name" json:"default_service_account_name" yaml:"default_service_account_name"`
-	GoogleBillingConsoleDataset            string          `toml:"google_billing_console_dataset" json:"google_billing_console_dataset" yaml:"google_billing_console_dataset"`
-	GoogleBillingConsoleDatasetTableUser   string          `toml:"google_billing_console_dataset_table_user" json:"google_billing_console_dataset_table_user" yaml:"google_billing_console_dataset_table_user"`
-	GoogleBillingConsoleDatasetTableDomain string          `toml:"google_billing_console_dataset_table_domain" json:"google_billing_console_dataset_table_domain" yaml:"google_billing_console_dataset_table_domain"`
-	GoogleBillingConsoleDatasetTableToken  string          `toml:"google_billing_console_dataset_table_token" json:"google_billing_console_dataset_table_token" yaml:"google_billing_console_dataset_table_token"`
-	JwtPublicPemFile                       string          `toml:"jwt_public_pem_file" json:"jwt_public_pem_file" yaml:"jwt_public_pem_file"`
-	JwtPrivatePemFile                      string          `toml:"jwt_private_pem_file" json:"jwt_private_pem_file" yaml:"jwt_private_pem_file"`
-	JwtPublicKey                           *rsa.PublicKey  `toml:"-" json:"-" yaml:"-"`
-	JwtPrivateKey                          *rsa.PrivateKey `toml:"-" json:"-" yaml:"-"`
+	BQ                                           *bigquery.Client
+	log                                          *zerolog.Logger
+	Default_Project_ID                           string          `toml:"default_project_id" json:"default_project_id" yaml:"default_project_id"`
+	Default_Service_Account_Name                 string          `toml:"default_service_account_name" json:"default_service_account_name" yaml:"default_service_account_name"`
+	GoogleBillingConsoleDataset                  string          `toml:"google_billing_console_dataset" json:"google_billing_console_dataset" yaml:"google_billing_console_dataset"`
+	GoogleBillingConsoleDatasetTableUser         string          `toml:"google_billing_console_dataset_table_user" json:"google_billing_console_dataset_table_user" yaml:"google_billing_console_dataset_table_user"`
+	GoogleBillingConsoleDatasetTableOrganization string          `toml:"google_billing_console_dataset_table_organization" json:"google_billing_console_dataset_table_organization" yaml:"google_billing_console_dataset_table_organization"`
+	GoogleBillingConsoleDatasetTableToken        string          `toml:"google_billing_console_dataset_table_token" json:"google_billing_console_dataset_table_token" yaml:"google_billing_console_dataset_table_token"`
+	JwtPublicPemFile                             string          `toml:"jwt_public_pem_file" json:"jwt_public_pem_file" yaml:"jwt_public_pem_file"`
+	JwtPrivatePemFile                            string          `toml:"jwt_private_pem_file" json:"jwt_private_pem_file" yaml:"jwt_private_pem_file"`
+	JwtPublicKey                                 *rsa.PublicKey  `toml:"-" json:"-" yaml:"-"`
+	JwtPrivateKey                                *rsa.PrivateKey `toml:"-" json:"-" yaml:"-"`
 }
 
 func (s *Service) Init() error {

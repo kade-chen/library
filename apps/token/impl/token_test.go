@@ -8,7 +8,7 @@ import (
 	"github.com/kade-chen/library/ioc"
 	// _ "github.com/kade-chen/mcenter/apps" //registry all impl/api
 	_ "github.com/kade-chen/google-billing-console/apps/auth/impl"
-	_ "github.com/kade-chen/google-billing-console/apps/domain/impl"
+	_ "github.com/kade-chen/google-billing-console/apps/organization/impl"
 	"github.com/kade-chen/google-billing-console/apps/token"
 	_ "github.com/kade-chen/google-billing-console/apps/token/impl"
 	_ "github.com/kade-chen/google-billing-console/apps/token/provider/all"
@@ -58,7 +58,7 @@ func Test_Revoke_Token(t *testing.T) {
 
 func Test_Validate_Token(t *testing.T) {
 	req := token.NewValidateTokenRequest()
-	req.AccessToken="KZd8hoMYnFDBP25HXswDJKwJ"
+	req.AccessToken = "KZd8hoMYnFDBP25HXswDJKwJ"
 	_, err := impl.ValicateToken(ctx, req)
 	if err != nil {
 		t.Fatal(err.Error())

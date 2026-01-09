@@ -33,7 +33,7 @@ func (s *service) CreateUser(ctx context.Context, req *user.CreateUserRequest) (
 	switch err := it.Next(user); err {
 	case iterator.Done:
 		s.log.Warn().Msg("user not exist")
-		s.log.Info().Msgf("create %v user...... %v", user.Spec.Username, user.Password.Password)
+		s.log.Info().Msgf("create %v user......", user.Spec.Username)
 		// 创建用户
 		// 根据结构体自动创建row
 		err := tools.BigQueryStructInsert(ctx, s.bq_table, user)
@@ -44,7 +44,7 @@ func (s *service) CreateUser(ctx context.Context, req *user.CreateUserRequest) (
 		// 没有查到
 		return user, nil
 	case nil:
-		s.log.Info().Msgf("domain %v already exist, Do not create duplicates.", user.Spec.Username)
+		s.log.Info().Msgf("Organization %v already exist, Do not create duplicates.", user.Spec.Username)
 		return nil, nil
 	default:
 		s.log.Error().Msgf("iterator error: %v", err)
@@ -66,10 +66,10 @@ func (s *service) DescribeUser(ctx context.Context, req *user.DescribeUserReques
 			{Name: "id", Value: req.Id},
 		}
 	case user.DESCRIBE_BY_USER_NAME:
-		sql = fmt.Sprintf(`SELECT * FROM %s WHERE spec.username = @name AND @domain IN UNNEST(spec.domain) LIMIT 1`, s.bqTableFull)
+		sql = fmt.Sprintf(`SELECT * FROM %s WHERE spec.username = @name AND @organization IN UNNEST(spec.organization) LIMIT 1`, s.bqTableFull)
 		params = []bigquery.QueryParameter{
 			{Name: "name", Value: req.Username},
-			{Name: "domain", Value: req.Domain},
+			{Name: "organization", Value: req.Organization},
 		}
 	// case user.DESCRIBE_BY_FEISHU_USER_ID:
 	// 	queryStr = fmt.Sprintf(`

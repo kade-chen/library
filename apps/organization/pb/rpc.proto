@@ -1,20 +1,20 @@
 syntax = "proto3";
 
-package kade_chen.google_billing_console.domain;
+package kade_chen.google_billing_console.organization;
 
-option go_package = "github.com/kade-chen/google-billing-console/apps/domain";
+option go_package = "github.com/kade-chen/google-billing-console/apps/organization";
 
-import "google-billing-console/apps/domain/pb/domain.proto";
+import "google-billing-console/apps/organization/pb/organization.proto";
 
 // Service 用户服务
 service RPC {
   // 查询域
-  rpc DescribeDomain(DescribeDomainRequest) returns (Domain);
+  rpc DescribeOrganization(DescribeOrganizationRequest) returns (Organization);
   // 查询域列表
-  rpc ListDoamin(ListDomainRequest) returns (DomainSet);
+  rpc ListOrganizations(ListOrganizationRequest) returns (OrganizationSet);
 }
-// DescribeDomainRequest 查询domain详情请求
-message DescribeDomainRequest {
+// DescribeOrganizationRequest 查询Organization详情请求
+message DescribeOrganizationRequest {
     // 查询方式
     // @gotags: json:"describe_by" bigquery:"describe_by"
     DESCRIBE_BY describe_by = 1;
@@ -35,15 +35,15 @@ enum DESCRIBE_BY {
     NAME = 1;
 }
 
-message ListDomainRequest {
+message ListOrganizationRequest {
     // 分页参数
     PageRequest page = 1;
 
-    // Domain 相关Id
+    // Organization 相关Id
     // @gotags: json:"ids" bigquery:"ids"
     repeated string ids = 2;
 
-    // Domain 相关Name
+    // Organization 相关Name
     // @gotags: json:"names" bigquery:"names"
     repeated string names = 3;
 }

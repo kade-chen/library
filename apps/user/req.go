@@ -11,7 +11,7 @@ import (
 // CreateUserRequest
 func NewCreateUserRequest() *CreateUserRequest {
 	return &CreateUserRequest{
-		// Domain: "kade-domain",
+		// Organization: "kade-organization",
 		// Labels:          map[string]string{},
 		Labels: &structpb.Struct{
 			// Fields: map[string]*structpb.Value{
@@ -51,9 +51,9 @@ func NewQueryUserRequest(req *QueryUserRequest) *QueryUserRequest {
 	if req == nil {
 		return &QueryUserRequest{
 			// Page:         NewPageRequest(20, 1),
-			Page:      &PageRequest{},
-			Domain:    []string{},
-			SkipItems: false,
+			Page:         &PageRequest{},
+			Organization: []string{},
+			SkipItems:    false,
 			Labels: &structpb.Struct{
 				Fields: map[string]*structpb.Value{
 					// "key1": structpb.NewStringValue("value1"),
@@ -110,16 +110,16 @@ func (r *QueryUserRequest) WhereSQL() (string, []bigquery.QueryParameter) {
 	conditions := []string{}
 	params := []bigquery.QueryParameter{}
 
-	// domain
-	if len(r.Domain) > 0 {
+	// organization
+	if len(r.Organization) > 0 {
 		conditions = append(conditions, `
         EXISTS (
             SELECT 1
-            FROM UNNEST(spec.domain) d
-            WHERE d IN UNNEST(@domain)
+            FROM UNNEST(spec.organization) d
+            WHERE d IN UNNEST(@organization)
         )
     `)
-		params = append(params, bigquery.QueryParameter{Name: "domain", Value: r.Domain})
+		params = append(params, bigquery.QueryParameter{Name: "organization", Value: r.Organization})
 	}
 
 	// provider

@@ -1,4 +1,4 @@
-package domain
+package organization
 
 import (
 	"time"
@@ -14,18 +14,18 @@ const (
 	DEFAULT_DOMAIN = "default"
 )
 
-func NewDomain(req *CreateDomainRequest) (*Domain, error) {
+func NewOrganization(req *CreateOrganizationRequest) (*Organization, error) {
 	if err := req.validate_strust(); err != nil {
 		return nil, exception.NewBadRequest("invalid request, ERROR: %s", err)
 	}
 
 	// 创建领域对象
-	d := &Domain{
+	d := &Organization{
 		Meta: NewMeta(),
 		Spec: req,
 	}
-	d.Id = req.Name
-	d.Id = hash.FnvHash(req.Name)
+	d.Id = req.SubOrganization
+	d.Id = hash.FnvHash(req.SubOrganization)
 	return d, nil
 }
 
@@ -37,9 +37,9 @@ func NewMeta() *Meta {
 	}
 }
 
-// NewCreateDomainRequest todo
-func NewCreateDomainRequest() *CreateDomainRequest {
-	return &CreateDomainRequest{
+// NewCreateOrganizationRequest todo
+func NewCreateOrganizationRequest() *CreateOrganizationRequest {
+	return &CreateOrganizationRequest{
 		PasswordConfig:  NewDefaulPasswordSecurity(),
 		LoginSecurity:   NewDefaultLoginSecurity(),
 		CodeConfig:      NewDefaultCodeSetting(),
@@ -98,16 +98,16 @@ func NewDefaultCodeSetting() *CodeSetting {
 	}
 }
 
-// create new default domain
-func NewDefaultDomain() *Domain {
-	return &Domain{
-		Spec: NewCreateDomainRequest(),
+// create new default Organization
+func NewDefaultOrganization() *Organization {
+	return &Organization{
+		Spec: NewCreateOrganizationRequest(),
 	}
 }
 
-// NewDescribeDomainRequest 查询详情请求
-func NewDescribeDomainRequestByName(name string) *DescribeDomainRequest {
-	return &DescribeDomainRequest{
+// NewDescribeOrganizationRequest 查询详情请求
+func NewDescribeOrganizationRequestByName(name string) *DescribeOrganizationRequest {
+	return &DescribeOrganizationRequest{
 		DescribeBy: DESCRIBE_BY_NAME,
 		Name:       name,
 	}

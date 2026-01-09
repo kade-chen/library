@@ -212,9 +212,9 @@ message Token {
   user.TYPE user_type = 7;
 
   // 用户当前域
-  // @gotags: bson:"domain" json:"domain" bigquery:"domain"
-  // string domain = 8;
-  repeated string domain = 8;
+  // @gotags: bson:"organization" json:"organization" bigquery:"organization"
+  // string organization = 8;
+  repeated string organization = 8;
 
   // 用户名
   // @gotags: bson:"username" json:"username" bigquery:"username"

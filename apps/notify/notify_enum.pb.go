@@ -35,7 +35,7 @@ func (t PROVIDER) IsIn(targets ...PROVIDER) bool {
 	return false
 }
 
-// // MarshalJSON todo
+// MarshalJSON todo
 // func (t PROVIDER) MarshalJSON() ([]byte, error) {
 // 	b := bytes.NewBufferString(`"`)
 // 	b.WriteString(strings.ToUpper(t.String()))
@@ -43,7 +43,7 @@ func (t PROVIDER) IsIn(targets ...PROVIDER) bool {
 // 	return b.Bytes(), nil
 // }
 
-// UnmarshalJSON todo
+// // UnmarshalJSON todo
 // func (t *PROVIDER) UnmarshalJSON(b []byte) error {
 // 	ins, err := ParsePROVIDERFromString(string(b))
 // 	if err != nil {
@@ -88,7 +88,7 @@ func (t NOTIFY_TYPE) IsIn(targets ...NOTIFY_TYPE) bool {
 // 	return b.Bytes(), nil
 // }
 
-// UnmarshalJSON todo
+// // UnmarshalJSON todo
 // func (t *NOTIFY_TYPE) UnmarshalJSON(b []byte) error {
 // 	ins, err := ParseNOTIFY_TYPEFromString(string(b))
 // 	if err != nil {

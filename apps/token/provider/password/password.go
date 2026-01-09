@@ -6,7 +6,7 @@ import (
 	"cloud.google.com/go/bigquery"
 	"github.com/kade-chen/google-billing-console/apps/configs"
 	"github.com/kade-chen/google-billing-console/apps/configs/impl"
-	"github.com/kade-chen/google-billing-console/apps/domain"
+	"github.com/kade-chen/google-billing-console/apps/organization"
 	"github.com/kade-chen/google-billing-console/apps/token"
 	"github.com/kade-chen/google-billing-console/apps/token/provider"
 	"github.com/kade-chen/google-billing-console/apps/user"
@@ -14,7 +14,6 @@ import (
 	"github.com/kade-chen/library/ioc"
 	"github.com/kade-chen/library/ioc/config/log"
 	"github.com/rs/zerolog"
-	"golang.org/x/sync/errgroup"
 )
 
 var (
@@ -30,16 +29,16 @@ func init() {
 }
 
 type password struct {
-	bq_client *bigquery.Client
-	user      user.Service
-	log       *zerolog.Logger
-	domain    domain.Service
+	bq_client    *bigquery.Client
+	user         user.Service
+	log          *zerolog.Logger
+	organization organization.Service
 }
 
 func (p *password) Init() error {
 	p.bq_client = ioc.Config().Get(configs.AppName).(*impl.Service).BQ
 	p.user = ioc.Controller().Get(user.AppName).(user.Service)
-	p.domain = ioc.Controller().Get(domain.AppName).(domain.Service)
+	p.organization = ioc.Controller().Get(organization.AppName).(organization.Service)
 	p.log = log.Sub("issuer_password_token")
 	return nil
 }
@@ -62,8 +61,8 @@ func (p *password) IssueToken(ctx context.Context, req *token.IssueTokenRequest)
 	// tk.Status.BlockAt = now.UnixMilli()
 	// tk.Status.BlockReason = fmt.Sprintf("你于 %s 从其他地方通过 %s 登录", time.Now().Format(time.RFC3339), tk.GrantType)
 	// tk.Status.BlockType = token.BLOCK_TYPE_OTHER_PLACE_LOGGED_IN
-	// tk.Domain = u.Spec.Domain
-	tk.Domain = u.Spec.Domain
+	// tk.organization = u.Spec.organization
+	tk.Organization = u.Spec.Organization
 	tk.SharedUser = u.Spec.Shared
 	tk.Username = u.Spec.Username
 	tk.UserType = u.Spec.Type
@@ -98,26 +97,51 @@ func (p *password) validate(ctx context.Context, username, password string) (*us
 	case user.TYPE_SUB:
 		p.log.Info().Msg("sub account")
 		// 子账号过期策略
-		g, ctx := errgroup.WithContext(ctx)
-		for _, v := range u.Spec.Domain {
-			domainName := v // ⚠️ 必须拷贝
-			g.Go(func() error {
-				d, err := p.domain.DescribeDomain(ctx, domain.NewDescribeDomainRequestByName(domainName))
-				if err != nil {
-					return err
-				}
+		// g, ctx := errgroup.WithContext(ctx)
 
-				ps := d.Spec.PasswordConfig
-
-				// ⚠️ 如果多个 domain 不同，这里“最后一个赢”
-				//BeforeExpiredRemindDays=10  password_expired_days=90
-				expiredRemain, expiredDays = uint(ps.BeforeExpiredRemindDays), uint(ps.PasswordExpiredDays)
-				return nil
-			})
-		}
-		if err := g.Wait(); err != nil {
+		OrganizationSet, err := p.organization.ListOrganizations(ctx, &organization.ListOrganizationRequest{
+			Page:  &organization.PageRequest{},
+			Names: u.Spec.Organization,
+		})
+		if err != nil {
 			return nil, err
 		}
+		if OrganizationSet.Total != int64(len(u.Spec.Organization)) {
+			// 用返回结果重新构造 Organization 列表
+			orgs := make([]string, 0, len(OrganizationSet.Items))
+			for _, org := range OrganizationSet.Items {
+				orgs = append(orgs, org.Spec.SubOrganization)
+			}
+			u.Spec.Organization = orgs
+		}
+		// fmt.Println(format.ToJSON(OrganizationSet.Items[0]))
+		ps := OrganizationSet.Items[0].Spec.PasswordConfig
+		expiredRemain, expiredDays = uint(ps.BeforeExpiredRemindDays), uint(ps.PasswordExpiredDays)
+		// return nil, err
+
+		// for _, v := range u.Spec.Organization {
+		// 	organizationName := v // ⚠️ 必须拷贝
+		// 	p.organization.ListOrganizations(ctx, &organization.ListOrganizationRequest{
+		// 		Page:  &organization.PageRequest{},
+		// 		Names: []string{"wondercloud.com", "test322.com"},
+		// 	})
+		// 	g.Go(func() error {
+		// 		d, err := p.organization.DescribeOrganization(ctx, organization.NewDescribeOrganizationRequestByName(organizationName))
+		// 		if err != nil {
+		// 			return err
+		// 		}
+
+		// 		ps := d.Spec.PasswordConfig
+
+		// 		// ⚠️ 如果多个 organization 不同，这里“最后一个赢”
+		// 		//BeforeExpiredRemindDays=10  password_expired_days=90
+		// 		expiredRemain, expiredDays = uint(ps.BeforeExpiredRemindDays), uint(ps.PasswordExpiredDays)
+		// 		return nil
+		// 	})
+		// }
+		// if err := g.Wait(); err != nil {
+		// 	return nil, err
+		// }
 	case user.TYPE_PRIMARY:
 		p.log.Info().Msg("primary user")
 		return u, nil

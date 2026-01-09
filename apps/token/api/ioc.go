@@ -4,6 +4,7 @@ import (
 	restfulspec "github.com/emicklei/go-restful-openapi/v2"
 	"github.com/emicklei/go-restful/v3"
 	"github.com/kade-chen/google-billing-console/apps/auth"
+	authModel "github.com/kade-chen/google-billing-console/apps/common/model/auth"
 	model "github.com/kade-chen/google-billing-console/apps/common/model/token"
 	"github.com/kade-chen/google-billing-console/apps/token"
 	"github.com/kade-chen/library/ioc"
@@ -21,6 +22,7 @@ type tokenHandler struct {
 	log     *zerolog.Logger
 	jwt     auth.Service
 	// token.UnimplementedRPCServer
+	auth authModel.TokenAuthMiddleware
 	ioc.ObjectImpl
 }
 

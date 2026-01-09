@@ -36,7 +36,7 @@ type service struct {
 	// policy  policy.Service
 	// ns      namespace.Service
 	// checker security.Checker
-	// domain  domain.Service
+	// organization  organization.Service
 	// notify  notify.Service
 }
 
@@ -51,7 +51,7 @@ func (s *service) Init() error {
 
 	// s.ns = ioc.Controller().Get(namespace.AppName).(namespace.Service)
 	// s.policy = ioc.Controller().Get(policy.AppName).(policy.Service)
-	// s.domain = ioc.Controller().Get(domain.AppName).(domain.Service)
+	// s.organization = ioc.Controller().Get(organization.AppName).(organization.Service)
 	// s.notify = ioc.Controller().Get(notify.AppName).(notify.Service)
 
 	// s.checker, err = security.NewChecker()

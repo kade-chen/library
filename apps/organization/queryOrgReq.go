@@ -1,4 +1,4 @@
-package domain
+package organization
 
 import (
 	"strings"
@@ -6,10 +6,10 @@ import (
 	"cloud.google.com/go/bigquery"
 )
 
-// new QueryDomainRequest request
-func NewListDomainRequest(req *ListDomainRequest) *ListDomainRequest {
+// new QueryOrganizationRequest request
+func NewListOrganizationRequest(req *ListOrganizationRequest) *ListOrganizationRequest {
 	if req == nil {
-		return &ListDomainRequest{
+		return &ListOrganizationRequest{
 			// Page:         NewPageRequest(20, 1),
 			Page: &PageRequest{},
 		}
@@ -20,17 +20,17 @@ func NewListDomainRequest(req *ListDomainRequest) *ListDomainRequest {
 	return req
 }
 
-func NewDomainSet() *DomainSet {
-	return &DomainSet{
-		Items: []*Domain{},
+func NewOrganizationSet() *OrganizationSet {
+	return &OrganizationSet{
+		Items: []*Organization{},
 	}
 }
 
-func (u *DomainSet) Add(item *Domain) {
+func (u *OrganizationSet) Add(item *Organization) {
 	u.Items = append(u.Items, item)
 }
 
-func (r *ListDomainRequest) PageSQL() (string, []bigquery.QueryParameter) {
+func (r *ListOrganizationRequest) PageSQL() (string, []bigquery.QueryParameter) {
 	conditions := []string{}
 	params := []bigquery.QueryParameter{}
 
@@ -52,14 +52,14 @@ func (r *ListDomainRequest) PageSQL() (string, []bigquery.QueryParameter) {
 	return strings.Join(conditions, " "), params
 }
 
-func (r *ListDomainRequest) WhereSQL() (string, []bigquery.QueryParameter) {
+func (r *ListOrganizationRequest) WhereSQL() (string, []bigquery.QueryParameter) {
 	conditions := []string{}
 	params := []bigquery.QueryParameter{}
 
-	// domain
+	// Organization
 	if len(r.Names) > 0 {
-		conditions = append(conditions, `spec.name IN UNNEST(@domain)`)
-		params = append(params, bigquery.QueryParameter{Name: "domain", Value: r.Names})
+		conditions = append(conditions, `spec.sub_organization IN UNNEST(@Organization)`)
+		params = append(params, bigquery.QueryParameter{Name: "Organization", Value: r.Names})
 	}
 
 	if len(conditions) == 0 {

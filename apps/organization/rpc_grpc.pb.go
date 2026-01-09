@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             v5.28.3
-// source: google-billing-console/apps/domain/pb/rpc.proto
+// source: google-billing-console/apps/organization/pb/rpc.proto
 
-package domain
+package organization
 
 import (
 	context "context"
@@ -19,8 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	RPC_DescribeDomain_FullMethodName = "/kade_chen.google_billing_console.domain.RPC/DescribeDomain"
-	RPC_ListDoamin_FullMethodName     = "/kade_chen.google_billing_console.domain.RPC/ListDoamin"
+	RPC_DescribeOrganization_FullMethodName = "/kade_chen.google_billing_console.organization.RPC/DescribeOrganization"
+	RPC_ListOrganizations_FullMethodName    = "/kade_chen.google_billing_console.organization.RPC/ListOrganizations"
 )
 
 // RPCClient is the client API for RPC service.
@@ -28,9 +28,9 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type RPCClient interface {
 	// 查询域
-	DescribeDomain(ctx context.Context, in *DescribeDomainRequest, opts ...grpc.CallOption) (*Domain, error)
+	DescribeOrganization(ctx context.Context, in *DescribeOrganizationRequest, opts ...grpc.CallOption) (*Organization, error)
 	// 查询域列表
-	ListDoamin(ctx context.Context, in *ListDomainRequest, opts ...grpc.CallOption) (*DomainSet, error)
+	ListOrganizations(ctx context.Context, in *ListOrganizationRequest, opts ...grpc.CallOption) (*OrganizationSet, error)
 }
 
 type rPCClient struct {
@@ -41,18 +41,18 @@ func NewRPCClient(cc grpc.ClientConnInterface) RPCClient {
 	return &rPCClient{cc}
 }
 
-func (c *rPCClient) DescribeDomain(ctx context.Context, in *DescribeDomainRequest, opts ...grpc.CallOption) (*Domain, error) {
-	out := new(Domain)
-	err := c.cc.Invoke(ctx, RPC_DescribeDomain_FullMethodName, in, out, opts...)
+func (c *rPCClient) DescribeOrganization(ctx context.Context, in *DescribeOrganizationRequest, opts ...grpc.CallOption) (*Organization, error) {
+	out := new(Organization)
+	err := c.cc.Invoke(ctx, RPC_DescribeOrganization_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *rPCClient) ListDoamin(ctx context.Context, in *ListDomainRequest, opts ...grpc.CallOption) (*DomainSet, error) {
-	out := new(DomainSet)
-	err := c.cc.Invoke(ctx, RPC_ListDoamin_FullMethodName, in, out, opts...)
+func (c *rPCClient) ListOrganizations(ctx context.Context, in *ListOrganizationRequest, opts ...grpc.CallOption) (*OrganizationSet, error) {
+	out := new(OrganizationSet)
+	err := c.cc.Invoke(ctx, RPC_ListOrganizations_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -64,9 +64,9 @@ func (c *rPCClient) ListDoamin(ctx context.Context, in *ListDomainRequest, opts 
 // for forward compatibility
 type RPCServer interface {
 	// 查询域
-	DescribeDomain(context.Context, *DescribeDomainRequest) (*Domain, error)
+	DescribeOrganization(context.Context, *DescribeOrganizationRequest) (*Organization, error)
 	// 查询域列表
-	ListDoamin(context.Context, *ListDomainRequest) (*DomainSet, error)
+	ListOrganizations(context.Context, *ListOrganizationRequest) (*OrganizationSet, error)
 	mustEmbedUnimplementedRPCServer()
 }
 
@@ -74,11 +74,11 @@ type RPCServer interface {
 type UnimplementedRPCServer struct {
 }
 
-func (UnimplementedRPCServer) DescribeDomain(context.Context, *DescribeDomainRequest) (*Domain, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeDomain not implemented")
+func (UnimplementedRPCServer) DescribeOrganization(context.Context, *DescribeOrganizationRequest) (*Organization, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeOrganization not implemented")
 }
-func (UnimplementedRPCServer) ListDoamin(context.Context, *ListDomainRequest) (*DomainSet, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListDoamin not implemented")
+func (UnimplementedRPCServer) ListOrganizations(context.Context, *ListOrganizationRequest) (*OrganizationSet, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListOrganizations not implemented")
 }
 func (UnimplementedRPCServer) mustEmbedUnimplementedRPCServer() {}
 
@@ -93,38 +93,38 @@ func RegisterRPCServer(s grpc.ServiceRegistrar, srv RPCServer) {
 	s.RegisterService(&RPC_ServiceDesc, srv)
 }
 
-func _RPC_DescribeDomain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeDomainRequest)
+func _RPC_DescribeOrganization_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeOrganizationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RPCServer).DescribeDomain(ctx, in)
+		return srv.(RPCServer).DescribeOrganization(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: RPC_DescribeDomain_FullMethodName,
+		FullMethod: RPC_DescribeOrganization_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RPCServer).DescribeDomain(ctx, req.(*DescribeDomainRequest))
+		return srv.(RPCServer).DescribeOrganization(ctx, req.(*DescribeOrganizationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _RPC_ListDoamin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListDomainRequest)
+func _RPC_ListOrganizations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListOrganizationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RPCServer).ListDoamin(ctx, in)
+		return srv.(RPCServer).ListOrganizations(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: RPC_ListDoamin_FullMethodName,
+		FullMethod: RPC_ListOrganizations_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RPCServer).ListDoamin(ctx, req.(*ListDomainRequest))
+		return srv.(RPCServer).ListOrganizations(ctx, req.(*ListOrganizationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -133,18 +133,18 @@ func _RPC_ListDoamin_Handler(srv interface{}, ctx context.Context, dec func(inte
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var RPC_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "kade_chen.google_billing_console.domain.RPC",
+	ServiceName: "kade_chen.google_billing_console.organization.RPC",
 	HandlerType: (*RPCServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "DescribeDomain",
-			Handler:    _RPC_DescribeDomain_Handler,
+			MethodName: "DescribeOrganization",
+			Handler:    _RPC_DescribeOrganization_Handler,
 		},
 		{
-			MethodName: "ListDoamin",
-			Handler:    _RPC_ListDoamin_Handler,
+			MethodName: "ListOrganizations",
+			Handler:    _RPC_ListOrganizations_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "google-billing-console/apps/domain/pb/rpc.proto",
+	Metadata: "google-billing-console/apps/organization/pb/rpc.proto",
 }

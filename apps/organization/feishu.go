@@ -1,4 +1,4 @@
-package domain
+package organization
 
 // NewDefaultConfig represents the default LDAP config.
 func NewDefaultFeishuConfig() *FeishuConfig {

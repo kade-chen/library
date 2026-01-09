@@ -43,7 +43,7 @@ func (t TYPE) IsIn(targets ...TYPE) bool {
 // 	return b.Bytes(), nil
 // }
 
-// UnmarshalJSON todo
+// // UnmarshalJSON todo
 // func (t *TYPE) UnmarshalJSON(b []byte) error {
 // 	ins, err := ParseTYPEFromString(string(b))
 // 	if err != nil {
@@ -80,7 +80,7 @@ func (t PROVIDER) IsIn(targets ...PROVIDER) bool {
 	return false
 }
 
-// // MarshalJSON todo
+// MarshalJSON todo
 // func (t PROVIDER) MarshalJSON() ([]byte, error) {
 // 	b := bytes.NewBufferString(`"`)
 // 	b.WriteString(strings.ToUpper(t.String()))
@@ -88,7 +88,7 @@ func (t PROVIDER) IsIn(targets ...PROVIDER) bool {
 // 	return b.Bytes(), nil
 // }
 
-// UnmarshalJSON todo
+// // UnmarshalJSON todo
 // func (t *PROVIDER) UnmarshalJSON(b []byte) error {
 // 	ins, err := ParsePROVIDERFromString(string(b))
 // 	if err != nil {
@@ -125,7 +125,7 @@ func (t CREATE_FROM) IsIn(targets ...CREATE_FROM) bool {
 	return false
 }
 
-// // MarshalJSON todo
+// MarshalJSON todo
 // func (t CREATE_FROM) MarshalJSON() ([]byte, error) {
 // 	b := bytes.NewBufferString(`"`)
 // 	b.WriteString(strings.ToUpper(t.String()))
@@ -133,7 +133,7 @@ func (t CREATE_FROM) IsIn(targets ...CREATE_FROM) bool {
 // 	return b.Bytes(), nil
 // }
 
-// UnmarshalJSON todo
+// // UnmarshalJSON todo
 // func (t *CREATE_FROM) UnmarshalJSON(b []byte) error {
 // 	ins, err := ParseCREATE_FROMFromString(string(b))
 // 	if err != nil {
@@ -170,7 +170,7 @@ func (t Gender) IsIn(targets ...Gender) bool {
 	return false
 }
 
-// // MarshalJSON todo
+// MarshalJSON todo
 // func (t Gender) MarshalJSON() ([]byte, error) {
 // 	b := bytes.NewBufferString(`"`)
 // 	b.WriteString(strings.ToUpper(t.String()))
@@ -178,7 +178,7 @@ func (t Gender) IsIn(targets ...Gender) bool {
 // 	return b.Bytes(), nil
 // }
 
-// UnmarshalJSON todo
+// // UnmarshalJSON todo
 // func (t *Gender) UnmarshalJSON(b []byte) error {
 // 	ins, err := ParseGenderFromString(string(b))
 // 	if err != nil {
