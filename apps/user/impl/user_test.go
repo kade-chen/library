@@ -21,9 +21,9 @@ var (
 // create user
 func TestCreateUser(t *testing.T) {
 	u, err := impl.CreateUser(ctx, &user.CreateUserRequest{
-		Username:     "kade@wondercloud.com",
+		Username:     "kelly@wondercloud.com",
 		Password:     "123456",
-		Organization: []string{"test-wondercloud.com", "test.com"},
+		Organization: []string{"WONDERCLOUD_TEST", "test.com"},
 		// Type:     user.TYPE_SUPPER,
 		Labels: &structpb.Struct{
 			Fields: map[string]*structpb.Value{
@@ -43,7 +43,7 @@ func TestDescribeUser(t *testing.T) {
 	// req.Id = "kadeqq11111"
 
 	req.DescribeBy = user.DESCRIBE_BY_USER_NAME
-	req.Organization = "test-wondercloud.com"
+	req.Organization = "WONDERCLOUD_TEST"
 	req.Username = "kade@wondercloud.com"
 	a, err := impl.DescribeUser(ctx, req)
 	if err != nil {

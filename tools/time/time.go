@@ -13,6 +13,14 @@ func PartitionTime(StartDate, EndDate string) (PartitionStartTime, PartitionEndT
 	return start.AddDate(0, 0, -2).Format(layout), end.AddDate(0, 0, 2).Format(layout)
 }
 
+func CustomPartitionTime(StartDate, EndDate string, days int) (PartitionStartTime, PartitionEndTime string) {
+	// 解析成 time.Time
+	layout := "2006-01-02"
+	start, _ := time.Parse(layout, StartDate)
+	end, _ := time.Parse(layout, EndDate)
+	return start.AddDate(0, 0, -days).Format(layout), end.AddDate(0, 0, days).Format(layout)
+}
+
 // func InvoiceMonthPartitionTime(startStr, endStr string) (string, string, error) {
 // 	// 1. 解析 YYYYMM → time.Time（默认取每月1号）
 // 	start, err := time.Parse("200601", startStr)

@@ -31,7 +31,7 @@ func (s *service) queryByDateProjectSUSQ1L(table string) (sql string) {
 		  %v
 		WHERE
 		  DATE(DATETIME(TIMESTAMP(usage_start_time), "America/Los_Angeles")) BETWEEN @start_date AND @end_date
-		  AND usage_start_time BETWEEN TIMESTAMP(@start_date) AND TIMESTAMP(@end_date)
+		  AND usage_start_time BETWEEN TIMESTAMP(@PartitionStartTime) AND TIMESTAMP(@PartitionEndTime)
 		  AND project.id IN UNNEST(@project_ids)
 		GROUP BY
 		  service_id

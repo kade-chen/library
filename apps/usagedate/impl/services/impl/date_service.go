@@ -19,6 +19,7 @@ func (s *service) QueryByDateProjectServicesAll(ctx context.Context, config *mod
 	// 	ctx = context.WithValue(context.Background(), "trances_id", trances.NewTraceID())
 	// }
 	trancesID := ctx.Value("claims").(*authModel.TokenAuthMiddleware).TrancesID
+	// trancesID := trances.NewTraceID()
 	s.log.Info().Msgf("trances_id=%s, The User begins Query for UsageDateByDatesServiceSkusAPI", trancesID)
 	// 构造查询
 	s.log.Info().Msgf("trances_id=%s, Retrieving initialization SQL......", trancesID)
@@ -28,15 +29,15 @@ func (s *service) QueryByDateProjectServicesAll(ctx context.Context, config *mod
 	q := s.bq.Query(sql)
 	s.log.Info().Msgf("trances_id=%s, Configuring query parameters......", trancesID)
 
-	partitionStartTime, partitionEndTime := tools.PartitionTime(config.StartDate, config.EndDate)
+	partitionStartTime, partitionEndTime := tools.CustomPartitionTime(config.StartDate, config.EndDate, 1)
 	s.log.Info().Msgf("trances_id=%s, start_date=%v, end_date=%v, PartitionStartTime=%v, PartitionEndTime=%v", trancesID, config.StartDate, config.EndDate, partitionStartTime, partitionEndTime)
 
 	// 绑定参数
 	params := []bigquery.QueryParameter{
 		{Name: "start_date", Value: config.StartDate},
 		{Name: "end_date", Value: config.EndDate},
-		// {Name: "PartitionStartTime", Value: partitionStartTime},
-		// {Name: "PartitionEndTime", Value: partitionEndTime},
+		{Name: "PartitionStartTime", Value: partitionStartTime},
+		{Name: "PartitionEndTime", Value: partitionEndTime},
 	}
 
 	s.log.Info().Msgf("trances_id=%s, Retrieving project_ids......", trancesID)

@@ -2,7 +2,6 @@ package impl
 
 import (
 	"context"
-	"fmt"
 	"math"
 
 	"cloud.google.com/go/bigquery"
@@ -10,7 +9,6 @@ import (
 	tools "github.com/kade-chen/google-billing-console/tools/time"
 	"github.com/kade-chen/google-billing-console/tools/trances"
 	"github.com/kade-chen/library/exception"
-	"github.com/kade-chen/library/tools/format"
 	"google.golang.org/api/iterator"
 )
 
@@ -222,7 +220,6 @@ func (s *service) QueryByDateProjectAllServicesAllSkus(ctx context.Context, conf
 	if err != nil {
 		return model.ByDateProjectAllServicesSkusList{}, err
 	}
-	fmt.Println(format.ToJSON(a))
 	// fmt.Println(format.ToJSON(a))
 	// b, err := s.skus.QueryByDateProjectSKUsAll(ctx, config)
 	// // _ = b

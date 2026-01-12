@@ -20,9 +20,20 @@ var (
 	impl usagedate.Service
 )
 
-func TestMain1(t *testing.T) {
+func TestQueryByDateProjectServicesAll(t *testing.T) {
 	fmt.Println(ioc.Controller().List())
-	a, _ := impl.QueryByDateProjectServicesAll(ctx, &model.ProjectDataServiceSkusRequest{})
+	// ctx := context.WithValue(ctx, "claims", authModel.TokenAuthMiddleware{
+	// 	TrancesID: "xxxxx",
+	// })
+	a, err := impl.QueryByDateProjectServicesAll(ctx, &model.ProjectDataServiceSkusRequest{
+		StartDate:           "2025-12-01",
+		EndDate:             "2025-12-02",
+		ProjectIDs:          []string{"tools-orion", "chat-prod-404613", "sw-pro-01", "ffalcon-hw-01"},
+		OrganizationBqTable: "vandorcloud-billing-check.customers_billing_test.customer_wondercloud_billing_console_test",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
 	fmt.Println(format.ToJSON(a))
 }
 
