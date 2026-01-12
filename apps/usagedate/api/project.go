@@ -1,6 +1,7 @@
 package api
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/emicklei/go-restful/v3"
@@ -175,8 +176,8 @@ func (h *ApiHandler) bySkuHandler(r *restful.Request, w *restful.Response) {
 }
 
 func (h *ApiHandler) byAllServicesAllSkusHandler(r *restful.Request, w *restful.Response) {
+	ctx := context.WithValue(r.Request.Context(), "claims", r.Attribute("claims").(*authModel.TokenAuthMiddleware))
 	trancesID := r.Attribute("claims").(*authModel.TokenAuthMiddleware).TrancesID
-
 	h.log.Info().Msgf("trances_id=%s, The User begins calling the interface UsageDateByServicesSkusAPI", trancesID)
 
 	//2.read the request body parametars
@@ -187,15 +188,15 @@ func (h *ApiHandler) byAllServicesAllSkusHandler(r *restful.Request, w *restful.
 		return
 	}
 
-	fmt.Println("-----", config.BqTable)
-	// a, err := h.project.QueryByDateProjectAllServicesAllSkus(r.Request.Context(), config)
-	// if err != nil {
-	// 	h.log.Error().Msgf("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err)
-	// 	response.Failed(w, err)
-	// 	return
-	// }
+	fmt.Println("-----", config.OrganizationBqTable)
+	a, err := h.project.QueryByDateProjectAllServicesAllSkus(ctx, config)
+	if err != nil {
+		h.log.Error().Msgf("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err)
+		response.Failed(w, err)
+		return
+	}
 	h.log.Info().Msgf("trances_id=%s, The User calling the interface Successful for UsageDateByServicesSkusAPI ✅", trancesID)
-	// response.Success(w, a)
+	response.Success(w, a)
 }
 
 func (h *ApiHandler) byAllLabelKeyHandler(r *restful.Request, w *restful.Response) {

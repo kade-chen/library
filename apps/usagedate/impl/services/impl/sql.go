@@ -1,5 +1,7 @@
 package impl
 
+import "fmt"
+
 // 3.51 GB/0 sec
 func (s *service) queryByDateProjectSUSQL() (sql string) {
 	sql = `
@@ -17,4 +19,22 @@ func (s *service) queryByDateProjectSUSQL() (sql string) {
 		  service_id
 			`
 	return sql
+}
+
+func (s *service) queryByDateProjectSUSQ1L(table string) (sql string) {
+	sql = `
+		SELECT
+		  service.id AS service_id,
+		  ANY_VALUE(service.description) AS service_description,
+		  CONCAT('services/', service.id) AS service_path,
+		FROM
+		  %v
+		WHERE
+		  DATE(DATETIME(TIMESTAMP(usage_start_time), "America/Los_Angeles")) BETWEEN @start_date AND @end_date
+		  AND usage_start_time BETWEEN TIMESTAMP(@start_date) AND TIMESTAMP(@end_date)
+		  AND project.id IN UNNEST(@project_ids)
+		GROUP BY
+		  service_id
+			`
+	return fmt.Sprintf(sql, table)
 }

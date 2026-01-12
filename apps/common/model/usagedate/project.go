@@ -3,10 +3,10 @@ package usagedate
 import "cloud.google.com/go/bigquery"
 
 type ProjectDataServiceSkusRequest struct {
-	StartDate  string   `json:"start_date"`
-	EndDate    string   `json:"end_date"`
-	ProjectIDs []string `json:"project_ids"`
-	BqTable    string   `json:"bq_table"`
+	StartDate           string   `json:"start_date"`
+	EndDate             string   `json:"end_date"`
+	ProjectIDs          []string `json:"project_ids"`
+	OrganizationBqTable string   `json:"organization_bq_table"`
 }
 
 func NewProjectDataServiceSkusRequest() *ProjectDataServiceSkusRequest {

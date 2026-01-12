@@ -51,6 +51,9 @@ message OrganizationDetail {
   // 组织id，用于拼接bq表名
   // @gotags: bson:"organization_id" json:"organization_id"  bigquery:"organization_id"
   string organization_id = 24;
+  // 组织bq表名，不用拼接
+  // @gotags: bson:"organization_bq_table" json:"organization_bq_table"  bigquery:"organization_bq_table"
+  string organization_bq_table = 27;
   // project列表，组织下的project
   // @gotags: bson:"project_id" json:"project_id"  bigquery:"project_id"
   repeated string project_id = 25;
