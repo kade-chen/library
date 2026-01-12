@@ -23,7 +23,7 @@ func (s *service) QueryByDateProjectServicesAll(ctx context.Context, config *mod
 	s.log.Info().Msgf("trances_id=%s, The User begins Query for UsageDateByDatesServiceSkusAPI", trancesID)
 	// 构造查询
 	s.log.Info().Msgf("trances_id=%s, Retrieving initialization SQL......", trancesID)
-	sql := s.queryByDateProjectSUSQ1L(config.OrganizationBqTable)
+	sql := s.queryByDateProjectServiceSQL1(config.OrganizationBqTable)
 	s.log.Info().Msgf("trances_id=%s, Retrieving initialization SQL successful", trancesID)
 
 	q := s.bq.Query(sql)

@@ -21,7 +21,7 @@ func (s *service) queryByDateProjectSUSQL() (sql string) {
 	return sql
 }
 
-func (s *service) queryByDateProjectSUSQ1L(table string) (sql string) {
+func (s *service) queryByDateProjectServiceSQL1(table string) (sql string) {
 	sql = `
 		SELECT
 		  service.id AS service_id,
