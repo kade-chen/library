@@ -66,7 +66,7 @@ func Failed(w http.ResponseWriter, err error, opts ...Option) {
 
 // Success use to response success data
 func Success(w http.ResponseWriter, data interface{}, opts ...Option) {
-	c := 0
+	c := 200
 	resp := Data{
 		Code:    &c,
 		Message: "",
