@@ -221,13 +221,13 @@ func (s *service) QueryByDateProjectAllServicesAllSkus(ctx context.Context, conf
 		return model.ByDateProjectAllServicesSkusList{}, err
 	}
 	// fmt.Println(format.ToJSON(a))
-	b, err := s.skus.QueryByDateProjectSKUsAll(ctx, config)
-	// _ = b
-	if err != nil {
-		return model.ByDateProjectAllServicesSkusList{}, err
-	}
+	// b, err := s.skus.QueryByDateProjectSKUsAll(ctx, config)
+	// // _ = b
+	// if err != nil {
+	// 	return model.ByDateProjectAllServicesSkusList{}, err
+	// }
 	return model.ByDateProjectAllServicesSkusList{
 		Services: a,
-		Skus:     b,
+		// Skus:     b,
 	}, nil
 }

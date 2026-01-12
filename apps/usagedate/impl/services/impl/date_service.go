@@ -14,9 +14,9 @@ import (
 
 // 查询全部service 列表
 func (s *service) QueryByDateProjectServicesAll(ctx context.Context, config *model.ProjectDataServiceSkusRequest) ([]model.ServicesList, error) {
-	if ctx.Value("trances_id") == nil {
-		ctx = context.WithValue(context.Background(), "trances_id", trances.NewTraceID())
-	}
+	// if ctx.Value("trances_id") == nil {
+	// 	ctx = context.WithValue(context.Background(), "trances_id", trances.NewTraceID())
+	// }
 	s.log.Info().Msgf("trances_id=%s, The User begins Query for UsageDateByDatesServiceSkusAPI", ctx.Value("trances_id"))
 	// 构造查询
 	s.log.Info().Msgf("trances_id=%s, Retrieving initialization SQL......", ctx.Value("trances_id"))

@@ -38,14 +38,8 @@ message Meta {
   string update_by = 4;
 }
 
-message CreateOrganizationRequest {
-  // 域状态, 是否需要冻结该域, 冻结时, 该域下面所有用户禁止登录
-  // @gotags: bson:"enabled" json:"enabled" bigquery:"enabled"
-  bool enabled = 1;
-  // 归属人
-  // @gotags: bson:"owner" json:"owner" bigquery:"owner"
-  string owner = 2;
-  // 顶级组织
+message OrganizationDetail {
+    // 顶级组织
   // @gotags: bson:"root_organization" json:"root_organization"  bigquery:"root_organization"
   string root_organization = 22;
   // 组织
@@ -63,6 +57,18 @@ message CreateOrganizationRequest {
   // 组织联系邮箱
   // @gotags: bson:"organization_contact_emails" json:"organization_contact_emails"  bigquery:"organization_contact_emails"
   repeated string organization_contact_emails = 26;
+}
+
+message CreateOrganizationRequest {
+  // WechatWorkConfig 域关联的企业微信设置
+  // @gotags: bson:"organization_detail" json:"organization_detail" bigquery:"organization_detail"
+  OrganizationDetail organization_detail = 22;
+  // 域状态, 是否需要冻结该域, 冻结时, 该域下面所有用户禁止登录
+  // @gotags: bson:"enabled" json:"enabled" bigquery:"enabled"
+  bool enabled = 1;
+  // 归属人
+  // @gotags: bson:"owner" json:"owner" bigquery:"owner"
+  string owner = 2;
   // 公司LOGO图片的URL
   // @gotags: bson:"logo_path" json:"logo_path" bigquery:"logo_path"
   string logo_path = 4;

@@ -6,6 +6,7 @@ type ProjectDataServiceSkusRequest struct {
 	StartDate  string   `json:"start_date"`
 	EndDate    string   `json:"end_date"`
 	ProjectIDs []string `json:"project_ids"`
+	BqTable    string   `json:"bq_table"`
 }
 
 func NewProjectDataServiceSkusRequest() *ProjectDataServiceSkusRequest {

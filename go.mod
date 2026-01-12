@@ -10,7 +10,7 @@ require (
 	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/go-playground/validator/v10 v10.20.0
 	github.com/golang-jwt/jwt/v5 v5.3.0
-	github.com/kade-chen/library v1.2.1
+	github.com/kade-chen/library v1.2.2
 	github.com/mssola/user_agent v0.6.0
 	github.com/rs/xid v1.6.0
 	github.com/rs/zerolog v1.34.0

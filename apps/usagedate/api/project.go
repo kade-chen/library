@@ -1,6 +1,8 @@
 package api
 
 import (
+	"fmt"
+
 	"github.com/emicklei/go-restful/v3"
 	authModel "github.com/kade-chen/google-billing-console/apps/common/model/auth"
 	model "github.com/kade-chen/google-billing-console/apps/common/model/usagedate"
@@ -173,11 +175,7 @@ func (h *ApiHandler) bySkuHandler(r *restful.Request, w *restful.Response) {
 }
 
 func (h *ApiHandler) byAllServicesAllSkusHandler(r *restful.Request, w *restful.Response) {
-	// 生成唯一请求ID
-	trancesID := trances.NewTraceID()
-
-	// 注入 trances_id 到 context
-	r.Request = trances.NewTraceIDToRequest(r.Request, trancesID)
+	trancesID := r.Attribute("claims").(*authModel.TokenAuthMiddleware).TrancesID
 
 	h.log.Info().Msgf("trances_id=%s, The User begins calling the interface UsageDateByServicesSkusAPI", trancesID)
 
@@ -189,14 +187,15 @@ func (h *ApiHandler) byAllServicesAllSkusHandler(r *restful.Request, w *restful.
 		return
 	}
 
-	a, err := h.project.QueryByDateProjectAllServicesAllSkus(r.Request.Context(), config)
-	if err != nil {
-		h.log.Error().Msgf("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err)
-		response.Failed(w, err)
-		return
-	}
+	fmt.Println("-----", config.BqTable)
+	// a, err := h.project.QueryByDateProjectAllServicesAllSkus(r.Request.Context(), config)
+	// if err != nil {
+	// 	h.log.Error().Msgf("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err)
+	// 	response.Failed(w, err)
+	// 	return
+	// }
 	h.log.Info().Msgf("trances_id=%s, The User calling the interface Successful for UsageDateByServicesSkusAPI ✅", trancesID)
-	response.Success(w, a)
+	// response.Success(w, a)
 }
 
 func (h *ApiHandler) byAllLabelKeyHandler(r *restful.Request, w *restful.Response) {

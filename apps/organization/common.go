@@ -24,8 +24,8 @@ func NewOrganization(req *CreateOrganizationRequest) (*Organization, error) {
 		Meta: NewMeta(),
 		Spec: req,
 	}
-	d.Id = req.SubOrganization
-	d.Id = hash.FnvHash(req.SubOrganization)
+	d.Id = req.OrganizationDetail.SubOrganization
+	d.Id = hash.FnvHash(req.OrganizationDetail.SubOrganization)
 	return d, nil
 }
 
@@ -51,6 +51,7 @@ func NewCreateOrganizationRequest() *CreateOrganizationRequest {
 		WechatWorkSetting: &WechatWorkConfig{
 			AccessToken: &WechatWorkAccessToken{},
 		},
+		OrganizationDetail: &OrganizationDetail{},
 	}
 }
 

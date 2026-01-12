@@ -8,9 +8,9 @@ import (
 )
 
 func (h *ApiHandler) listOrginzationsHandler(r *restful.Request, w *restful.Response) {
-
-	organizations := r.Attribute("claims").(*authModel.TokenAuthMiddleware).Organizations
-	trancesID := r.Attribute("claims").(*authModel.TokenAuthMiddleware).TrancesID
+	claims := r.Attribute("claims").(*authModel.TokenAuthMiddleware)
+	organizations := claims.Organizations
+	trancesID := claims.TrancesID
 	h.log.Info().Msgf("trances_id=%s, The User begins calling the interface ListOrginzationtsAPI", trancesID)
 
 	//3.调用每天项目费用接口
@@ -25,12 +25,22 @@ func (h *ApiHandler) listOrginzationsHandler(r *restful.Request, w *restful.Resp
 	if organizationSet.Total != int64(len(organizations)) {
 		var cc []string
 		for _, v := range organizationSet.Items {
-			cc = append(cc, v.Spec.SubOrganization)
+			cc = append(cc, v.Spec.OrganizationDetail.SubOrganization)
 		}
 		h.log.Warn().Msgf("trances_id=%s, ERROR: jwt_token Organizational privilege refresh or forgery", r.Request.Context().Value("trances_id"))
 		response.Success(w, cc)
 		return
 	}
+	orgs := make([]*organization.OrganizationDetail, 0, len(organizationSet.Items))
+
+	for _, item := range organizationSet.Items {
+		if item == nil {
+			continue
+		}
+
+		orgs = append(orgs, item.Spec.OrganizationDetail)
+	}
+
 	h.log.Info().Msgf("trances_id=%s, The User calling the interface Successful for ListOrginzationtsAPI ✅", trancesID)
-	response.Success(w, organizations)
+	response.Success(w, orgs)
 }

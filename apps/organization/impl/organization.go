@@ -33,18 +33,18 @@ func (s *service) CreateOrganization(ctx context.Context, req *organization.Crea
 	switch err := it.Next(Organization); err {
 	case iterator.Done:
 		s.log.Warn().Msg("Organization not exist")
-		s.log.Info().Msgf("create %v Organization......", Organization.Spec.SubOrganization)
+		s.log.Info().Msgf("create %v Organization......", Organization.Spec.OrganizationDetail.SubOrganization)
 		// 创建Organization
 		// 根据结构体自动创建row
 		err := tools.BigQueryStructInsert(ctx, s.bq_table, Organization)
 		if err != nil {
 			return nil, err
 		}
-		s.log.Info().Msgf("create %v Organization successful", Organization.Spec.SubOrganization)
+		s.log.Info().Msgf("create %v Organization successful", Organization.Spec.OrganizationDetail.SubOrganization)
 		// 没有查到
 		return Organization, nil
 	case nil:
-		s.log.Info().Msgf("Organization %v already exist, Do not create duplicates.", Organization.Spec.SubOrganization)
+		s.log.Info().Msgf("Organization %v already exist, Do not create duplicates.", Organization.Spec.OrganizationDetail.SubOrganization)
 		return nil, nil
 	default:
 		s.log.Error().Msgf("iterator error: %v", err)
@@ -70,7 +70,7 @@ func (s *service) DescribeOrganization(ctx context.Context, req *organization.De
 			{Name: "id", Value: req.Id},
 		}
 	case organization.DESCRIBE_BY_NAME:
-		queryStr = fmt.Sprintf(`SELECT * FROM %s WHERE spec.sub_organization = @name LIMIT 1`, s.bqTableFull)
+		queryStr = fmt.Sprintf(`SELECT * FROM %s WHERE spec.organization_detail.sub_organization = @name LIMIT 1`, s.bqTableFull)
 		params = []bigquery.QueryParameter{
 			{Name: "name", Value: req.Name},
 		}

@@ -20,7 +20,7 @@ var (
 
 func TestCreateOrganization(t *testing.T) {
 	req := organization.NewCreateOrganizationRequest()
-	req.SubOrganization = "test-wondercloud.com"
+	req.OrganizationDetail.SubOrganization = "test-wondercloud.com"
 	req.Description = "test Organization"
 	ins, err := impl.CreateOrganization(ctx, req)
 	if err != nil {
@@ -32,7 +32,7 @@ func TestCreateOrganization(t *testing.T) {
 
 func TestDescribeOrganization(t *testing.T) {
 	// req := Organization.NewDescribeOrganizationRequestByName(Organization.DEFAULT_Organization)
-	req := organization.NewDescribeOrganizationRequestByName("wondercloud.com")
+	req := organization.NewDescribeOrganizationRequestByName("test-wondercloud.com")
 	ins, err := impl.DescribeOrganization(ctx, req)
 	if err != nil {
 		t.Fatal(err)
@@ -46,7 +46,7 @@ func TestListOrganizations(t *testing.T) {
 	// req := Organization.NewDescribeOrganizationRequestByName(Organization.DEFAULT_Organization)
 	req := organization.NewListOrganizationRequest(&organization.ListOrganizationRequest{
 		Page:  &organization.PageRequest{},
-		Names: []string{"wondercloud.com", "test322.com"},
+		Names: []string{"wondercloud.com", "test-wondercloud.com"},
 	})
 	//总数
 	// req.Page.PageSize = 10

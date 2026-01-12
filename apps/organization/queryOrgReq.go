@@ -58,7 +58,7 @@ func (r *ListOrganizationRequest) WhereSQL() (string, []bigquery.QueryParameter)
 
 	// Organization
 	if len(r.Names) > 0 {
-		conditions = append(conditions, `spec.sub_organization IN UNNEST(@Organization)`)
+		conditions = append(conditions, `spec.organization_detail.sub_organization IN UNNEST(@Organization)`)
 		params = append(params, bigquery.QueryParameter{Name: "Organization", Value: r.Names})
 	}
 

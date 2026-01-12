@@ -114,7 +114,7 @@ func (p *password) validate(ctx context.Context, username, password string) (*us
 			// 用返回结果重新构造 Organization 列表
 			orgs := make([]string, 0, len(OrganizationSet.Items))
 			for _, org := range OrganizationSet.Items {
-				orgs = append(orgs, org.Spec.SubOrganization)
+				orgs = append(orgs, org.Spec.OrganizationDetail.SubOrganization)
 			}
 			u.Spec.Organization = orgs
 		}

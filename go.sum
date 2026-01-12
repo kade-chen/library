@@ -154,6 +154,8 @@ github.com/json-iterator/go v1.1.12 h1:PV8peI4a0ysnczrg+LtxykD8LfKY9ML6u2jnxaEnr
 github.com/json-iterator/go v1.1.12/go.mod h1:e30LSqwooZae/UwlEbR2852Gd8hjQvJoHmT4TnhNGBo=
 github.com/kade-chen/library v1.2.1 h1:In/9o9jnErK/cmqLxbDfTP4SAKB6yT2yFXUT558oHiY=
 github.com/kade-chen/library v1.2.1/go.mod h1:7BCh//qjlHNYyIaqodr4E6uuaiYJIHXIbp3N4bHNDPQ=
+github.com/kade-chen/library v1.2.2 h1:BL/YUZm0UCG1IpOzbymLg/+psGq48ymViwjZeK7NYPo=
+github.com/kade-chen/library v1.2.2/go.mod h1:7BCh//qjlHNYyIaqodr4E6uuaiYJIHXIbp3N4bHNDPQ=
 github.com/klauspost/compress v1.17.8 h1:YcnTYrq7MikUT7k0Yb5eceMmALQPYBW/Xltxn0NAMnU=
 github.com/klauspost/compress v1.17.8/go.mod h1:Di0epgTjJY877eYKx5yC51cX2A2Vl2ibi7bDH9ttBbw=
 github.com/klauspost/cpuid/v2 v2.2.7 h1:ZWSB3igEs+d0qvnxR/ZBzXVmxkgt8DdzP6m9pfuVLDM=
