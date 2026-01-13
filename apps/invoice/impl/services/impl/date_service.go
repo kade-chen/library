@@ -89,7 +89,7 @@ func (s *service) QueryByDateService(ctx context.Context, config *model.ServiceD
 	s.log.Info().Msgf("trances_id=%s, Retrieving initialization SQL......", trancesID)
 
 	// 构造查询
-	sql := s.queryByDateServiceSQL()
+	sql := s.queryByDateServiceSQL1(config.OrganizationBqTable)
 	s.log.Info().Msgf("trances_id=%s, Configuring query parameters......", trancesID)
 
 	q := s.bq.Query(sql)

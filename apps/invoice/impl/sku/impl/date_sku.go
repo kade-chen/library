@@ -84,7 +84,7 @@ func (s *service) QueryByDateSku(ctx context.Context, config *model.SkuDataReque
 	s.log.Info().Msgf("trances_id=%s, The User begins Query for InvoiceMonthByDateSkuAPI", trancesID)
 	// 构造查询
 	s.log.Info().Msgf("trances_id=%s, Retrieving initialization SQL......", trancesID)
-	sql := s.queryByDateSkuSQL()
+	sql := s.queryByDateSkuSQL2(config.OrganizationBqTable)
 	s.log.Info().Msgf("trances_id=%s, Retrieving initialization SQL successful", trancesID)
 
 	q := s.bq.Query(sql)
