@@ -10,15 +10,16 @@ type ServicesList struct {
 }
 
 type ServiceDataRequest struct {
-	TwoDecimalEnabled bool     `json:"two_decimal_enabled"`
-	StartDate         string   `json:"start_date"`
-	EndDate           string   `json:"end_date"`
-	ProjectIDs        []string `json:"project_ids"`
-	ServiceIDs        []string `json:"service_ids"`
-	SkusIDs           []string `json:"skus"`
-	LabelKeys         []string `json:"label_keys"`
-	LabelValues       []string `json:"label_value"`
-	Region            []string `json:"region"`
+	TwoDecimalEnabled   bool     `json:"two_decimal_enabled"`
+	StartDate           string   `json:"start_date"`
+	EndDate             string   `json:"end_date"`
+	ProjectIDs          []string `json:"project_ids"`
+	ServiceIDs          []string `json:"service_ids"`
+	SkusIDs             []string `json:"skus"`
+	LabelKeys           []string `json:"label_keys"`
+	LabelValues         []string `json:"label_value"`
+	Region              []string `json:"region"`
+	OrganizationBqTable string   `json:"organization_bq_table"`
 	//
 	NegotiatedSavingsEnabled                               bool `json:"negotiated_savings"`
 	SavingsProgramsCommittedUsageDiscountEnabled           bool `json:"savings_programs_committed_usage_discount_enable"`
@@ -49,15 +50,16 @@ type ServiceDateCost struct {
 }
 
 type ServiceRequest struct {
-	TwoDecimalEnabled bool     `json:"two_decimal_enabled"`
-	StartDate         string   `json:"start_date"`
-	EndDate           string   `json:"end_date"`
-	ProjectIDs        []string `json:"project_ids"`
-	ServiceIDs        []string `json:"service_ids"`
-	SkusIDs           []string `json:"skus"`
-	LabelKeys         []string `json:"label_keys"`
-	LabelValues       []string `json:"label_value"`
-	Region            []string `json:"region"`
+	TwoDecimalEnabled   bool     `json:"two_decimal_enabled"`
+	StartDate           string   `json:"start_date"`
+	EndDate             string   `json:"end_date"`
+	ProjectIDs          []string `json:"project_ids"`
+	ServiceIDs          []string `json:"service_ids"`
+	SkusIDs             []string `json:"skus"`
+	LabelKeys           []string `json:"label_keys"`
+	LabelValues         []string `json:"label_value"`
+	Region              []string `json:"region"`
+	OrganizationBqTable string   `json:"organization_bq_table"`
 	//
 	NegotiatedSavingsEnabled                               bool `json:"negotiated_savings"`
 	SavingsProgramsCommittedUsageDiscountEnabled           bool `json:"savings_programs_committed_usage_discount_enable"`

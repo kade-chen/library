@@ -1,9 +1,11 @@
 package api
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/emicklei/go-restful/v3"
+	authModel "github.com/kade-chen/google-billing-console/apps/common/model/auth"
 	model "github.com/kade-chen/google-billing-console/apps/common/model/invoice"
 	"github.com/kade-chen/google-billing-console/tools/csv"
 	"github.com/kade-chen/google-billing-console/tools/trances"
@@ -24,8 +26,8 @@ func (h *ApiHandler) byDatePojectHandler(r *restful.Request, w *restful.Response
 	//2.read the request body parametars
 	config := model.NewProjectDataRequest()
 	if err := r.ReadEntity(&config); err != nil {
-		h.log.Error().Msgf("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err)
-		response.Failed(w, exception.NewInternalServerError("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err))
+		h.log.Error().Msgf("trances_id=%s, ERROR: %v", trancesID, err)
+		response.Failed(w, exception.NewInternalServerError("trances_id=%s, ERROR: %v", trancesID, err))
 		return
 	}
 
@@ -41,7 +43,7 @@ func (h *ApiHandler) byDatePojectHandler(r *restful.Request, w *restful.Response
 
 	projectCost, err := h.project.QueryByDateProject(r.Request.Context(), config)
 	if err != nil {
-		h.log.Error().Msgf("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err)
+		h.log.Error().Msgf("trances_id=%s, ERROR: %v", trancesID, err)
 		response.Failed(w, err)
 		return
 	}
@@ -70,14 +72,14 @@ func (h *ApiHandler) byPojectHandler(r *restful.Request, w *restful.Response) {
 	//2.read the request body parametars
 	config := model.NewProjectRequest()
 	if err := r.ReadEntity(&config); err != nil {
-		h.log.Error().Msgf("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err)
-		response.Failed(w, exception.NewInternalServerError("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err))
+		h.log.Error().Msgf("trances_id=%s, ERROR: %v", trancesID, err)
+		response.Failed(w, exception.NewInternalServerError("trances_id=%s, ERROR: %v", trancesID, err))
 		return
 	}
 
 	projectCost, err := h.project.QueryByProject(r.Request.Context(), config)
 	if err != nil {
-		h.log.Error().Msgf("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err)
+		h.log.Error().Msgf("trances_id=%s, ERROR: %v", trancesID, err)
 		response.Failed(w, err)
 		return
 	}
@@ -98,14 +100,14 @@ func (h *ApiHandler) byDateServiceHandler(r *restful.Request, w *restful.Respons
 	//2.read the request body parametars
 	config := model.NewServiceDataRequest()
 	if err := r.ReadEntity(&config); err != nil {
-		h.log.Error().Msgf("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err)
-		response.Failed(w, exception.NewInternalServerError("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err))
+		h.log.Error().Msgf("trances_id=%s, ERROR: %v", trancesID, err)
+		response.Failed(w, exception.NewInternalServerError("trances_id=%s, ERROR: %v", trancesID, err))
 		return
 	}
 
 	projectCost, err := h.service.QueryByDateService(r.Request.Context(), config)
 	if err != nil {
-		h.log.Error().Msgf("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err)
+		h.log.Error().Msgf("trances_id=%s, ERROR: %v", trancesID, err)
 		response.Failed(w, err)
 		return
 	}
@@ -126,14 +128,14 @@ func (h *ApiHandler) byServiceHandler(r *restful.Request, w *restful.Response) {
 	//2.read the request body parametars
 	config := model.NewServiceRequest()
 	if err := r.ReadEntity(&config); err != nil {
-		h.log.Error().Msgf("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err)
-		response.Failed(w, exception.NewInternalServerError("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err))
+		h.log.Error().Msgf("trances_id=%s, ERROR: %v", trancesID, err)
+		response.Failed(w, exception.NewInternalServerError("trances_id=%s, ERROR: %v", trancesID, err))
 		return
 	}
 
 	projectCost, err := h.service.QueryByService(r.Request.Context(), config)
 	if err != nil {
-		h.log.Error().Msgf("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err)
+		h.log.Error().Msgf("trances_id=%s, ERROR: %v", trancesID, err)
 		response.Failed(w, err)
 		return
 	}
@@ -162,14 +164,14 @@ func (h *ApiHandler) byDateSkuHandler(r *restful.Request, w *restful.Response) {
 	//2.read the request body parametars
 	config := model.NewSkuDataRequest()
 	if err := r.ReadEntity(&config); err != nil {
-		h.log.Error().Msgf("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err)
-		response.Failed(w, exception.NewInternalServerError("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err))
+		h.log.Error().Msgf("trances_id=%s, ERROR: %v", trancesID, err)
+		response.Failed(w, exception.NewInternalServerError("trances_id=%s, ERROR: %v", trancesID, err))
 		return
 	}
 
 	projectCost, err := h.sku.QueryByDateSku(r.Request.Context(), config)
 	if err != nil {
-		h.log.Error().Msgf("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err)
+		h.log.Error().Msgf("trances_id=%s, ERROR: %v", trancesID, err)
 		response.Failed(w, err)
 		return
 	}
@@ -190,14 +192,14 @@ func (h *ApiHandler) bySkuHandler(r *restful.Request, w *restful.Response) {
 	//2.read the request body parametars
 	config := model.NewSkuRequest()
 	if err := r.ReadEntity(&config); err != nil {
-		h.log.Error().Msgf("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err)
-		response.Failed(w, exception.NewInternalServerError("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err))
+		h.log.Error().Msgf("trances_id=%s, ERROR: %v", trancesID, err)
+		response.Failed(w, exception.NewInternalServerError("trances_id=%s, ERROR: %v", trancesID, err))
 		return
 	}
 
 	projectCost, err := h.sku.QueryBySku(r.Request.Context(), config)
 	if err != nil {
-		h.log.Error().Msgf("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err)
+		h.log.Error().Msgf("trances_id=%s, ERROR: %v", trancesID, err)
 		response.Failed(w, err)
 		return
 	}
@@ -218,14 +220,14 @@ func (h *ApiHandler) byAllServicesAllSkusHandler(r *restful.Request, w *restful.
 	//2.read the request body parametars
 	config := model.NewProjectDataServiceSkuRequest()
 	if err := r.ReadEntity(&config); err != nil {
-		h.log.Error().Msgf("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err)
-		response.Failed(w, exception.NewInternalServerError("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err))
+		h.log.Error().Msgf("trances_id=%s, ERROR: %v", trancesID, err)
+		response.Failed(w, exception.NewInternalServerError("trances_id=%s, ERROR: %v", trancesID, err))
 		return
 	}
 
 	a, err := h.project.QueryByDateProjectAllServicesAllSkus(r.Request.Context(), config)
 	if err != nil {
-		h.log.Error().Msgf("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err)
+		h.log.Error().Msgf("trances_id=%s, ERROR: %v", trancesID, err)
 		response.Failed(w, err)
 		return
 	}
@@ -234,25 +236,22 @@ func (h *ApiHandler) byAllServicesAllSkusHandler(r *restful.Request, w *restful.
 }
 
 func (h *ApiHandler) byInvoiceMonthLabelKeyHandler(r *restful.Request, w *restful.Response) {
-	// 生成唯一请求ID
-	trancesID := trances.NewTraceID()
-
-	// 注入 trances_id 到 context
-	r.Request = trances.NewTraceIDToRequest(r.Request, trancesID)
+	ctx := context.WithValue(r.Request.Context(), "claims", r.Attribute("claims").(*authModel.TokenAuthMiddleware))
+	trancesID := r.Attribute("claims").(*authModel.TokenAuthMiddleware).TrancesID
 
 	h.log.Info().Msgf("trances_id=%s, The User begins calling the interface InvoiceMonthByLabelKeyAPI", trancesID)
 
 	//2.read the request body parametars
 	config := model.NewInvoiceMonthProjectLabelKeyRequest()
 	if err := r.ReadEntity(&config); err != nil {
-		h.log.Error().Msgf("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err)
-		response.Failed(w, exception.NewInternalServerError("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err))
+		h.log.Error().Msgf("trances_id=%s, ERROR: %v", trancesID, err)
+		response.Failed(w, exception.NewInternalServerError("trances_id=%s, ERROR: %v", trancesID, err))
 		return
 	}
 
-	a, err := h.labelkey.QueryByInvoiceMonthProjectLabelKeyAll(r.Request.Context(), config)
+	a, err := h.labelkey.QueryByInvoiceMonthProjectLabelKeyAll(ctx, config)
 	if err != nil {
-		h.log.Error().Msgf("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err)
+		h.log.Error().Msgf("trances_id=%s, ERROR: %v", trancesID, err)
 		response.Failed(w, err)
 		return
 	}
@@ -272,8 +271,8 @@ func (h *ApiHandler) byDateSkuHeRuHandler(r *restful.Request, w *restful.Respons
 	//2.read the request body parametars
 	config := model.NewSkuDataRequest()
 	if err := r.ReadEntity(&config); err != nil {
-		h.log.Error().Msgf("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err)
-		response.Failed(w, exception.NewInternalServerError("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err))
+		h.log.Error().Msgf("trances_id=%s, ERROR: %v", trancesID, err)
+		response.Failed(w, exception.NewInternalServerError("trances_id=%s, ERROR: %v", trancesID, err))
 		return
 	}
 
@@ -288,7 +287,7 @@ func (h *ApiHandler) byDateSkuHeRuHandler(r *restful.Request, w *restful.Respons
 	}
 	projectCost, err := h.sku.QueryByDateSkuHeru(r.Request.Context(), config)
 	if err != nil {
-		h.log.Error().Msgf("trances_id=%s, ERROR: %v", r.Request.Context().Value("trances_id"), err)
+		h.log.Error().Msgf("trances_id=%s, ERROR: %v", trancesID, err)
 		response.Failed(w, err)
 		return
 	}

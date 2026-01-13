@@ -3,9 +3,10 @@ package invoice
 import "cloud.google.com/go/bigquery"
 
 type InvoiceMonthProjectLabelKeyRequest struct {
-	StartDate  string   `json:"start_date"`
-	EndDate    string   `json:"end_date"`
-	ProjectIDs []string `json:"project_ids"`
+	StartDate           string   `json:"start_date"`
+	EndDate             string   `json:"end_date"`
+	ProjectIDs          []string `json:"project_ids"`
+	OrganizationBqTable string   `json:"organization_bq_table"`
 }
 
 func NewInvoiceMonthProjectLabelKeyRequest() *InvoiceMonthProjectLabelKeyRequest {

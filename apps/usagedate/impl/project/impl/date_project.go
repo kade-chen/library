@@ -26,7 +26,7 @@ func (s *service) QueryByDateProject(ctx context.Context, config *model.ProjectD
 	q := s.bq.Query(sql)
 	s.log.Info().Msgf("trances_id=%s, Configuring query parameters......", trancesID)
 
-	partitionStartTime, partitionEndTime := tools.CustomPartitionTime(config.StartDate, config.EndDate, 1)
+	partitionStartTime, partitionEndTime := tools.CustomPartitionTime(config.StartDate, config.EndDate, 2)
 	s.log.Info().Msgf("trances_id=%s, start_date=%v, end_date=%v, PartitionStartTime=%v, PartitionEndTime=%v", trancesID, config.StartDate, config.EndDate, partitionStartTime, partitionEndTime)
 
 	// 绑定参数

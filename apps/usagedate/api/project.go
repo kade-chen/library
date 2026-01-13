@@ -7,7 +7,6 @@ import (
 	"github.com/emicklei/go-restful/v3"
 	authModel "github.com/kade-chen/google-billing-console/apps/common/model/auth"
 	model "github.com/kade-chen/google-billing-console/apps/common/model/usagedate"
-	"github.com/kade-chen/google-billing-console/tools/trances"
 	"github.com/kade-chen/library/exception"
 	"github.com/kade-chen/library/http/response"
 )
@@ -37,11 +36,8 @@ func (h *ApiHandler) byDatePojectHandler(r *restful.Request, w *restful.Response
 }
 
 func (h *ApiHandler) byPojectHandler(r *restful.Request, w *restful.Response) {
-	// 生成唯一请求ID
-	trancesID := trances.NewTraceID()
-
-	// 注入 trances_id 到 context
-	r.Request = trances.NewTraceIDToRequest(r.Request, trancesID)
+	ctx := context.WithValue(r.Request.Context(), "claims", r.Attribute("claims").(*authModel.TokenAuthMiddleware))
+	trancesID := r.Attribute("claims").(*authModel.TokenAuthMiddleware).TrancesID
 
 	h.log.Info().Msgf("trances_id=%s, The User begins calling the interface UsageDateByPojectAPI", trancesID)
 
@@ -53,7 +49,7 @@ func (h *ApiHandler) byPojectHandler(r *restful.Request, w *restful.Response) {
 		return
 	}
 
-	projectCost, err := h.project.QueryByProject(r.Request.Context(), config)
+	projectCost, err := h.project.QueryByProject(ctx, config)
 	if err != nil {
 		h.log.Error().Msgf("trances_id=%s, ERROR: %v", trancesID, err)
 		response.Failed(w, err)
@@ -65,11 +61,8 @@ func (h *ApiHandler) byPojectHandler(r *restful.Request, w *restful.Response) {
 }
 
 func (h *ApiHandler) byDateServiceHandler(r *restful.Request, w *restful.Response) {
-	// 生成唯一请求ID
-	trancesID := trances.NewTraceID()
-
-	// 注入 trances_id 到 context
-	r.Request = trances.NewTraceIDToRequest(r.Request, trancesID)
+	ctx := context.WithValue(r.Request.Context(), "claims", r.Attribute("claims").(*authModel.TokenAuthMiddleware))
+	trancesID := r.Attribute("claims").(*authModel.TokenAuthMiddleware).TrancesID
 
 	h.log.Info().Msgf("trances_id=%s, The User begins calling the interface UsageDateByDateServiceAPI", trancesID)
 
@@ -81,7 +74,7 @@ func (h *ApiHandler) byDateServiceHandler(r *restful.Request, w *restful.Respons
 		return
 	}
 
-	projectCost, err := h.service.QueryByDateService(r.Request.Context(), config)
+	projectCost, err := h.service.QueryByDateService(ctx, config)
 	if err != nil {
 		h.log.Error().Msgf("trances_id=%s, ERROR: %v", trancesID, err)
 		response.Failed(w, err)
@@ -93,11 +86,8 @@ func (h *ApiHandler) byDateServiceHandler(r *restful.Request, w *restful.Respons
 }
 
 func (h *ApiHandler) byServiceHandler(r *restful.Request, w *restful.Response) {
-	// 生成唯一请求ID
-	trancesID := trances.NewTraceID()
-
-	// 注入 trances_id 到 context
-	r.Request = trances.NewTraceIDToRequest(r.Request, trancesID)
+	ctx := context.WithValue(r.Request.Context(), "claims", r.Attribute("claims").(*authModel.TokenAuthMiddleware))
+	trancesID := r.Attribute("claims").(*authModel.TokenAuthMiddleware).TrancesID
 
 	h.log.Info().Msgf("trances_id=%s, The User begins calling the interface UsageDateByServiceAPI", trancesID)
 
@@ -109,7 +99,7 @@ func (h *ApiHandler) byServiceHandler(r *restful.Request, w *restful.Response) {
 		return
 	}
 
-	projectCost, err := h.service.QueryByService(r.Request.Context(), config)
+	projectCost, err := h.service.QueryByService(ctx, config)
 	if err != nil {
 		h.log.Error().Msgf("trances_id=%s, ERROR: %v", trancesID, err)
 		response.Failed(w, err)
@@ -121,11 +111,8 @@ func (h *ApiHandler) byServiceHandler(r *restful.Request, w *restful.Response) {
 }
 
 func (h *ApiHandler) byDateSkuHandler(r *restful.Request, w *restful.Response) {
-	// 生成唯一请求ID
-	trancesID := trances.NewTraceID()
-
-	// 注入 trances_id 到 context
-	r.Request = trances.NewTraceIDToRequest(r.Request, trancesID)
+	ctx := context.WithValue(r.Request.Context(), "claims", r.Attribute("claims").(*authModel.TokenAuthMiddleware))
+	trancesID := r.Attribute("claims").(*authModel.TokenAuthMiddleware).TrancesID
 
 	h.log.Info().Msgf("trances_id=%s, The User begins calling the interface UsageDateByDateSkuAPI", trancesID)
 
@@ -137,7 +124,7 @@ func (h *ApiHandler) byDateSkuHandler(r *restful.Request, w *restful.Response) {
 		return
 	}
 
-	projectCost, err := h.sku.QueryByDateSku(r.Request.Context(), config)
+	projectCost, err := h.sku.QueryByDateSku(ctx, config)
 	if err != nil {
 		h.log.Error().Msgf("trances_id=%s, ERROR: %v", trancesID, err)
 		response.Failed(w, err)
@@ -149,11 +136,8 @@ func (h *ApiHandler) byDateSkuHandler(r *restful.Request, w *restful.Response) {
 }
 
 func (h *ApiHandler) bySkuHandler(r *restful.Request, w *restful.Response) {
-	// 生成唯一请求ID
-	trancesID := trances.NewTraceID()
-
-	// 注入 trances_id 到 context
-	r.Request = trances.NewTraceIDToRequest(r.Request, trancesID)
+	ctx := context.WithValue(r.Request.Context(), "claims", r.Attribute("claims").(*authModel.TokenAuthMiddleware))
+	trancesID := r.Attribute("claims").(*authModel.TokenAuthMiddleware).TrancesID
 
 	h.log.Info().Msgf("trances_id=%s, The User begins calling the interface UsageDateBySkuAPI", trancesID)
 
@@ -165,7 +149,7 @@ func (h *ApiHandler) bySkuHandler(r *restful.Request, w *restful.Response) {
 		return
 	}
 
-	projectCost, err := h.sku.QueryBySku(r.Request.Context(), config)
+	projectCost, err := h.sku.QueryBySku(ctx, config)
 	if err != nil {
 		h.log.Error().Msgf("trances_id=%s, ERROR: %v", trancesID, err)
 		response.Failed(w, err)
