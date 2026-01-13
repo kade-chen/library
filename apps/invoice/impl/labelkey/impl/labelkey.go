@@ -2,7 +2,6 @@ package impl
 
 import (
 	"context"
-	"fmt"
 
 	"cloud.google.com/go/bigquery"
 	authModel "github.com/kade-chen/google-billing-console/apps/common/model/auth"
@@ -20,14 +19,13 @@ func (s *service) QueryByInvoiceMonthProjectLabelKeyAll(ctx context.Context, con
 	s.log.Info().Msgf("trances_id=%s, The User begins Query for UsageDateByDatePojectAPI", trancesID)
 	// 构造查询
 	s.log.Info().Msgf("trances_id=%s, Retrieving initialization SQL......", trancesID)
-	sql := s.queryByDateProjectLabelKeySQL()
+	sql := s.queryByDateProjectLabelKeySQL1(config.OrganizationBqTable)
 	s.log.Info().Msgf("trances_id=%s, Retrieving initialization SQL successful", trancesID)
 
 	q := s.bq.Query(sql)
 	s.log.Info().Msgf("trances_id=%s, Configuring query parameters......", trancesID)
 
 	partitionStartTime, partitionEndTime := tools.InvoiceMonthPartitionTime(config.StartDate, config.EndDate)
-	fmt.Println("-------", config.StartDate, config.EndDate, partitionStartTime, partitionEndTime)
 	s.log.Info().Msgf("trances_id=%s, start_date=%v, end_date=%v, PartitionStartTime=%v, PartitionEndTime=%v", trancesID, config.StartDate, config.EndDate, partitionStartTime, partitionEndTime)
 
 	// 绑定参数

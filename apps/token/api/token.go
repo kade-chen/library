@@ -2,6 +2,7 @@ package api
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -140,16 +141,17 @@ func (h *tokenHandler) Refresh_Token(r *restful.Request, w *restful.Response) {
 		return
 	}
 	// 3.validate token/update access token
-	// ins, err := h.service.UpdateToken(r.Request.Context(), &token.UpdateTokenRequest{
-	// 	AccessToken:  jwtToken,
-	// 	RefreshToken: refresh_token.Value,
-	// })
-	// if err != nil {
-	// 	response.Failed(w, err)
-	// 	// w.AddHeader("Location", "http://localhost:5173/login")
-	// 	// w.WriteHeader(http.StatusFound) // 302
-	// 	return
-	// }
+	ins, err := h.service.UpdateToken(r.Request.Context(), &token.UpdateTokenRequest{
+		AccessToken:  jwtToken,
+		RefreshToken: refresh_token.Value,
+	})
+	if err != nil {
+		response.Failed(w, err)
+		// w.AddHeader("Location", "http://localhost:5173/login")
+		// w.WriteHeader(http.StatusFound) // 302
+		return
+	}
+	fmt.Println("111111", ins)
 	response.Success(w, jwtToken)
 }
 

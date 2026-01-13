@@ -209,11 +209,8 @@ func (h *ApiHandler) bySkuHandler(r *restful.Request, w *restful.Response) {
 }
 
 func (h *ApiHandler) byAllServicesAllSkusHandler(r *restful.Request, w *restful.Response) {
-	// 生成唯一请求ID
-	trancesID := trances.NewTraceID()
-
-	// 注入 trances_id 到 context
-	r.Request = trances.NewTraceIDToRequest(r.Request, trancesID)
+	ctx := context.WithValue(r.Request.Context(), "claims", r.Attribute("claims").(*authModel.TokenAuthMiddleware))
+	trancesID := r.Attribute("claims").(*authModel.TokenAuthMiddleware).TrancesID
 
 	h.log.Info().Msgf("trances_id=%s, The User begins calling the interface InvoiceMonthByLabelKeyAPI", trancesID)
 
@@ -225,7 +222,7 @@ func (h *ApiHandler) byAllServicesAllSkusHandler(r *restful.Request, w *restful.
 		return
 	}
 
-	a, err := h.project.QueryByDateProjectAllServicesAllSkus(r.Request.Context(), config)
+	a, err := h.project.QueryByDateProjectAllServicesAllSkus(ctx, config)
 	if err != nil {
 		h.log.Error().Msgf("trances_id=%s, ERROR: %v", trancesID, err)
 		response.Failed(w, err)
