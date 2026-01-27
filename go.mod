@@ -5,6 +5,7 @@ go 1.25.3
 require (
 	github.com/BurntSushi/toml v1.4.0
 	github.com/caarlos0/env/v6 v6.10.1
+	github.com/dgraph-io/ristretto v0.2.0
 	github.com/dustin/go-humanize v1.0.1
 	github.com/emicklei/go-restful-openapi/v2 v2.10.2
 	github.com/emicklei/go-restful/v3 v3.12.1

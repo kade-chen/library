@@ -1,15 +1,2 @@
-[datasource]
-host="35.220.136.110"
-port=3306
-database="sso"
-username="root"
-password="cys000522"
-
-
-[mongodb]
-endpoints = ["localhost:55001"]
-username = "xxxxx"
-password = "xxxxx"
-database = "mcenter"
-enable_mongo = false
-mongo_url = "mongodb+srv://xxxxx:xxxxx@mongo.xtqfj.mongodb.net/?retryWrites=true&w=majority&appName=mongo"
+[cache]
+num_counters = 100
