@@ -210,7 +210,8 @@ func (c *Console) ConsoleWriter() io.Writer {
 	}
 	//设置字段值的格式。在这里，将字段值转为大写
 	output.FormatFieldValue = func(i interface{}) string {
-		return strings.ToUpper(fmt.Sprintf("%s", i))
+		// return strings.ToUpper(fmt.Sprintf("%s", i))
+		return fmt.Sprintf("%s", i)
 	}
 	return output
 }

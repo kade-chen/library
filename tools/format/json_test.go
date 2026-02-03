@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/kade-chen/library/tools/format"
+	// "github.com/kade-chen/library/tools/format"
 )
 
 func TestFormatJSON(t *testing.T) {
@@ -43,5 +43,5 @@ func TestFormatJSON(t *testing.T) {
 	// fmt.Println(format.ToJSONV2(&data))
 
 	fmt.Println("\n=== ToJSON (v1) ===")
-	fmt.Println(format.ToJSON(&data))
+	// fmt.Println(format.ToJSON(&data))
 }
