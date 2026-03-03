@@ -202,7 +202,10 @@ func (c *Console) ConsoleWriter() io.Writer {
 	}
 	//设置日志消息的格式
 	output.FormatMessage = func(i interface{}) string {
-		return fmt.Sprintf("%s", i)
+		if i == nil {
+			return ""
+		}
+		return fmt.Sprintf("%v", i)
 	}
 	//设置字段名的格式。在这里，字段名后面加上冒号 :
 	output.FormatFieldName = func(i interface{}) string {
