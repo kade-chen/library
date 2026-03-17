@@ -34,7 +34,7 @@ func init() {
 }
 
 type Cache struct {
-	Enabled                bool  `toml:"enabled" json:"enabled" yaml:"enabled"  env:"ENABLED"`
+	Enabled                bool  `toml:"enable" json:"enable" yaml:"enable"  env:"ENABLE"`
 	NumCounters            int64 `toml:"num_counters" json:"num_counters" yaml:"num_counters"  env:"NUM_COUNTERS"`
 	MaxCost                int64 `toml:"max_cost" json:"max_cost" yaml:"max_cost"  env:"MAX_COST"`
 	BufferItems            int64 `toml:"buffer_items" json:"buffer_items" yaml:"buffer_items"  env:"BUFFER_ITEMS"`
