@@ -16,7 +16,7 @@ const (
 
 func init() {
 	ioc.Config().Registry(&Cache{
-		Enabled: true,
+		Enabled: false,
 		//访问频率计数器数量（不是缓存条目数）
 		NumCounters: 1e6,
 		// 缓存能用的“总成本”上限
@@ -51,41 +51,44 @@ func (m *Cache) Name() string {
 
 func (m *Cache) Init() error {
 	m.log = log.Sub("cache")
-	ristretto, err := ristretto.NewCache(&ristretto.Config{
-		NumCounters:            m.NumCounters,
-		MaxCost:                m.MaxCost,
-		BufferItems:            m.BufferItems,
-		Metrics:                m.Metrics,
-		TtlTickerDurationInSec: m.TtlTickerDurationInSec,
-		//“我宁愿不存，也不会把自己撑爆”
-		OnReject: func(item *ristretto.Item) {
-			m.log.Warn().Str("key", fmt.Sprint(item.Key)).
-				Msg("CACHE REJECT")
-		},
-		// 	已经 成功进 cache
-		// •	后来因为：
-		// •	空间不够
-		// •	更热的 key 进来
-		// •	被策略踢掉
-		OnEvict: func(item *ristretto.Item) {
-			m.log.Warn().Str("key", fmt.Sprint(item.Key)).
-				Int64("cost", item.Cost).
-				Msg("CACHE EVICTED")
-		},
-		// 	任何离开 cache 的路径都会触发
-		// •	eviction
-		// •	reject
-		// •	过期
-		// •	Del()
-		// •	Clear()
-		OnExit: func(val interface{}) {
-			m.log.Warn().Msg("CACHE VALUE EXIT")
-		},
-	})
-	if err != nil {
-		return exception.NewIocRegisterFailed("Cache Ioc Register Failed, ERROR: %v", err)
+	if m.Enabled {
+		m.log.Error().Msgf("cache enabled %v", m.MaxCost)
+		ristretto, err := ristretto.NewCache(&ristretto.Config{
+			NumCounters:            m.NumCounters,
+			MaxCost:                m.MaxCost,
+			BufferItems:            m.BufferItems,
+			Metrics:                m.Metrics,
+			TtlTickerDurationInSec: m.TtlTickerDurationInSec,
+			//“我宁愿不存，也不会把自己撑爆”
+			OnReject: func(item *ristretto.Item) {
+				m.log.Warn().Str("key", fmt.Sprint(item.Key)).
+					Msg("CACHE REJECT")
+			},
+			// 	已经 成功进 cache
+			// •	后来因为：
+			// •	空间不够
+			// •	更热的 key 进来
+			// •	被策略踢掉
+			OnEvict: func(item *ristretto.Item) {
+				m.log.Warn().Str("key", fmt.Sprint(item.Key)).
+					Int64("cost", item.Cost).
+					Msg("CACHE EVICTED")
+			},
+			// 	任何离开 cache 的路径都会触发
+			// •	eviction
+			// •	reject
+			// •	过期
+			// •	Del()
+			// •	Clear()
+			OnExit: func(val interface{}) {
+				m.log.Warn().Msg("CACHE VALUE EXIT")
+			},
+		})
+		if err != nil {
+			return exception.NewIocRegisterFailed("Cache Ioc Register Failed, ERROR: %v", err)
+		}
+		m.Ristretto = ristretto
 	}
-	m.Ristretto = ristretto
 	m.log.Debug().Msgf("%v Ioc Register Is Successsful", m.Name())
 	return nil
 }
