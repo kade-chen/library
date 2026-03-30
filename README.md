@@ -1,7 +1,7 @@
 #### Links
-- [Setup one](https://pkg.go.dev/github.com/kade-chen/library/v1/tree/v1.2.10)
-- [Setup two](https://pkg.go.dev/github.com/kade-chen/library/tree/v1/v1.2.10)
-- [Setup three](https://pkg.go.dev/github.com/kade-chen/library/v1@v1.2.10)
+- [Setup one](https://pkg.go.dev/github.com/kade-chen/library/v1/tree/v1.2.11)
+- [Setup two](https://pkg.go.dev/github.com/kade-chen/library/tree/v1/v1.2.11)
+- [Setup three](https://pkg.go.dev/github.com/kade-chen/library/v1@v1.2.11)
 - [Github Versions](https://pkg.go.dev/github.com/kade-chen/library?tab=versions)
 
 # 之前的ioc
@@ -31,34 +31,34 @@ map形式，注册name：“interface"
 
 # 更快到官网
 ```go
- git tag v1.2.10
+ git tag v1.2.11
 
- git push -f https://github.com/kade-chen/library.git v1.2.10 cobra command successful
+ git push -f https://github.com/kade-chen/library.git v1.2.11 cobra command successful
 
-https://pkg.go.dev/github.com/kade-chen/library/tree/v1.2.10 这个没啥用
+https://pkg.go.dev/github.com/kade-chen/library/tree/v1.2.11 这个没啥用
 
-https://pkg.go.dev/github.com/kade-chen/library@v1.2.10
+https://pkg.go.dev/github.com/kade-chen/library@v1.2.11
 
-https://pkg.go.dev/github.com/kade-chen/library/v1@v1.2.10  目前只需要apply这个就行了
+https://pkg.go.dev/github.com/kade-chen/library/v1@v1.2.11  目前只需要apply这个就行了
 
-备注：https://deps.dev/go/github.com%2Fkade-chen%2Flibrary/v1.2.10/versions
+备注：https://deps.dev/go/github.com%2Fkade-chen%2Flibrary/v1.2.11/versions
 如果不知道版本可以从这里看
 
-1. https://proxy.golang.org/github.com/kade-chen/library/@v/v1.2.10.info
+1. https://proxy.golang.org/github.com/kade-chen/library/@v/v1.2.11.info
 
 ```go
 {
-  "Version": "v1.2.10",
+  "Version": "v1.2.11",
   "Time": "2025-10-16T03:34:00Z",
   "Origin": {
     "VCS": "git",
     "URL": "https://github.com/kade-chen/library",
     "Hash": "16e17b898aba2cbb083e9a5847e636fc6c1b73c7",
-    "Ref": "refs/tags/v1.2.10"
+    "Ref": "refs/tags/v1.2.11"
   }
 }
 ```
-2. https://proxy.golang.org/github.com/kade-chen/library/@v/v1.2.10.mod
+2. https://proxy.golang.org/github.com/kade-chen/library/@v/v1.2.11.mod
 
 最新 13分钟同步完成  21分钟前 https://pkg.go.dev/github.com/kade-chen/library?tab=versions 这个出来
 

@@ -1,2 +1,10 @@
 [cache]
 num_counters = 100
+
+[redis]
+  endpoints = ["127.0.0.1:6379"]
+  db = 0
+  username = "admin"
+  password = "xxxxxxx"
+  trace = true
+  metric = false

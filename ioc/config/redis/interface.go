@@ -1,0 +1,22 @@
+package redis
+
+import (
+	"github.com/kade-chen/library/ioc"
+	"github.com/redis/go-redis/v9"
+)
+
+const (
+	AppName = "redis"
+)
+
+func Client() redis.UniversalClient {
+	return Get().client
+}
+
+func Get() *Redis {
+	obj := ioc.Config().Get(AppName)
+	if obj == nil {
+		return defaultConfig
+	}
+	return obj.(*Redis)
+}
