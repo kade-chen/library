@@ -1,9 +1,10 @@
 package response
 
 import (
-	"encoding/json"
 	"errors"
 	"io"
+
+	json "github.com/bytedance/sonic"
 
 	"github.com/kade-chen/library/exception"
 )
@@ -32,4 +33,3 @@ func GetDataFromBody(body io.ReadCloser, v interface{}) error {
 
 	return nil
 }
-
