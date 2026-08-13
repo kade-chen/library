@@ -1,0 +1,6 @@
+[datasource]
+  provider = "sqlite"
+  database = "test.db"
+  debug = true
+  trace = false
+  credential_mode = "static"

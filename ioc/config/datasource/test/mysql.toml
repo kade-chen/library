@@ -1,0 +1,13 @@
+[datasource]
+  provider = "mysql"
+  host = "10.0.0.1"
+  port = 3306
+  database = "mydb"
+  username = "toml_user"
+  password = "toml_pass"
+  auto_migrate = true
+  debug = true
+  trace = false
+  credential_mode = "static"
+  skip_default_transaction = true
+  prepare_stmt = false

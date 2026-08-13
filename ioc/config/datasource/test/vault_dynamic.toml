@@ -1,0 +1,9 @@
+[datasource]
+  provider = "postgres"
+  host = "10.0.0.4"
+  port = 5432
+  database = "dynamic_db"
+  credential_mode = "vault-dynamic"
+  vault_path = "my-role"
+  vault_auto_renew = true
+  vault_renew_threshold = 0.75

@@ -1,0 +1,10 @@
+[datasource]
+  provider = "postgres"
+  host = "10.0.0.2"
+  port = 5432
+  database = "pgdb"
+  username = "pg_user"
+  password = "pg_pass"
+  debug = false
+  trace = true
+  credential_mode = "static"

@@ -65,7 +65,7 @@ type c struct {
 }
 
 func (t *c) Hello() error {
-	t.db = datasource.DB(context.Background())
+	t.db = datasource.DB()
 	// err := t.db.Model(&Users{}).Where("id = 37").Delete(&Users{}).Error
 	return nil
 }

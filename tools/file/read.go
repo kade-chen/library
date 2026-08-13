@@ -5,6 +5,7 @@ import (
 	"io"
 	"os"
 
+	"github.com/BurntSushi/toml"
 	"sigs.k8s.io/yaml"
 )
 
@@ -77,4 +78,14 @@ func ReadJsonFile(filepath string, v any) error {
 		return err
 	}
 	return json.Unmarshal(payload, v)
+}
+
+func MustToToml(key string, value any, path string) error {
+	f, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0666)
+	if err != nil {
+		panic(err)
+	}
+	appConf := map[string]any{key: value}
+	toml.NewEncoder(f).Encode(appConf)
+	return nil
 }
