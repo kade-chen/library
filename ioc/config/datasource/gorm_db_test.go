@@ -18,6 +18,9 @@ func TestMysql(t *testing.T) {
 
 	fmt.Println("ioc-list:", ioc.Config().List())
 	fmt.Println("ioc-count:", ioc.Config().Count())
-	m := datasource.DB()
-	t.Log(m)
+	datasource.Get().GetRegisteredDatabases()
+	m1 := datasource.DB()
+	t.Log(m1)
+	m2 := datasource.DBByName("cc")
+	t.Log(m2)
 }

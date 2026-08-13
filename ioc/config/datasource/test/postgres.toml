@@ -1,4 +1,72 @@
+# ============================================================
+# 第一组：默认数据库
+# ============================================================
+
 [datasource]
+  provider = "postgres"
+  host = "10.0.0.2"
+  port = 5432
+  database = "pgdb"
+  username = "pg_user"
+  password = "pg_pass"
+  debug = false
+  trace = true
+  credential_mode = "static"
+
+# 从库 1
+[datasource.replicas.slave1]
+  provider = "postgres"
+  host = "10.0.0.2"
+  port = 5432
+  database = "pgdb"
+  username = "pg_user"
+  password = "pg_pass"
+  debug = false
+  trace = true
+  credential_mode = "static"
+
+# 从库 2
+[datasource.replicas.slave2]
+  provider = "postgres"
+  host = "10.0.0.2"
+  port = 5432
+  database = "pgdb"
+  username = "pg_user"
+  password = "pg_pass"
+  debug = false
+  trace = true
+  credential_mode = "static"
+
+
+# ============================================================
+# 第二组：独立数据库 cc
+# ============================================================
+
+[datasource.databases.cc]
+  provider = "postgres"
+  host = "10.0.0.2"
+  port = 5432
+  database = "pgdb"
+  username = "pg_user"
+  password = "pg_pass"
+  debug = false
+  trace = true
+  credential_mode = "static"
+
+# 从库 1
+[datasource.databases.cc.replicas.slave1]
+  provider = "postgres"
+  host = "10.0.0.2"
+  port = 5432
+  database = "pgdb"
+  username = "pg_user"
+  password = "pg_pass"
+  debug = false
+  trace = true
+  credential_mode = "static"
+
+# 从库 2
+[datasource.databases.cc.replicas.slave2]
   provider = "postgres"
   host = "10.0.0.2"
   port = 5432

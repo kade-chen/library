@@ -40,6 +40,7 @@ require (
 	gorm.io/driver/mysql v1.6.0
 	gorm.io/driver/postgres v1.6.2
 	gorm.io/gorm v1.31.2
+	gorm.io/plugin/dbresolver v1.6.2
 	sigs.k8s.io/yaml v1.4.0
 )
 
