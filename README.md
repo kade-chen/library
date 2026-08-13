@@ -31,6 +31,7 @@ map形式，注册name：“interface"
 
 # 更快到官网
 ```go
+
  git tag v1.2.14
 
  git push -f https://github.com/kade-chen/library.git v1.2.14 cobra command successful
