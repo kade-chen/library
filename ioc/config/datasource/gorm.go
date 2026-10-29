@@ -3,6 +3,7 @@ package datasource
 import (
 	"context"
 	"fmt"
+	"time"
 
 	// SQLite 驱动。
 	"github.com/glebarez/sqlite"
@@ -275,7 +276,11 @@ func (m *dataSource) Init() error {
 		// Query 默认使用 Replica。
 		// Create / Update / Delete 默认使用 Primary。
 		// RandomPolicy 会在多个 Replica 之间随机选择。
-		err = db.Use(dbresolver.Register(dbresolver.Config{Replicas: replicas, Policy: dbresolver.RandomPolicy{}}).SetMaxIdleConns(100).SetMaxOpenConns(200))
+		// MaxIdleConns 100  连接池最多保留 100 个空闲连接 可以考虑从 20～50 开始，根据负载调整
+        // MaxOpenConns 200 单个连接池允许同时打开的最大连接数 根据数据库连接上限和应用实例数决定 
+		// ConnMaxIdleTime 2 分钟 连接空闲超过 2 分钟后关闭，释放长期闲置的连接
+		// ConnMaxLifetime 10 分钟 连接创建后最多复用 10 分钟，之后回收并重新建立
+		err = db.Use(dbresolver.Register(dbresolver.Config{Replicas: replicas, Policy: dbresolver.RandomPolicy{}}).SetMaxIdleConns(100).SetMaxOpenConns(200).SetConnMaxIdleTime(2 * time.Minute).SetConnMaxLifetime(10 * time.Minute))
 		if err != nil {
 			return fmt.Errorf("register primary db resolver: %w", err)
 		}
